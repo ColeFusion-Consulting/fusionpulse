@@ -255,6 +255,38 @@ export const provisioningJobs = pgTable('provisioning_jobs', {
   completedAt: timestamp('completed_at'),
 });
 
+// ─── Test Plans (AI-generated plans for paid signup) ────────
+export const testPlans = pgTable('test_plans', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  tenantId: uuid('tenant_id').notNull().references(() => tenants.id, { onDelete: 'cascade' }),
+  name: text('name').notNull(),
+  description: text('description'),
+  siteUrl: text('site_url'),
+  status: text('status').notNull().default('draft'), // 'draft' | 'review' | 'approved' | 'implemented'
+  pages: jsonb('pages').default([]).$type<TestPlanPage[]>(),
+  suggestedCases: jsonb('suggested_cases').default([]).$type<TestPlanCase[]>(),
+  userFeedback: text('user_feedback'),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+}, (t) => [
+  index('test_plans_tenant_idx').on(t.tenantId),
+]);
+
+export interface TestPlanPage {
+  path: string;
+  title: string;
+  elements: string[];
+}
+
+export interface TestPlanCase {
+  id: string;
+  name: string;
+  description: string;
+  priority: 'critical' | 'high' | 'medium' | 'low';
+  steps: string[];
+  pagePath?: string;
+}
+
 // ─── API Keys ───────────────────────────────────────────────
 export const apiKeys = pgTable('api_keys', {
   id: uuid('id').primaryKey().defaultRandom(),

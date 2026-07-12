@@ -12,6 +12,7 @@ import { notificationsRouter } from './routes/notifications.js';
 import { billingRouter } from './routes/billing.js';
 import { usersRouter } from './routes/users.js';
 import { apiKeysRouter } from './routes/api-keys.js';
+import { testPlanRouter } from './routes/test-plans.js';
 import { auditRouter } from './routes/audit.js';
 import { statusPageRouter } from './routes/statuspage.js';
 import { contactRouter } from './routes/contact.js';
