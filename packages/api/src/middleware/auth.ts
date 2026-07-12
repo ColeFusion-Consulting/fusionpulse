@@ -64,8 +64,15 @@ export function authenticate(req: Request, res: Response, next: NextFunction): v
       const verified = jwt.verify(token, signingKey, {
         algorithms: ['RS256'],
         issuer: `https://cognito-idp.${AWS_REGION}.amazonaws.com/${USER_POOL_ID}`,
-        audience: CLIENT_ID,
+        // Cognito access tokens use 'client_id' instead of 'aud', so we skip audience check
+        // and verify client_id manually below
       }) as jwt.JwtPayload;
+
+      // Verify the token is for our client
+      const tokenClientId = verified.client_id || verified.aud;
+      if (tokenClientId !== CLIENT_ID) {
+        throw new Error('Invalid client_id in token');
+      }
 
       req.user = {
         id: verified.sub || '',
