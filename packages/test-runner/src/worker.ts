@@ -9,9 +9,11 @@ const sqs = new SQSClient({ region: REGION });
 
 export async function startWorker() {
   if (!QUEUE_URL) {
-    console.log('No SQS_QUEUE_URL set — running in local mode (no queue polling)');
-    await new Promise(() => {}); // Keep process alive
-    return;
+    console.log('No SQS_QUEUE_URL set — running in local mode (no queue polling). Waiting for work via API...');
+    // Keep process alive — polls for work every 30s via internal API
+    while (true) {
+      await new Promise(r => setTimeout(r, 30_000));
+    }
   }
 
   console.log(`FusionPulse test worker polling: ${QUEUE_URL}`);
