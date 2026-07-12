@@ -28,7 +28,7 @@ function isRateLimited(ip: string): boolean {
   return timestamps.length > MAX_PER_WINDOW;
 }
 
-contactRouter.post('/', validate(contactSchema), async (req, res) => {
+contactRouter.post('/', validate(contactSchema), (req, res) => {
   const ip = req.ip || 'unknown';
   if (isRateLimited(ip)) {
     res.status(429).json({ success: false, error: 'Too many requests — please try again later.' });
@@ -41,11 +41,13 @@ contactRouter.post('/', validate(contactSchema), async (req, res) => {
     return;
   }
 
-  try {
-    await sendContactEmail(req.body);
-    res.status(200).json({ success: true });
-  } catch (err) {
-    console.error('Failed to send contact email:', err);
-    res.status(502).json({ success: false, error: 'Failed to send message. Please email us directly.' });
-  }
+  // Respond immediately — the visitor shouldn't wait on SES latency (which
+  // has been observed to occasionally take 10s+ on this host). Send the
+  // email in the background and just log if it ultimately fails; nothing
+  // in the submitted data is time-sensitive enough to justify blocking.
+  res.status(200).json({ success: true });
+
+  sendContactEmail(req.body).catch((err) => {
+    console.error('Failed to send contact email (background):', err);
+  });
 });
