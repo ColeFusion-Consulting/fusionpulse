@@ -270,6 +270,25 @@ export const apiKeys = pgTable('api_keys', {
   index('api_keys_tenant_idx').on(t.tenantId),
 ]);
 
+// ─── Audit Logs ─────────────────────────────────────────────
+export const auditLogs = pgTable('audit_logs', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  tenantId: uuid('tenant_id'),
+  userId: text('user_id'), // cognito sub or user id
+  action: text('action').notNull(), // e.g. 'monitor.create', 'test.run', 'auth.login'
+  resource: text('resource'), // e.g. 'monitor:abc-123', 'suite:xyz'
+  details: jsonb('details').default({}),
+  ip: text('ip'),
+  userAgent: text('user_agent'),
+  durationMs: integer('duration_ms'),
+  success: boolean('success').default(true),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+}, (t) => [
+  index('audit_logs_tenant_idx').on(t.tenantId),
+  index('audit_logs_action_idx').on(t.action),
+  index('audit_logs_created_idx').on(t.createdAt),
+]);
+
 // ─── Types ──────────────────────────────────────────────────
 export interface TestStep {
   action: 'navigate' | 'click' | 'type' | 'waitForSelector' | 'screenshot' | 'assertText' | 'assertElementExists' | 'waitForNavigation' | 'scrollToElement';

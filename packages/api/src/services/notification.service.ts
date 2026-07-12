@@ -3,6 +3,7 @@ import {
   notificationChannels, alertRules, alertHistory, alertAcknowledgements,
   type NotificationChannelConfig, type AlertSeverity, type EscalationStep,
 } from '../db/schema.js';
+import { recordAuditEvent } from './audit.service.js';
 import { eq, and, desc } from 'drizzle-orm';
 import { createHmac } from 'crypto';
 
@@ -159,16 +160,37 @@ export async function sendAlert(event: AlertEvent) {
       await dispatchToChannel(channel[0], event, rule.id);
     }
 
-    // Send to escalation chain (with delays, handled by queue in production)
+    // Send to escalation chain with delays
     if (rule.escalationChain && rule.escalationChain.length > 0) {
+      let accumulatedDelay = 0;
+
       for (const step of rule.escalationChain) {
+        accumulatedDelay += step.delayMinutes;
+
         const channel = await db.select().from(notificationChannels)
           .where(eq(notificationChannels.id, step.channelId));
         if (!channel[0] || !channel[0].enabled) continue;
 
-        // In production, schedule delayed dispatch via SQS
-        // For now, dispatch immediately
-        await dispatchToChannel(channel[0], event, rule.id);
+        // Use setTimeout for dev; production should use SQS delayed messages
+        const delayMs = accumulatedDelay * 60 * 1000;
+        if (delayMs > 0 && delayMs < 86400000) { // max 24h
+          setTimeout(() => {
+            dispatchToChannel(channel[0], event, rule.id).catch((err) => {
+              console.error(`Escalation dispatch failed for ${channel[0].name}:`, err);
+            });
+          }, delayMs);
+        } else {
+          // Immediate dispatch for delay 0 or very long delays
+          await dispatchToChannel(channel[0], event, rule.id);
+        }
+
+        recordAuditEvent({
+          tenantId: event.tenantId,
+          action: 'notification.escalate',
+          resource: `rule:${rule.id}`,
+          details: { channel: channel[0].name, delayMinutes: accumulatedDelay, step },
+          success: true,
+        });
       }
     }
   }
@@ -273,6 +295,14 @@ async function dispatchToChannel(
     deliveredAt: status === 'sent' ? new Date() : null,
     errorMessage,
     metadata: event.metadata,
+  });
+
+  recordAuditEvent({
+    tenantId: event.tenantId,
+    action: 'notification.dispatch',
+    resource: `channel:${channel.id}`,
+    details: { type: channel.type, status, error: errorMessage, severity: event.severity },
+    success: status === 'sent',
   });
 }
 
