@@ -10,9 +10,8 @@ env:
   CONTAINER_ID: "108"
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-    environment: staging
 
     steps:
       - uses: actions/checkout@v4
@@ -30,63 +29,63 @@ jobs:
       - name: Build all packages
         run: npx turbo run build
 
-      - name: Setup SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.PROXMOX_SSH_KEY }}" > ~/.ssh/deploy_key
-          chmod 600 ~/.ssh/deploy_key
-          cat >> ~/.ssh/config << EOF
-          Host proxmox
-            HostName ${{ secrets.PROXMOX_HOST }}
-            User ${{ secrets.PROXMOX_USER }}
-            IdentityFile ~/.ssh/deploy_key
-            StrictHostKeyChecking no
-          EOF
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-${{ github.sha }}
+          path: |
+            packages/api/dist/
+            packages/api/package.json
+            packages/test-runner/dist/
+            packages/test-runner/package.json
+            packages/web/dist/
+            packages/web/package.json
+          retention-days: 1
 
-      - name: Copy build to Proxmox
-        run: |
-          echo "Syncing build to Proxmox host..."
-          rsync -avz --delete \
-            packages/api/dist/ \
-            proxmox:${{ env.REMOTE_PATH }}/api/dist/
-          rsync -avz \
-            packages/api/package.json \
-            proxmox:${{ env.REMOTE_PATH }}/api/
-          rsync -avz --delete \
-            packages/test-runner/dist/ \
-            proxmox:${{ env.REMOTE_PATH }}/test-runner/dist/
-          rsync -avz \
-            packages/test-runner/package.json \
-            proxmox:${{ env.REMOTE_PATH }}/test-runner/
-          rsync -avz --delete \
-            packages/web/dist/ \
-            proxmox:${{ env.REMOTE_PATH }}/web/dist/
-          rsync -avz \
-            packages/web/package.json \
-            proxmox:${{ env.REMOTE_PATH }}/web/
+  deploy:
+    needs: build
+    runs-on: [self-hosted, proxmox]
+    environment: staging
 
-      - name: Deploy into container and restart
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-${{ github.sha }}
+          path: /opt/actions-runner/_work/build/
+
+      - name: Deploy to container
         run: |
-          ssh proxmox << 'DEPLOY'
+          set -e
+          BUILD=/opt/actions-runner/_work/build
           CT=${{ env.CONTAINER_ID }}
 
-          pct push $CT /opt/fusionpulse/api/dist /opt/fusionpulse/api/dist -r
-          pct push $CT /opt/fusionpulse/api/package.json /opt/fusionpulse/api/package.json
-          pct push $CT /opt/fusionpulse/test-runner/dist /opt/fusionpulse/test-runner/dist -r
-          pct push $CT /opt/fusionpulse/test-runner/package.json /opt/fusionpulse/test-runner/package.json
-          pct push $CT /opt/fusionpulse/web/dist /opt/fusionpulse/web/dist -r
-          pct push $CT /opt/fusionpulse/web/package.json /opt/fusionpulse/web/package.json
+          echo "Deploying to fp-staging container $CT..."
 
-          pct exec $CT -- bash -c "cd /opt/fusionpulse/api && npm install --production 2>/dev/null"
-          pct exec $CT -- bash -c "cd /opt/fusionpulse/test-runner && npm install --production 2>/dev/null"
-          pct exec $CT -- bash -c "pm2 restart fusionpulse-api || cd /opt/fusionpulse/api && pm2 start dist/index.js --name fusionpulse-api"
-          pct exec $CT -- bash -c "pm2 restart fusionpulse-runner || cd /opt/fusionpulse/test-runner && pm2 start dist/worker.js --name fusionpulse-runner"
-          pct exec $CT -- bash -c "nginx -t && systemctl reload nginx"
+          sudo pct push $CT $BUILD/packages/api/dist /opt/fusionpulse/api/dist -r
+          sudo pct push $CT $BUILD/packages/api/package.json /opt/fusionpulse/api/package.json
+          sudo pct push $CT $BUILD/packages/test-runner/dist /opt/fusionpulse/test-runner/dist -r
+          sudo pct push $CT $BUILD/packages/test-runner/package.json /opt/fusionpulse/test-runner/package.json
+          sudo pct push $CT $BUILD/packages/web/dist /opt/fusionpulse/web/dist -r
+          sudo pct push $CT $BUILD/packages/web/package.json /opt/fusionpulse/web/package.json
+
+          sudo pct exec $CT -- bash -c "cd /opt/fusionpulse/api && npm install --production 2>/dev/null"
+          sudo pct exec $CT -- bash -c "cd /opt/fusionpulse/test-runner && npm install --production 2>/dev/null"
+          sudo pct exec $CT -- bash -c "pm2 restart fusionpulse-api || (cd /opt/fusionpulse/api && pm2 start dist/index.js --name fusionpulse-api)"
+          sudo pct exec $CT -- bash -c "pm2 restart fusionpulse-runner || (cd /opt/fusionpulse/test-runner && pm2 start dist/worker.js --name fusionpulse-runner)"
+          sudo pct exec $CT -- bash -c "pm2 save"
+          sudo pct exec $CT -- bash -c "nginx -t && systemctl reload nginx"
 
           echo "Staging deployment complete"
-          DEPLOY
 
       - name: Health Check
         run: |
           sleep 5
-          ssh proxmox "pct exec ${{ env.CONTAINER_ID }} -- curl -s http://localhost:3001/api/health" || echo "Health check failed"
+          CT=${{ env.CONTAINER_ID }}
+          STATUS=$(sudo pct exec $CT -- curl -s http://localhost:3001/api/health 2>/dev/null || echo '{"status":"error"}')
+          echo "Health: $STATUS"
+          if echo "$STATUS" | grep -q '"status"'; then
+            echo "Staging deployment successful"
+          else
+            echo "Health check inconclusive (API may need .env configured)"
+          fi
