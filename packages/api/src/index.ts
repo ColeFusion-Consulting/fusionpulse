@@ -1,3 +1,4 @@
+import dns from 'node:dns';
 import express from 'express';
 import cors from 'cors';
 import { authenticate, requireRole } from './middleware/auth.js';
@@ -8,6 +9,11 @@ import { notificationsRouter } from './routes/notifications.js';
 import { billingRouter } from './routes/billing.js';
 import { statusPageRouter } from './routes/statuspage.js';
 import { contactRouter } from './routes/contact.js';
+import { warmUpSesClient } from './services/contact.service.js';
+
+// This host's network is IPv4-only. Prefer IPv4 DNS resolution to avoid
+// any happy-eyeballs-style delay on outbound calls (SES, Stripe, OpenAI).
+dns.setDefaultResultOrder('ipv4first');
 
 const app = express();
 const PORT = Number(process.env.API_PORT) || 3001;
@@ -47,6 +53,7 @@ app.use((err: Error, req: express.Request, res: express.Response, next: express.
 // ─── Start ──────────────────────────────────────────────────
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`FusionPulse API running on http://0.0.0.0:${PORT}`);
+  warmUpSesClient();
 });
 
 // Graceful shutdown
