@@ -13,6 +13,7 @@ import { randomUUID } from 'crypto';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { startProvisioning } from './provisioning.service.js';
+import { recordAuditEvent } from './audit.service.js';
 import type { SignUpInput as SignUpInputType } from '../types/index.js';
 
 const cognitoClient = new CognitoIdentityProviderClient({
@@ -163,8 +164,11 @@ export async function signIn(input: SignInInput): Promise<AuthTokens> {
   );
 
   if (!authResult.AuthenticationResult) {
+    recordAuditEvent({ action: 'auth.login', details: { email: input.email }, success: false });
     throw new Error('Authentication failed');
   }
+
+  recordAuditEvent({ action: 'auth.login', details: { email: input.email }, success: true });
 
   return {
     accessToken: authResult.AuthenticationResult.AccessToken || '',
@@ -179,13 +183,17 @@ export async function rootSignIn(input: RootSignInInput): Promise<AuthTokens> {
   const user = result[0];
 
   if (!user || user.userType !== 'root' || !user.passwordHash) {
+    recordAuditEvent({ action: 'auth.root_login', details: { username: input.username }, success: false });
     throw new Error('Invalid credentials');
   }
 
   const valid = await bcrypt.compare(input.password, user.passwordHash);
   if (!valid) {
+    recordAuditEvent({ action: 'auth.root_login', details: { username: input.username }, success: false });
     throw new Error('Invalid credentials');
   }
+
+  recordAuditEvent({ action: 'auth.root_login', details: { username: input.username }, success: true });
 
   const accessToken = jwt.sign(
     {
