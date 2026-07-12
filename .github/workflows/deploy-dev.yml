@@ -6,7 +6,6 @@ on:
   workflow_dispatch:
 
 env:
-  REMOTE_PATH: /opt/fusionpulse
   CONTAINER_ID: "106"
 
 jobs:
@@ -49,27 +48,30 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: build-${{ github.sha }}
-          path: /opt/actions-runner/_work/build/
+          path: build/
 
       - name: Deploy to container
         run: |
           set -e
-          BUILD=/opt/actions-runner/_work/build
           CT=${{ env.CONTAINER_ID }}
+          BUILD=$PWD/build
 
           echo "Deploying to fp-dev container $CT..."
 
-          # Copy files into container
-          sudo pct push $CT $BUILD/packages/api/dist /opt/fusionpulse/api/dist -r
-          sudo pct push $CT $BUILD/packages/api/package.json /opt/fusionpulse/api/package.json
-          sudo pct push $CT $BUILD/packages/test-runner/dist /opt/fusionpulse/test-runner/dist -r
-          sudo pct push $CT $BUILD/packages/test-runner/package.json /opt/fusionpulse/test-runner/package.json
-          sudo pct push $CT $BUILD/packages/web/dist /opt/fusionpulse/web/dist -r
-          sudo pct push $CT $BUILD/packages/web/package.json /opt/fusionpulse/web/package.json
+          # Tar each package for transfer
+          cd $BUILD/packages/api && tar czf /tmp/api.tar.gz dist/ package.json && cd -
+          cd $BUILD/packages/test-runner && tar czf /tmp/test-runner.tar.gz dist/ package.json && cd -
+          cd $BUILD/packages/web && tar czf /tmp/web.tar.gz dist/ package.json && cd -
 
-          # Install deps, run migrations, restart services
-          sudo pct exec $CT -- bash -c "cd /opt/fusionpulse/api && npm install --production 2>/dev/null"
-          sudo pct exec $CT -- bash -c "cd /opt/fusionpulse/test-runner && npm install --production 2>/dev/null"
+          # Push tars into container
+          sudo pct push $CT /tmp/api.tar.gz /tmp/api.tar.gz
+          sudo pct push $CT /tmp/test-runner.tar.gz /tmp/test-runner.tar.gz
+          sudo pct push $CT /tmp/web.tar.gz /tmp/web.tar.gz
+
+          # Extract, install, restart
+          sudo pct exec $CT -- bash -c "cd /opt/fusionpulse/api && tar xzf /tmp/api.tar.gz && npm install --production 2>/dev/null"
+          sudo pct exec $CT -- bash -c "cd /opt/fusionpulse/test-runner && tar xzf /tmp/test-runner.tar.gz && npm install --production 2>/dev/null"
+          sudo pct exec $CT -- bash -c "cd /opt/fusionpulse/web && tar xzf /tmp/web.tar.gz"
           sudo pct exec $CT -- bash -c "pm2 restart fusionpulse-api || (cd /opt/fusionpulse/api && pm2 start dist/index.js --name fusionpulse-api)"
           sudo pct exec $CT -- bash -c "pm2 restart fusionpulse-runner || (cd /opt/fusionpulse/test-runner && pm2 start dist/worker.js --name fusionpulse-runner)"
           sudo pct exec $CT -- bash -c "pm2 save"
