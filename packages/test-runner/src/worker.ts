@@ -10,6 +10,7 @@ const sqs = new SQSClient({ region: REGION });
 export async function startWorker() {
   if (!QUEUE_URL) {
     console.log('No SQS_QUEUE_URL set — running in local mode (no queue polling)');
+    await new Promise(() => {}); // Keep process alive
     return;
   }
 
