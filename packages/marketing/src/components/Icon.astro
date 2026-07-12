@@ -194,3 +194,51 @@ const common = {
     <path d="M7 12.5H12" />
   </svg>
 )}
+
+{name === 'star' && (
+  <svg {...common} class={className}>
+    <path d="M12 2L15.1 8.6L22 9.5L17 14.1L18.5 21L12 17.5L5.5 21L7 14.1L2 9.5L8.9 8.6Z" />
+  </svg>
+)}
+
+{name === 'quote' && (
+  <svg {...common} class={className}>
+    <path d="M3 10.5V17H9.5V11L11 6.5" />
+    <path d="M13 10.5V17H19.5V11L21 6.5" />
+  </svg>
+)}
+
+{name === 'search' && (
+  <svg {...common} class={className}>
+    <circle cx="10.5" cy="10.5" r="7" />
+    <path d="M15.5 15.5L20.5 20.5" />
+  </svg>
+)}
+
+{name === 'bug' && (
+  <svg {...common} class={className}>
+    <circle cx="12" cy="11" r="6" />
+    <path d="M7 11H17" />
+    <path d="M12 5V3" />
+    <path d="M8 7L6 5" />
+    <path d="M16 7L18 5" />
+    <path d="M8 15L6 17" />
+    <path d="M16 15L18 17" />
+  </svg>
+)}
+
+{name === 'wand' && (
+  <svg {...common} class={className}>
+    <path d="M3 20L20 3" />
+    <path d="M15 3H21V9" />
+    <path d="M9 21H3V15" />
+    <path d="M11 11L13 9" />
+    <path d="M15 15L17 13" />
+  </svg>
+)}
+
+{name === 'heart' && (
+  <svg {...common} class={className}>
+    <path d="M12.5 4.5C10.75 2.6 7.75 2.5 6 4.5C4.25 6.4 4.35 9.2 6.2 11L12.5 17.5L18.8 11C20.65 9.2 20.75 6.35 19 4.5C17.25 2.5 14.25 2.6 12.5 4.5Z" />
+  </svg>
+)}

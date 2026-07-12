@@ -24,4 +24,10 @@ export type IconName =
   | 'message'
   | 'heart-pulse'
   | 'layers'
-  | 'send';
+  | 'send'
+  | 'star'
+  | 'quote'
+  | 'search'
+  | 'bug'
+  | 'wand'
+  | 'heart';

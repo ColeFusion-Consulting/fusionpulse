@@ -19,9 +19,12 @@ export const tenants = pgTable('tenants', {
 export const users = pgTable('users', {
   id: uuid('id').primaryKey().defaultRandom(),
   tenantId: uuid('tenant_id').notNull().references(() => tenants.id, { onDelete: 'cascade' }),
-  email: text('email').notNull(),
+  email: text('email'),
   name: text('name'),
-  role: text('role').notNull().default('member'),
+  userType: text('user_type').notNull().default('user'), // 'root' | 'user'
+  role: text('role').notNull().default('member'), // 'root' | 'admin' | 'member'
+  username: text('username'), // for root users (not email-based)
+  passwordHash: text('password_hash'), // bcrypt hash for root users
   cognitoSub: text('cognito_sub').unique(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 }, (t) => [
@@ -234,6 +237,22 @@ export const alertAcknowledgements = pgTable('alert_acknowledgements', {
   userId: uuid('user_id').references(() => users.id),
   note: text('note'),
   createdAt: timestamp('created_at').defaultNow().notNull(),
+});
+
+// ─── Provisioning Jobs (async new-tenant pipeline) ──────────
+export const provisioningJobs = pgTable('provisioning_jobs', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  tenantId: uuid('tenant_id').notNull().references(() => tenants.id, { onDelete: 'cascade' }).unique(),
+  status: text('status').notNull().default('pending'), // 'pending' | 'in_progress' | 'completed' | 'failed'
+  currentStep: text('current_step').default(''),
+  progress: integer('progress').default(0), // 0-100
+  steps: jsonb('steps').notNull().default([]),
+  stepsCompleted: jsonb('steps_completed').notNull().default([]),
+  errorMessage: text('error_message'),
+  metadata: jsonb('metadata').default({}),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+  completedAt: timestamp('completed_at'),
 });
 
 // ─── Types ──────────────────────────────────────────────────
