@@ -3,6 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import { authenticate, requireRole } from './middleware/auth.js';
 import { authRouter } from './routes/auth.js';
+import { provisioningRouter } from './routes/provisioning.js';
 import { monitorsRouter } from './routes/monitors.js';
 import { testsRouter } from './routes/tests.js';
 import { aiRouter } from './routes/ai.js';
@@ -34,6 +35,9 @@ app.get('/api/health', (req, res) => {
 
 // Public auth routes (signup, login, refresh, logout)
 app.use('/api/auth', authRouter);
+
+// Public provisioning routes (authenticated via provisioning token, not regular JWT)
+app.use('/api/provisioning', provisioningRouter);
 
 // Public status pages (no auth)
 app.use('/api/status', statusPageRouter);

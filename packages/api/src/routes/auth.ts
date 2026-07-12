@@ -11,9 +11,28 @@ const signUpSchema = z.object({
   tenantName: z.string().min(1).max(100),
 });
 
+const provisioningSignUpSchema = z.object({
+  tenantName: z.string().min(1).max(100),
+  siteUrl: z.string().url(),
+  root: z.object({
+    username: z.string().min(3).max(50),
+    password: z.string().min(8),
+  }),
+  manager: z.object({
+    name: z.string().min(1).max(100),
+    email: z.string().email(),
+    password: z.string().min(8),
+  }),
+});
+
 const signInSchema = z.object({
   email: z.string().email(),
   password: z.string(),
+});
+
+const rootSignInSchema = z.object({
+  username: z.string().min(1),
+  password: z.string().min(1),
 });
 
 const confirmSchema = z.object({
@@ -25,7 +44,7 @@ const refreshSchema = z.object({
   refreshToken: z.string(),
 });
 
-// POST /auth/signup
+// POST /auth/signup — regular Cognito signup (existing)
 authRouter.post('/signup', validate(signUpSchema), async (req, res) => {
   try {
     const { userId, tenantId } = await authService.signUp(req.body);
@@ -35,6 +54,20 @@ authRouter.post('/signup', validate(signUpSchema), async (req, res) => {
     });
   } catch (err: any) {
     console.error('Signup error:', err);
+    res.status(400).json({ success: false, error: err.message || 'Signup failed' });
+  }
+});
+
+// POST /auth/provisioning-signup — new tenant signup with async provisioning
+authRouter.post('/provisioning-signup', validate(provisioningSignUpSchema), async (req, res) => {
+  try {
+    const result = await authService.provisioningSignUp(req.body);
+    res.status(202).json({
+      success: true,
+      data: result,
+    });
+  } catch (err: any) {
+    console.error('Provisioning signup error:', err);
     res.status(400).json({ success: false, error: err.message || 'Signup failed' });
   }
 });
@@ -50,13 +83,24 @@ authRouter.post('/confirm', validate(confirmSchema), async (req, res) => {
   }
 });
 
-// POST /auth/login
+// POST /auth/login — Cognito login (manager / regular users)
 authRouter.post('/login', validate(signInSchema), async (req, res) => {
   try {
     const tokens = await authService.signIn(req.body);
     res.json({ success: true, data: tokens });
   } catch (err: any) {
     console.error('Login error:', err);
+    res.status(401).json({ success: false, error: 'Invalid credentials' });
+  }
+});
+
+// POST /auth/root-login — Root user login (DB-backed, no Cognito)
+authRouter.post('/root-login', validate(rootSignInSchema), async (req, res) => {
+  try {
+    const tokens = await authService.rootSignIn(req.body);
+    res.json({ success: true, data: tokens });
+  } catch (err: any) {
+    console.error('Root login error:', err);
     res.status(401).json({ success: false, error: 'Invalid credentials' });
   }
 });
@@ -84,9 +128,7 @@ authRouter.post('/logout', async (req, res) => {
   try {
     await authService.signOut(accessToken);
     res.json({ success: true, data: { message: 'Signed out successfully' } });
-  } catch (err: any) {
-    console.error('Logout error:', err);
-    // Even if Cognito signout fails, we consider the user logged out on our end
+  } catch {
     res.json({ success: true, data: { message: 'Signed out' } });
   }
 });
