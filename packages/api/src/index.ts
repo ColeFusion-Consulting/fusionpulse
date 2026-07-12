@@ -9,6 +9,7 @@ import { testsRouter } from './routes/tests.js';
 import { aiRouter } from './routes/ai.js';
 import { notificationsRouter } from './routes/notifications.js';
 import { billingRouter } from './routes/billing.js';
+import { usersRouter } from './routes/users.js';
 import { statusPageRouter } from './routes/statuspage.js';
 import { contactRouter } from './routes/contact.js';
 import { warmUpSesClient } from './services/contact.service.js';
@@ -51,6 +52,7 @@ app.use('/api/tests', authenticate, testsRouter);
 app.use('/api/ai', authenticate, aiRouter);
 app.use('/api/notifications', authenticate, notificationsRouter);
 app.use('/api/billing', authenticate, billingRouter);
+app.use('/api/users', authenticate, usersRouter);
 
 // ─── Error handler ──────────────────────────────────────────
 app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {

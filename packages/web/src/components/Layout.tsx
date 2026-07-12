@@ -2,11 +2,13 @@ import { Outlet, NavLink } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
 const nav = [
-  { to: '/', label: 'Dashboard', icon: '📊' },
-  { to: '/monitors', label: 'Monitors', icon: '🔍' },
-  { to: '/tests', label: 'Tests', icon: '🧪' },
-  { to: '/ai', label: 'AI Console', icon: '🤖' },
-  { to: '/alerts', label: 'Alerts', icon: '🔔' },
+  { to: '/', label: 'Dashboard', icon: 'D' },
+  { to: '/monitors', label: 'Monitors', icon: 'M' },
+  { to: '/tests', label: 'Tests', icon: 'T' },
+  { to: '/ai', label: 'AI Console', icon: 'A' },
+  { to: '/alerts', label: 'Alerts', icon: 'N' },
+  { to: '/billing', label: 'Billing', icon: 'B' },
+  { to: '/settings', label: 'Settings', icon: 'S' },
 ];
 
 export default function Layout() {
