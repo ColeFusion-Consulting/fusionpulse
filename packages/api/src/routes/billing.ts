@@ -42,7 +42,13 @@ billingRouter.get('/plans', async (req, res) => {
       maxUsers: plan.maxUsers,
     },
   }));
-  res.json({ success: true, data: plans });
+  const overageRates = Object.entries(billingService.OVERAGE_RATES).map(([key, rate]) => ({
+    metric: key,
+    label: rate.label,
+    rateCents: rate.rateCents,
+    rateDollars: (rate.rateCents / 100).toFixed(2),
+  }));
+  res.json({ success: true, data: { plans, overageRates } });
 });
 
 // ─── Checkout session ──────────────────────────────────────
