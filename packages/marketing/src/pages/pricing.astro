@@ -83,10 +83,10 @@ const faqs = [
     q: 'Can I change plans at any time?',
     a: 'Yes — upgrade or downgrade whenever you like from the billing page inside the app. Changes are prorated automatically by Stripe.',
   },
-  {
-    q: 'What happens if I go over my plan limits?',
-    a: "We'll email you before you hit a hard limit. Test runs and AI generations beyond your monthly allowance pause until the next billing cycle or an upgrade — we never silently overcharge you.",
-  },
+      {
+        q: 'What happens if I go over my plan limits?',
+        a: "Nothing breaks. We never silently block your monitors or tests. You keep running — overage is billed automatically at a transparent premium rate (e.g. $1.99/additional monitor per month, $0.01/additional test run). You can see your current overage charges on the billing page inside the app at any time.",
+      },
   {
     q: 'Can I use my own AI model instead of OpenAI?',
     a: 'Yes. FusionPulse supports OpenAI, Anthropic, or a self-hosted LLM endpoint of your own (e.g. a local llama.cpp server) — configurable per account.',
@@ -162,6 +162,49 @@ const faqs = [
             </ul>
           </div>
         ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Overage Pricing -->
+  <section class="border-t border-zinc-800/80 py-16">
+    <div class="mx-auto max-w-3xl px-6 text-center">
+      <p class="text-xs font-semibold uppercase tracking-widest text-zinc-500">Overage Pricing</p>
+      <h2 class="mt-4 text-2xl font-semibold text-white sm:text-3xl">Premium pay-as-you-go rates</h2>
+      <p class="mt-3 text-sm text-zinc-400">
+        Exceed a plan limit? Your monitors and tests keep running. Overage is billed automatically at these rates.
+      </p>
+    </div>
+    <div class="mx-auto mt-10 grid max-w-2xl grid-cols-2 gap-4 px-6 sm:grid-cols-3">
+      <div class="card-glass rounded-xl p-4 text-center">
+        <p class="text-xs text-zinc-500">Monitors</p>
+        <p class="mt-1 text-lg font-semibold text-white">$1.99</p>
+        <p class="text-xs text-zinc-600">per monitor / mo</p>
+      </div>
+      <div class="card-glass rounded-xl p-4 text-center">
+        <p class="text-xs text-zinc-500">Test Cases</p>
+        <p class="mt-1 text-lg font-semibold text-white">$0.99</p>
+        <p class="text-xs text-zinc-600">per case / mo</p>
+      </div>
+      <div class="card-glass rounded-xl p-4 text-center">
+        <p class="text-xs text-zinc-500">Test Runs</p>
+        <p class="mt-1 text-lg font-semibold text-white">$0.01</p>
+        <p class="text-xs text-zinc-600">per run</p>
+      </div>
+      <div class="card-glass rounded-xl p-4 text-center">
+        <p class="text-xs text-zinc-500">AI Generations</p>
+        <p class="mt-1 text-lg font-semibold text-white">$0.05</p>
+        <p class="text-xs text-zinc-600">per generation</p>
+      </div>
+      <div class="card-glass rounded-xl p-4 text-center">
+        <p class="text-xs text-zinc-500">Channels</p>
+        <p class="mt-1 text-lg font-semibold text-white">$2.99</p>
+        <p class="text-xs text-zinc-600">per channel / mo</p>
+      </div>
+      <div class="card-glass rounded-xl p-4 text-center">
+        <p class="text-xs text-zinc-500">Users</p>
+        <p class="mt-1 text-lg font-semibold text-white">$9.99</p>
+        <p class="text-xs text-zinc-600">per user / mo</p>
       </div>
     </div>
   </section>
