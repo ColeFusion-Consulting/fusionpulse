@@ -1,0 +1,31 @@
+{
+  "name": "@fusionpulse/cli",
+  "version": "0.1.0",
+  "description": "AI-powered test generation CLI — generate Playwright tests from plain English",
+  "type": "module",
+  "bin": {
+    "fusionpulse": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/index.ts"
+  },
+  "dependencies": {
+    "commander": "^13.1.0",
+    "inquirer": "^12.6.0",
+    "chalk": "^5.4.1",
+    "openai": "^4.96.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3",
+    "tsx": "^4.19.4",
+    "@types/node": "^22.15.3"
+  },
+  "files": ["dist"],
+  "keywords": ["playwright", "e2e", "testing", "ai", "codegen"],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/colefusion/fusionpulse-cli"
+  }
+}

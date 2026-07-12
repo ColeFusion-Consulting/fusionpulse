@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.env
+.env.local
+*.tsbuildinfo
+.turbo/
+screenshots/
+reports/
+playwright-report/
+test-results/
+fusionpulse.config.json

@@ -1,0 +1,27 @@
+{
+  "name": "fusionpulse",
+  "version": "0.1.0",
+  "description": "AI-powered E2E testing SaaS — describe tests in plain English",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "infra"
+  ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "db:generate": "npm run db:generate --workspace=@fusionpulse/api",
+    "db:migrate": "npm run db:migrate --workspace=@fusionpulse/api",
+    "infra:deploy": "npm run deploy --workspace=@fusionpulse/infra",
+    "infra:diff": "npm run diff --workspace=@fusionpulse/infra"
+  },
+  "devDependencies": {
+    "turbo": "^2.5.0"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "npm@10.9.0"
+}

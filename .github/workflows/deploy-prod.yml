@@ -1,0 +1,134 @@
+name: Deploy to Production (AWS)
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version tag to deploy (e.g. v0.1.0)'
+        required: true
+
+env:
+  AWS_REGION: us-east-1
+  ECR_REPOSITORY_API: fusionpulse-api
+  ECR_REPOSITORY_RUNNER: fusionpulse-runner
+  ECS_CLUSTER: FusionPulseStack-FusionPulseCluster
+  ECS_SERVICE_API: FusionPulseStack-ApiService
+  ECS_SERVICE_RUNNER: FusionPulseStack-RunnerService
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.tag }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - run: npm ci
+
+      - name: Build all packages
+        run: npx turbo run build
+
+      - name: Determine version
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" = "release" ]; then
+            TAG="${{ github.event.release.tag_name }}"
+          else
+            TAG="${{ inputs.version }}"
+          fi
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+          echo "Deploying version: $TAG"
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build and push API image
+        run: |
+          IMAGE="${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_API }}:${{ steps.version.outputs.tag }}"
+          docker build -t "$IMAGE" -t "${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_API }}:latest" \
+            --build-arg TARGET=api .
+          docker push "$IMAGE"
+          docker push "${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_API }}:latest"
+
+      - name: Build and push Runner image
+        run: |
+          IMAGE="${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_RUNNER }}:${{ steps.version.outputs.tag }}"
+          docker build -t "$IMAGE" -t "${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_RUNNER }}:latest" \
+            --build-arg TARGET=test-runner .
+          docker push "$IMAGE"
+          docker push "${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_RUNNER }}:latest"
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Update ECS API service
+        run: |
+          aws ecs update-service \
+            --cluster ${{ env.ECS_CLUSTER }} \
+            --service ${{ env.ECS_SERVICE_API }} \
+            --force-new-deployment \
+            --task-definition "$(aws ecs describe-task-definition \
+              --task-definition ${{ env.ECS_CLUSTER }}-api \
+              --query 'taskDefinition.taskDefinitionArn' \
+              --output text)"
+
+      - name: Update ECS Runner service
+        run: |
+          aws ecs update-service \
+            --cluster ${{ env.ECS_CLUSTER }} \
+            --service ${{ env.ECS_SERVICE_RUNNER }} \
+            --force-new-deployment
+
+      - name: Wait for deployment
+        run: |
+          echo "Waiting for ECS service to stabilize..."
+          aws ecs wait services-stable \
+            --cluster ${{ env.ECS_CLUSTER }} \
+            --services ${{ env.ECS_SERVICE_API }}
+          echo "✅ Production deployment complete"
+
+      - name: Verify health
+        run: |
+          sleep 30
+          API_URL=$(aws cloudformation describe-stacks \
+            --stack-name FusionPulseStack \
+            --query 'Stacks[0].Outputs[?OutputKey==`ApiUrl`].OutputValue' \
+            --output text)
+          STATUS=$(curl -sf "$API_URL/api/health" || echo '{"status":"error"}')
+          echo "Health: $STATUS"
+          if echo "$STATUS" | grep -q '"status":"ok"'; then
+            echo "✅ Production healthy"
+          else
+            echo "❌ Production health check failed!"
+            exit 1
+          fi

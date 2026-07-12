@@ -1,0 +1,85 @@
+name: Deploy to Dev (Proxmox)
+
+on:
+  push:
+    branches: [develop]
+  workflow_dispatch:
+
+env:
+  DEPLOY_HOST: ${{ secrets.PROXMOX_DEV_HOST }}
+  DEPLOY_USER: ${{ secrets.PROXMOX_DEPLOY_USER }}
+  SSH_KEY: ${{ secrets.PROXMOX_SSH_KEY }}
+  REMOTE_PATH: /opt/fusionpulse
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: dev
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - run: npm ci
+
+      - name: Build all packages
+        run: npx turbo run build
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.PROXMOX_SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          echo -e "Host proxmox-dev\n  HostName ${{ secrets.PROXMOX_DEV_HOST }}\n  User ${{ secrets.PROXMOX_DEPLOY_USER }}\n  IdentityFile ~/.ssh/deploy_key\n  StrictHostKeyChecking no" > ~/.ssh/config
+
+      - name: Deploy API
+        run: |
+          echo "Deploying API to dev..."
+          rsync -avz --delete \
+            packages/api/dist/ \
+            proxmox-dev:${{ env.REMOTE_PATH }}/api/dist/
+          rsync -avz --delete \
+            packages/api/package.json \
+            proxmox-dev:${{ env.REMOTE_PATH }}/api/
+
+      - name: Deploy Test Runner
+        run: |
+          echo "Deploying test runner to dev..."
+          rsync -avz --delete \
+            packages/test-runner/dist/ \
+            proxmox-dev:${{ env.REMOTE_PATH }}/test-runner/dist/
+
+      - name: Deploy Frontend
+        run: |
+          echo "Deploying frontend to dev..."
+          rsync -avz --delete \
+            packages/web/dist/ \
+            proxmox-dev:${{ env.REMOTE_PATH }}/web/dist/
+
+      - name: Restart Services
+        run: |
+          ssh proxmox-dev << 'EOF'
+            cd /opt/fusionpulse
+            # Restart API
+            pm2 restart fusionpulse-api || pm2 start api/dist/index.js --name fusionpulse-api
+            # Restart test runner
+            pm2 restart fusionpulse-runner || pm2 start test-runner/dist/worker.js --name fusionpulse-runner
+            # Rebuild nginx
+            nginx -t && systemctl reload nginx
+            echo "Dev deployment complete"
+          EOF
+
+      - name: Health Check
+        run: |
+          sleep 5
+          STATUS=$(ssh proxmox-dev "curl -s http://localhost:3001/api/health" || echo '{"status":"error"}')
+          echo "Health: $STATUS"
+          if echo "$STATUS" | grep -q '"status":"ok"'; then
+            echo "✅ Dev deployment successful"
+          else
+            echo "⚠️ Dev health check inconclusive"
+          fi

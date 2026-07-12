@@ -1,0 +1,84 @@
+name: 'FusionPulse E2E Tests'
+description: 'Run AI-powered E2E tests with FusionPulse by ColeFusion'
+author: 'ColeFusion'
+branding:
+  icon: 'zap'
+  color: 'blue'
+
+inputs:
+  api-key:
+    description: 'FusionPulse API key'
+    required: true
+  base-url:
+    description: 'Base URL of your FusionPulse instance (default: cloud API)'
+    required: false
+    default: 'https://api.fusionpulse.colefusion.net'
+  test-suite:
+    description: 'Test suite name or ID to run (runs all enabled suites if empty)'
+    required: false
+    default: ''
+  project:
+    description: 'Project name for grouping in dashboard'
+    required: false
+    default: ''
+  wait-for-results:
+    description: 'Wait for test results before completing'
+    required: false
+    default: 'true'
+  fail-on-failure:
+    description: 'Fail the workflow if any test fails'
+    required: false
+    default: 'true'
+  timeout:
+    description: 'Maximum time to wait for results (minutes)'
+    required: false
+    default: '10'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Install FusionPulse CLI
+      shell: bash
+      run: |
+        npm install -g @fusionpulse/cli@latest
+        echo "FusionPulse CLI installed: $(fusionpulse --version)"
+
+    - name: Run FusionPulse Tests
+      shell: bash
+      env:
+        FUSIONPULSE_API_KEY: ${{ inputs.api-key }}
+        FUSIONPULSE_BASE_URL: ${{ inputs.base-url }}
+      run: |
+        echo "🧪 Running FusionPulse E2E tests..."
+        echo "   Base URL: ${{ inputs.base-url }}"
+        if [ -n "${{ inputs.test-suite }}" ]; then
+          echo "   Suite: ${{ inputs.test-suite }}"
+          fusionpulse run --suite "${{ inputs.test-suite }}" --reporter github
+        else
+          echo "   Running all enabled suites"
+          fusionpulse run --reporter github
+        fi
+
+    - name: Check Results
+      if: inputs.wait-for-results == 'true'
+      shell: bash
+      env:
+        FUSIONPULSE_API_KEY: ${{ inputs.api-key }}
+        FUSIONPULSE_BASE_URL: ${{ inputs.base-url }}
+      run: |
+        echo "⏳ Waiting for test results (timeout: ${{ inputs.timeout }}m)..."
+        fusionpulse wait --timeout "${{ inputs.timeout }}" --reporter github
+
+    - name: Fail on Test Failure
+      if: inputs.fail-on-failure == 'true'
+      shell: bash
+      env:
+        FUSIONPULSE_API_KEY: ${{ inputs.api-key }}
+        FUSIONPULSE_BASE_URL: ${{ inputs.base-url }}
+      run: |
+        STATUS=$(fusionpulse status --format json 2>/dev/null || echo '{"status":"unknown"}')
+        if echo "$STATUS" | grep -q '"status":"failed"'; then
+          echo "❌ Tests failed!"
+          exit 1
+        fi
+        echo "✅ All tests passed!"
