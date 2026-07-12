@@ -38,10 +38,18 @@ import Icon from '../components/Icon.astro';
 
       <div class="lg:col-span-3">
         <form id="contact-form" class="card-glass space-y-5 rounded-2xl p-6 sm:p-8">
-          <!-- Honeypot field — hidden from real users, bots often fill it in -->
+          <!-- Honeypot fields — hidden from real users, bots often fill them in -->
           <div class="absolute -left-[9999px]" aria-hidden="true">
             <label for="website">Website</label>
             <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
+          </div>
+          <div class="absolute -left-[9999px]" aria-hidden="true">
+            <label for="phone">Phone</label>
+            <input id="phone" name="phone" type="text" tabindex="-1" autocomplete="off" />
+          </div>
+          <div class="absolute -left-[9999px]" aria-hidden="true">
+            <label for="company">Company</label>
+            <input id="company" name="company" type="text" tabindex="-1" autocomplete="off" />
           </div>
 
           <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
@@ -85,6 +93,17 @@ import Icon from '../components/Icon.astro';
             ></textarea>
           </div>
 
+          <div id="captcha-field" class="rounded-lg border border-zinc-700 bg-zinc-950/50 p-3 flex items-center gap-3">
+            <span class="text-sm text-zinc-400">
+              What is <span id="captcha-a" class="text-white font-semibold"></span> + <span id="captcha-b" class="text-white font-semibold"></span>?
+            </span>
+            <input
+              id="captcha-answer" type="number" required
+              class="w-20 rounded border border-zinc-700 bg-zinc-900 px-2.5 py-1.5 text-sm text-white text-center focus:border-fusion-magenta focus:outline-none"
+              placeholder="?"
+            />
+          </div>
+
           <button
             id="contact-submit" type="submit"
             class="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-fusion px-6 py-3 text-sm font-semibold text-zinc-950 transition-transform hover:scale-[1.01] disabled:opacity-60 disabled:hover:scale-100 sm:w-auto"
@@ -107,9 +126,20 @@ import Icon from '../components/Icon.astro';
   const submitLabel = document.getElementById('contact-submit-label') as HTMLSpanElement;
   const status = document.getElementById('contact-status') as HTMLParagraphElement;
 
+  // Capture page load timestamp for timing-based spam detection
+  const pageLoadTime = Date.now();
+
+  // Math challenge — pick numbers that are easy for humans, hard for bots
+  const captchaA = Math.floor(Math.random() * 20) + 5;
+  const captchaB = Math.floor(Math.random() * 15) + 3;
+  document.getElementById('captcha-a')!.textContent = String(captchaA);
+  document.getElementById('captcha-b')!.textContent = String(captchaB);
+
   form?.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const data = Object.fromEntries(new FormData(form).entries());
+    const raw = Object.fromEntries(new FormData(form).entries());
+    const answer = parseInt((document.getElementById('captcha-answer') as HTMLInputElement).value, 10);
+    const data = { ...raw, _a: captchaA, _b: captchaB, _answer: answer, _loadTime: pageLoadTime };
 
     submitBtn.disabled = true;
     submitLabel.textContent = 'Sending…';
