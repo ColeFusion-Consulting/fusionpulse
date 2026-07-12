@@ -3,7 +3,13 @@ import { db } from '../db/client.js';
 import { tenants, usageRecords } from '../db/schema.js';
 import { eq, and, sql, gte } from 'drizzle-orm';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', { apiVersion: '2026-06-24.dahlia' });
+let stripe: Stripe | null = null;
+function getStripe(): Stripe {
+  if (!stripe && process.env.STRIPE_SECRET_KEY) {
+    stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2026-06-24.dahlia' });
+  }
+  return stripe!;
+}
 
 // ─── Plan Definitions ──────────────────────────────────────
 
@@ -78,7 +84,7 @@ export async function createCheckoutSession(tenantId: string, plan: PlanTier, su
 
   // Create Stripe customer if needed
   if (!customerId) {
-    const customer = await stripe.customers.create({
+    const customer = await getStripe().customers.create({
       name: tenant.name,
       metadata: { tenantId, slug: tenant.slug },
     });
@@ -88,7 +94,7 @@ export async function createCheckoutSession(tenantId: string, plan: PlanTier, su
       .where(eq(tenants.id, tenantId));
   }
 
-  const session = await stripe.checkout.sessions.create({
+  const session = await getStripe().checkout.sessions.create({
     customer: customerId,
     mode: 'subscription',
     line_items: [{ price: planConfig.priceId, quantity: 1 }],
@@ -106,7 +112,7 @@ export async function createPortalSession(tenantId: string, returnUrl: string) {
   const tenant = tenantRows[0];
   if (!tenant?.stripeCustomerId) throw new Error('No billing account found');
 
-  const session = await stripe.billingPortal.sessions.create({
+  const session = await getStripe().billingPortal.sessions.create({
     customer: tenant.stripeCustomerId,
     return_url: returnUrl,
   });
@@ -121,7 +127,7 @@ export async function getSubscriptionStatus(tenantId: string) {
     return { plan: 'free' as PlanTier, status: 'active', currentPeriodEnd: null };
   }
 
-  const subscriptions = await stripe.subscriptions.list({
+  const subscriptions = await getStripe().subscriptions.list({
     customer: tenant.stripeCustomerId,
     status: 'active',
     limit: 1,
@@ -256,13 +262,13 @@ function getMonthStart(): Date {
 // For metered billing, Stripe tracks usage per subscription item.
 // Call this at end of billing period or in real-time.
 export async function reportMeteredUsage(subscriptionId: string, quantity: number) {
-  const sub = await stripe.subscriptions.retrieve(subscriptionId);
+  const sub = await getStripe().subscriptions.retrieve(subscriptionId);
   const items = sub.items.data;
   // Find the metered item (first item for now)
   const item = items[0];
   if (item) {
     // Stripe v22: usage records are reported via the subscription item
-    await stripe.subscriptionItems.update(item.id, {
+    await getStripe().subscriptionItems.update(item.id, {
       quantity: item.quantity! + quantity,
     });
   }

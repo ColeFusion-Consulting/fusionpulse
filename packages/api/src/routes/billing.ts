@@ -6,7 +6,13 @@ import Stripe from 'stripe';
 
 export const billingRouter = Router();
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', { apiVersion: '2026-06-24.dahlia' });
+let _stripe: Stripe | null = null;
+function getStripe(): Stripe {
+  if (!_stripe && process.env.STRIPE_SECRET_KEY) {
+    _stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2026-06-24.dahlia' });
+  }
+  return _stripe!;
+}
 
 // ─── Get current plan + usage ──────────────────────────────
 
@@ -90,7 +96,7 @@ billingRouter.post('/webhook', raw({ type: 'application/json' }), async (req, re
 
   let event: Stripe.Event;
   try {
-    event = stripe.webhooks.constructEvent(req.body, sig!, webhookSecret);
+    event = getStripe().webhooks.constructEvent(req.body, sig!, webhookSecret);
   } catch (err: any) {
     console.error(`Webhook signature verification failed: ${err.message}`);
     res.status(400).json({ error: 'Invalid signature' });
