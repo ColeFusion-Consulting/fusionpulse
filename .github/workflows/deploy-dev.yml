@@ -56,9 +56,9 @@ jobs:
       - name: Create tarballs
         run: |
           cd /tmp/fp-deploy
-          tar czf /tmp/api.tar.gz packages/api/
-          tar czf /tmp/test-runner.tar.gz packages/test-runner/
-          tar czf /tmp/web.tar.gz packages/web/
+          tar czf /tmp/api.tar.gz api/
+          tar czf /tmp/test-runner.tar.gz test-runner/
+          tar czf /tmp/web.tar.gz web/
           ls -la /tmp/*.tar.gz
 
       - name: Deploy to container
