@@ -11,7 +11,7 @@ interface ChatMessage {
   content: string;
 }
 
-async function callAI(messages: ChatMessage[]): Promise<string> {
+export async function callAI(messages: ChatMessage[]): Promise<string> {
   if (OPENAI_KEY) {
     const response = await fetch(OPENAI_URL, {
       method: 'POST',
