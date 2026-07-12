@@ -7,6 +7,7 @@ import { aiRouter } from './routes/ai.js';
 import { notificationsRouter } from './routes/notifications.js';
 import { billingRouter } from './routes/billing.js';
 import { statusPageRouter } from './routes/statuspage.js';
+import { contactRouter } from './routes/contact.js';
 
 const app = express();
 const PORT = Number(process.env.API_PORT) || 3001;
@@ -26,6 +27,9 @@ app.get('/api/health', (req, res) => {
 
 // Public status pages (no auth)
 app.use('/api/status', statusPageRouter);
+
+// Public contact form (no auth)
+app.use('/api/contact', contactRouter);
 
 // ─── Auth-protected routes ───────────────────────────────────
 app.use('/api/monitors', authenticate, monitorsRouter);

@@ -1,0 +1,85 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import type { IconName } from '../lib/icon-names';
+
+const products: { icon: IconName; name: string; body: string }[] = [
+  { icon: 'sparkles', name: 'FusionPulse Test', body: 'AI-generated, AI-maintained Playwright E2E tests.' },
+  { icon: 'activity', name: 'FusionPulse Monitor', body: 'Uptime and HTTP monitoring down to 5-second intervals.' },
+  { icon: 'code', name: 'FusionPulse API', body: 'Programmatic access to every test, monitor, and alert.' },
+  { icon: 'terminal', name: 'FusionPulse CLI', body: 'The free, open-source way to generate tests locally.' },
+];
+---
+
+<BaseLayout title="About" description="From ColdFusion to the future — the story behind ColeFusion and FusionPulse.">
+  <section class="bg-radial-glow py-20 sm:py-28">
+    <div class="mx-auto max-w-3xl px-6 text-center">
+      <p class="text-xs font-semibold uppercase tracking-widest text-fusion-magenta">About Us</p>
+      <h1 class="mt-4 text-4xl font-semibold leading-tight text-white sm:text-5xl">
+        From ColdFusion <span class="text-gradient-fusion">to the future.</span>
+      </h1>
+    </div>
+  </section>
+
+  <section class="border-t border-zinc-800/80 py-20">
+    <div class="mx-auto max-w-3xl px-6">
+      <div class="space-y-6 text-base leading-relaxed text-zinc-300">
+        <p>
+          I started building for the web with ColdFusion in the early 2000s — back when "full stack" meant one
+          person, one server, and a lot of late nights making sure the site was still up in the morning. Two
+          decades later, the languages have changed, the deployment targets have changed, but the job hasn't:
+          ship something real, make sure it keeps working, and know the moment it doesn't.
+        </p>
+        <p>
+          <strong class="text-white">ColeFusion</strong> is the name for that whole career — the consulting,
+          the infrastructure, the late-night production fixes. <strong class="text-white">FusionPulse</strong> is
+          what happens when we take everything learned about testing and monitoring software the hard way, and
+          hand it to an AI that never gets tired of writing selectors.
+        </p>
+        <p>
+          The idea is simple: most teams don't skip testing because they don't care — they skip it because
+          writing and maintaining good E2E tests is tedious, and brittle selectors break the moment a designer
+          nudges a button. FusionPulse removes the tedium. Describe what should happen in plain English, and let
+          the AI keep the test working even as your app changes underneath it.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-t border-zinc-800/80 bg-zinc-900/20 py-20">
+    <div class="mx-auto max-w-5xl px-6">
+      <div class="mx-auto max-w-2xl text-center">
+        <h2 class="text-3xl font-semibold text-white">One brand, four tools</h2>
+        <p class="mt-4 text-zinc-400">FusionPulse is built and supported by ColeFusion — the same team behind the infrastructure running underneath it.</p>
+      </div>
+
+      <div class="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {products.map((p) => (
+          <div class="card-glass rounded-2xl p-6 text-center">
+            <div class="mx-auto inline-flex rounded-lg bg-zinc-900 p-2.5 text-fusion-magenta">
+              <Icon name={p.icon} size={20} />
+            </div>
+            <h3 class="mt-4 text-sm font-semibold text-white">{p.name}</h3>
+            <p class="mt-2 text-xs leading-relaxed text-zinc-400">{p.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="border-t border-zinc-800/80 py-20">
+    <div class="mx-auto max-w-3xl px-6 text-center">
+      <h2 class="text-2xl font-semibold text-white sm:text-3xl">Built by engineers, for engineers</h2>
+      <p class="mx-auto mt-4 max-w-xl text-zinc-400">
+        No dark patterns, no fake urgency, no sales calls required to see pricing. Just a tool we wanted to use
+        ourselves — free to start, transparent about what you're paying for as you grow.
+      </p>
+      <a
+        href="/contact"
+        class="mt-8 inline-flex items-center justify-center gap-2 rounded-full border border-zinc-700 px-6 py-3 text-sm font-semibold text-zinc-200 transition-colors hover:border-zinc-500 hover:bg-zinc-900"
+      >
+        Get in touch
+      </a>
+    </div>
+  </section>
+</BaseLayout>

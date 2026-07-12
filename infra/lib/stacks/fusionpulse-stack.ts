@@ -9,6 +9,7 @@ import * as origins from 'aws-cdk-lib/aws-cloudfront-origins';
 import * as sqs from 'aws-cdk-lib/aws-sqs';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import * as acm from 'aws-cdk-lib/aws-certificatemanager';
+import * as iam from 'aws-cdk-lib/aws-iam';
 import { Construct } from 'constructs';
 
 export class FusionPulseStack extends cdk.Stack {
@@ -88,12 +89,24 @@ export class FusionPulseStack extends cdk.Stack {
           NODE_ENV: 'production',
           DATABASE_URL: `postgresql://postgres:postgres@${database.clusterEndpoint.hostname}:5432/fusionpulse`,
           JWT_SECRET: 'CHANGE_ME_IN_PRODUCTION',
+          AWS_REGION: this.region,
+          CONTACT_FROM_EMAIL: 'contact@colefusion.net',
+          CONTACT_TO_EMAIL: 'colemcmannus@gmail.com',
         },
         secrets: {},
       },
       publicLoadBalancer: true,
       certificate: undefined, // Add ACM certificate for HTTPS
     });
+
+    // Grant the API task role permission to send contact-form email via SES —
+    // no static keys needed in production, unlike the Proxmox dev/staging envs.
+    apiService.taskDefinition.taskRole.addToPrincipalPolicy(
+      new iam.PolicyStatement({
+        actions: ['ses:SendEmail', 'ses:SendRawEmail'],
+        resources: ['*'],
+      })
+    );
 
     // ─── S3 + CloudFront for frontend ──────────────────────
     const frontendBucket = new s3.Bucket(this, 'FrontendBucket', {

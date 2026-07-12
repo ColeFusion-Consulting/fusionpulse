@@ -1,0 +1,27 @@
+// Minimal hand-authored line-icon set (24x24, stroke-based, Lucide-esque).
+// Kept dependency-free and intentionally small — only the glyphs the site needs.
+export type IconName =
+  | 'sparkles'
+  | 'activity'
+  | 'terminal'
+  | 'code'
+  | 'check'
+  | 'check-circle'
+  | 'mail'
+  | 'phone'
+  | 'map-pin'
+  | 'arrow-right'
+  | 'menu'
+  | 'x'
+  | 'shield-check'
+  | 'zap'
+  | 'clock'
+  | 'bell'
+  | 'globe'
+  | 'users'
+  | 'bar-chart'
+  | 'webhook'
+  | 'message'
+  | 'heart-pulse'
+  | 'layers'
+  | 'send';

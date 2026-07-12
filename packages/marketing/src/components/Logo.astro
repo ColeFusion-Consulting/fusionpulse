@@ -1,0 +1,43 @@
+---
+interface Props {
+  size?: number;
+  showWordmark?: boolean;
+  class?: string;
+}
+
+const { size = 32, showWordmark = true, class: className = '' } = Astro.props;
+const gradId = `fusion-grad-${Math.random().toString(36).slice(2, 9)}`;
+---
+
+<div class:list={['flex items-center gap-2.5', className]}>
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 48 48"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+  >
+    <defs>
+      <linearGradient id={gradId} x1="2" y1="4" x2="46" y2="44" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="#6366f1" />
+        <stop offset="0.55" stop-color="#e879f9" />
+        <stop offset="1" stop-color="#fb923c" />
+      </linearGradient>
+    </defs>
+    <circle cx="24" cy="24" r="20.5" stroke={`url(#${gradId})`} stroke-width="2" opacity="0.9" />
+    <path
+      d="M5 24H15L19 13L23.5 35L27.5 17L30 24H43"
+      stroke={`url(#${gradId})`}
+      stroke-width="3.25"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      fill="none"
+    />
+  </svg>
+  {showWordmark && (
+    <span class="font-display font-semibold tracking-tight text-zinc-50" style={`font-size: ${size * 0.5}px`}>
+      Fusion<span class="text-gradient-fusion">Pulse</span>
+    </span>
+  )}
+</div>

@@ -1,0 +1,140 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+---
+
+<BaseLayout title="Contact" description="Get in touch with the FusionPulse team.">
+  <section class="bg-radial-glow py-20 sm:py-24">
+    <div class="mx-auto max-w-3xl px-6 text-center">
+      <p class="text-xs font-semibold uppercase tracking-widest text-fusion-magenta">Contact</p>
+      <h1 class="mt-4 text-4xl font-semibold leading-tight text-white sm:text-5xl">
+        Let's <span class="text-gradient-fusion">talk.</span>
+      </h1>
+      <p class="mx-auto mt-6 max-w-xl text-lg text-zinc-400">
+        Questions about pricing, a feature request, or something broken — we read every message ourselves.
+      </p>
+    </div>
+  </section>
+
+  <section class="border-t border-zinc-800/80 py-20">
+    <div class="mx-auto grid max-w-5xl grid-cols-1 gap-12 px-6 lg:grid-cols-5">
+      <div class="lg:col-span-2">
+        <h2 class="text-lg font-semibold text-white">Get in touch</h2>
+        <p class="mt-2 text-sm leading-relaxed text-zinc-400">
+          We usually respond within one business day.
+        </p>
+
+        <div class="mt-8 space-y-5">
+          <a href="mailto:hello@colefusion.net" class="flex items-center gap-3 text-sm text-zinc-300 hover:text-white">
+            <span class="rounded-lg bg-zinc-900 p-2 text-fusion-magenta"><Icon name="mail" size={17} /></span>
+            hello@colefusion.net
+          </a>
+          <a href="https://github.com/ColeFusion-Consulting/fusionpulse" class="flex items-center gap-3 text-sm text-zinc-300 hover:text-white">
+            <span class="rounded-lg bg-zinc-900 p-2 text-fusion-magenta"><Icon name="code" size={17} /></span>
+            GitHub — bugs & feature requests
+          </a>
+        </div>
+      </div>
+
+      <div class="lg:col-span-3">
+        <form id="contact-form" class="card-glass space-y-5 rounded-2xl p-6 sm:p-8">
+          <!-- Honeypot field — hidden from real users, bots often fill it in -->
+          <div class="absolute -left-[9999px]" aria-hidden="true">
+            <label for="website">Website</label>
+            <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+            <div>
+              <label for="name" class="text-xs font-medium text-zinc-400">Name</label>
+              <input
+                id="name" name="name" type="text" required
+                class="mt-1.5 w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3.5 py-2.5 text-sm text-white placeholder:text-zinc-600 focus:border-fusion-magenta focus:outline-none focus:ring-1 focus:ring-fusion-magenta"
+                placeholder="Jane Doe"
+              />
+            </div>
+            <div>
+              <label for="email" class="text-xs font-medium text-zinc-400">Email</label>
+              <input
+                id="email" name="email" type="email" required
+                class="mt-1.5 w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3.5 py-2.5 text-sm text-white placeholder:text-zinc-600 focus:border-fusion-magenta focus:outline-none focus:ring-1 focus:ring-fusion-magenta"
+                placeholder="jane@company.com"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label for="reason" class="text-xs font-medium text-zinc-400">Reason</label>
+            <select
+              id="reason" name="reason"
+              class="mt-1.5 w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3.5 py-2.5 text-sm text-white focus:border-fusion-magenta focus:outline-none focus:ring-1 focus:ring-fusion-magenta"
+            >
+              <option value="sales">Sales question</option>
+              <option value="support">Support / bug report</option>
+              <option value="partnership">Partnership</option>
+              <option value="other">Something else</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="message" class="text-xs font-medium text-zinc-400">Message</label>
+            <textarea
+              id="message" name="message" required rows="5"
+              class="mt-1.5 w-full resize-none rounded-lg border border-zinc-700 bg-zinc-950 px-3.5 py-2.5 text-sm text-white placeholder:text-zinc-600 focus:border-fusion-magenta focus:outline-none focus:ring-1 focus:ring-fusion-magenta"
+              placeholder="How can we help?"
+            ></textarea>
+          </div>
+
+          <button
+            id="contact-submit" type="submit"
+            class="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-fusion px-6 py-3 text-sm font-semibold text-zinc-950 transition-transform hover:scale-[1.01] disabled:opacity-60 disabled:hover:scale-100 sm:w-auto"
+          >
+            <span id="contact-submit-label">Send message</span>
+            <Icon name="send" size={16} strokeWidth={2.25} />
+          </button>
+
+          <p id="contact-status" class="hidden text-sm"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const API_BASE = 'https://app.fusionpulse.colefusion.net';
+  const form = document.getElementById('contact-form') as HTMLFormElement;
+  const submitBtn = document.getElementById('contact-submit') as HTMLButtonElement;
+  const submitLabel = document.getElementById('contact-submit-label') as HTMLSpanElement;
+  const status = document.getElementById('contact-status') as HTMLParagraphElement;
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(form).entries());
+
+    submitBtn.disabled = true;
+    submitLabel.textContent = 'Sending…';
+    status.classList.add('hidden');
+
+    try {
+      const res = await fetch(`${API_BASE}/api/contact`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) throw new Error('Request failed');
+
+      form.reset();
+      status.textContent = "Message sent — we'll get back to you within one business day.";
+      status.className = 'text-sm text-pulse';
+      status.classList.remove('hidden');
+    } catch (err) {
+      status.textContent = 'Something went wrong sending that. Please email hello@colefusion.net directly.';
+      status.className = 'text-sm text-orange-400';
+      status.classList.remove('hidden');
+    } finally {
+      submitBtn.disabled = false;
+      submitLabel.textContent = 'Send message';
+    }
+  });
+</script>
