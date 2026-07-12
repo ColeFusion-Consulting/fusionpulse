@@ -1,0 +1,27 @@
+{
+  "expo": {
+    "name": "FusionPulse",
+    "slug": "fusionpulse",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "scheme": "fusionpulse",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "backgroundColor": "#09090b"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.colefusion.fusionpulse"
+    },
+    "android": {
+      "package": "com.colefusion.fusionpulse",
+      "adaptiveIcon": {
+        "backgroundColor": "#09090b"
+      }
+    },
+    "plugins": [
+      "expo-secure-store"
+    ]
+  }
+}
