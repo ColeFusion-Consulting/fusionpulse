@@ -84,6 +84,10 @@ jobs:
           sudo pct exec $CT -- bash -c "cd /opt/fusionpulse/test-runner && tar xzf /tmp/test-runner.tar.gz --strip-components=1 && npm install --production 2>/dev/null"
           sudo pct exec $CT -- bash -c "cd /opt/fusionpulse/web && tar xzf /tmp/web.tar.gz --strip-components=1"
           sudo pct exec $CT -- bash -c "cd /opt/fusionpulse/marketing && tar xzf /tmp/marketing.tar.gz --strip-components=1"
+          
+          # Push database schema (requires dev dependencies)
+          sudo pct exec $CT -- bash -c "cd /opt/fusionpulse/api && npm install --no-save drizzle-kit && npm run db:push"
+          
           sudo pct exec $CT -- bash -c "cd /opt/fusionpulse && pm2 delete all 2>/dev/null; pm2 start ecosystem.config.cjs && pm2 save"
           sudo pct exec $CT -- bash -c "nginx -t && systemctl reload nginx"
 
