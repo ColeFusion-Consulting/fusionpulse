@@ -1,0 +1,182 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+
+const APP_URL = 'https://app.fusionpulse.colefusion.net';
+
+const plans = [
+  {
+    name: 'Free',
+    price: 0,
+    tagline: 'For side projects and getting started.',
+    interval: '1 minute checks',
+    highlighted: false,
+    features: [
+      '10 monitors',
+      '25 test cases',
+      '500 test runs / mo',
+      '50 AI generations / mo',
+      '2 notification channels',
+      '3 team members',
+      'Email alerts',
+    ],
+  },
+  {
+    name: 'Starter',
+    price: 5,
+    tagline: 'For small teams shipping regularly.',
+    interval: '15-second checks',
+    highlighted: false,
+    features: [
+      '50 monitors',
+      '200 test cases',
+      '5,000 test runs / mo',
+      '500 AI generations / mo',
+      '5 notification channels',
+      '10 team members',
+      'Slack + PagerDuty alerts',
+      'Multi-location checks',
+    ],
+  },
+  {
+    name: 'Pro',
+    price: 15,
+    tagline: 'For teams who need to know first.',
+    interval: '5-second checks',
+    highlighted: true,
+    features: [
+      '200 monitors',
+      '1,000 test cases',
+      '25,000 test runs / mo',
+      '2,000 AI generations / mo',
+      '15 notification channels',
+      '25 team members',
+      'AI auto-heal selectors',
+      'Phone call alerts',
+      'Custom webhooks',
+      'Priority support',
+    ],
+  },
+  {
+    name: 'Business',
+    price: 49,
+    tagline: 'For teams with SLAs to hit.',
+    interval: '5-second checks',
+    highlighted: false,
+    features: [
+      '1,000 monitors',
+      '5,000 test cases',
+      '100,000 test runs / mo',
+      'Unlimited AI generations',
+      '50 notification channels',
+      '100 team members',
+      'Multi-region checks',
+      'SLA guarantees',
+      'SSO/SAML',
+      'Dedicated support',
+    ],
+  },
+];
+
+const faqs = [
+  {
+    q: 'Can I change plans at any time?',
+    a: 'Yes — upgrade or downgrade whenever you like from the billing page inside the app. Changes are prorated automatically by Stripe.',
+  },
+  {
+    q: 'What happens if I go over my plan limits?',
+    a: "We'll email you before you hit a hard limit. Test runs and AI generations beyond your monthly allowance pause until the next billing cycle or an upgrade — we never silently overcharge you.",
+  },
+  {
+    q: 'Can I use my own AI model instead of OpenAI?',
+    a: 'Yes. FusionPulse supports OpenAI, Anthropic, or a self-hosted LLM endpoint of your own (e.g. a local llama.cpp server) — configurable per account.',
+  },
+  {
+    q: 'Is the CLI really free forever?',
+    a: '@fusionpulse/cli is open source and free forever for local test generation with your own API key. You only pay when you want cloud scheduling, monitoring, and alerts.',
+  },
+  {
+    q: 'Do you offer annual billing?',
+    a: "Not yet — all plans are billed monthly through Stripe so you're never locked in. Reach out on the Contact page if annual billing would help your team.",
+  },
+];
+---
+
+<BaseLayout title="Pricing" description="Simple, transparent pricing for FusionPulse — Free, Starter, Pro, and Business plans.">
+  <section class="bg-radial-glow py-20 sm:py-24">
+    <div class="mx-auto max-w-3xl px-6 text-center">
+      <p class="text-xs font-semibold uppercase tracking-widest text-fusion-magenta">Pricing</p>
+      <h1 class="mt-4 text-4xl font-semibold leading-tight text-white sm:text-5xl">
+        Simple pricing, <span class="text-gradient-fusion">no surprises.</span>
+      </h1>
+      <p class="mx-auto mt-6 max-w-xl text-lg text-zinc-400">
+        Start free. Upgrade when you need faster monitoring, more AI generations, or auto-heal. Cancel anytime.
+      </p>
+    </div>
+  </section>
+
+  <section class="border-t border-zinc-800/80 pb-24 pt-4">
+    <div class="mx-auto max-w-6xl px-6">
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {plans.map((plan) => (
+          <div
+            class:list={[
+              'flex flex-col rounded-2xl p-6',
+              plan.highlighted
+                ? 'relative border-2 border-transparent bg-zinc-900 shadow-2xl shadow-fuchsia-500/10 ring-2 ring-fusion-magenta/60'
+                : 'card-glass',
+            ]}
+          >
+            {plan.highlighted && (
+              <span class="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gradient-fusion px-3 py-1 text-xs font-semibold text-zinc-950">
+                Most Popular
+              </span>
+            )}
+            <h3 class="text-lg font-semibold text-white">{plan.name}</h3>
+            <p class="mt-1 text-xs text-zinc-500">{plan.tagline}</p>
+            <div class="mt-5 flex items-baseline gap-1">
+              <span class="text-4xl font-semibold text-white">${plan.price}</span>
+              <span class="text-sm text-zinc-500">/mo</span>
+            </div>
+            <p class="mt-1 text-xs font-medium text-fusion-magenta">{plan.interval}</p>
+
+            <a
+              href={APP_URL}
+              class:list={[
+                'mt-6 inline-flex items-center justify-center rounded-full px-4 py-2.5 text-sm font-semibold transition-transform hover:scale-[1.02]',
+                plan.highlighted
+                  ? 'bg-gradient-fusion text-zinc-950'
+                  : 'border border-zinc-700 text-zinc-100 hover:border-zinc-500',
+              ]}
+            >
+              {plan.price === 0 ? 'Start Free' : 'Choose ' + plan.name}
+            </a>
+
+            <ul class="mt-7 space-y-2.5 text-sm text-zinc-400">
+              {plan.features.map((f) => (
+                <li class="flex items-start gap-2.5">
+                  <Icon name="check" size={15} class="mt-0.5 shrink-0 text-pulse" />
+                  {f}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="border-t border-zinc-800/80 bg-zinc-900/20 py-20">
+    <div class="mx-auto max-w-3xl px-6">
+      <h2 class="text-center text-3xl font-semibold text-white">Frequently asked questions</h2>
+      <div class="mt-12 space-y-8">
+        {faqs.map((faq) => (
+          <div class="border-b border-zinc-800 pb-8">
+            <h3 class="text-base font-semibold text-white">{faq.q}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-zinc-400">{faq.a}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

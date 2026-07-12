@@ -39,6 +39,7 @@ jobs:
             packages/test-runner/package.json
             packages/web/dist/
             packages/web/package.json
+            packages/marketing/dist/
           retention-days: 1
 
   deploy:
@@ -59,6 +60,7 @@ jobs:
           tar czf /tmp/api.tar.gz api/
           tar czf /tmp/test-runner.tar.gz test-runner/
           tar czf /tmp/web.tar.gz web/
+          tar czf /tmp/marketing.tar.gz marketing/
 
       - name: Deploy to container
         run: |
@@ -70,11 +72,15 @@ jobs:
           sudo pct push $CT /tmp/api.tar.gz /tmp/api.tar.gz
           sudo pct push $CT /tmp/test-runner.tar.gz /tmp/test-runner.tar.gz
           sudo pct push $CT /tmp/web.tar.gz /tmp/web.tar.gz
+          sudo pct push $CT /tmp/marketing.tar.gz /tmp/marketing.tar.gz
           sudo pct push $CT $GITHUB_WORKSPACE/ecosystem.config.cjs /opt/fusionpulse/ecosystem.config.cjs
+          sudo pct push $CT $GITHUB_WORKSPACE/deploy/nginx/fusionpulse.conf /etc/nginx/sites-available/fusionpulse
 
+          sudo pct exec $CT -- bash -c "mkdir -p /opt/fusionpulse/marketing/dist"
           sudo pct exec $CT -- bash -c "cd /opt/fusionpulse/api && tar xzf /tmp/api.tar.gz --strip-components=1 && npm install --production 2>/dev/null"
           sudo pct exec $CT -- bash -c "cd /opt/fusionpulse/test-runner && tar xzf /tmp/test-runner.tar.gz --strip-components=1 && npm install --production 2>/dev/null"
           sudo pct exec $CT -- bash -c "cd /opt/fusionpulse/web && tar xzf /tmp/web.tar.gz --strip-components=1"
+          sudo pct exec $CT -- bash -c "cd /opt/fusionpulse/marketing && tar xzf /tmp/marketing.tar.gz --strip-components=1"
           sudo pct exec $CT -- bash -c "cd /opt/fusionpulse && pm2 delete all 2>/dev/null; pm2 start ecosystem.config.cjs && pm2 save"
           sudo pct exec $CT -- bash -c "nginx -t && systemctl reload nginx"
 
