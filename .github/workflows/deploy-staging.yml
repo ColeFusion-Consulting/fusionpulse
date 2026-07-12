@@ -48,6 +48,8 @@ jobs:
     environment: staging
 
     steps:
+      - uses: actions/checkout@v4
+
       - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
@@ -83,6 +85,9 @@ jobs:
           sudo pct exec $CT -- bash -c "cd /opt/fusionpulse/marketing && tar xzf /tmp/marketing.tar.gz --strip-components=1"
           sudo pct exec $CT -- bash -c "cd /opt/fusionpulse && pm2 delete all 2>/dev/null; pm2 start ecosystem.config.cjs && pm2 save"
           sudo pct exec $CT -- bash -c "nginx -t && systemctl reload nginx"
+
+          # Verify nginx config was actually updated (catches silent push failures)
+          sudo pct exec $CT -- grep -q "fusionpulse.colefusion.net" /etc/nginx/sites-available/fusionpulse || { echo "ERROR: nginx config not updated"; exit 1; }
 
           echo "Staging deployment complete"
 
