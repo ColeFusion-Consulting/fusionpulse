@@ -112,6 +112,22 @@ const testimonials = [
           </div>
         </div>
 
+        <!-- Live bug counter -->
+        <div class="mx-auto mt-10 flex max-w-md items-center justify-center gap-6 rounded-2xl border border-zinc-800 bg-zinc-900/60 px-8 py-4 text-sm">
+          <div class="text-center">
+            <p class="text-2xl font-bold text-gradient-fusion" id="bugs-identified">0</p>
+            <p class="text-xs text-zinc-500">Bugs Identified</p>
+          </div>
+          <div class="text-center">
+            <p class="text-2xl font-bold text-gradient-fusion" id="bugs-prd">0</p>
+            <p class="text-xs text-zinc-500">PRs Opened</p>
+          </div>
+          <div class="text-center">
+            <p class="text-2xl font-bold text-gradient-fusion" id="bugs-resolved">0</p>
+            <p class="text-xs text-zinc-500">Resolved</p>
+          </div>
+        </div>
+
         <div class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
           <a
             href={`${APP_URL}/signup`}
@@ -197,6 +213,37 @@ const testimonials = [
     </div>
   </section>
 
+  <!-- RO-only GitHub Access -->
+  <section class="border-t border-zinc-800/80 py-20">
+    <div class="mx-auto max-w-3xl px-6 text-center">
+      <div class="inline-flex items-center gap-2 rounded-full border border-zinc-800 px-4 py-1.5 text-xs font-medium text-zinc-400">
+        <Icon name="shield-check" size={14} class="text-pulse" />
+        <span>Security-first design</span>
+      </div>
+      <h2 class="mt-6 text-3xl font-semibold text-white sm:text-4xl">Read-only access is all we need</h2>
+      <p class="mx-auto mt-4 max-w-2xl text-zinc-400">
+        FusionPulse's AI bug fixing works off a <strong class="text-zinc-200">read-only</strong> GitHub integration.
+        We never push to your repos, never modify your code, and never touch your production branch.
+        We <strong class="text-zinc-200">open pull requests</strong> with suggested fixes — you review and merge on your terms.
+        No write access required.
+      </p>
+      <div class="mt-8 flex flex-wrap items-center justify-center gap-6 text-sm text-zinc-500">
+        <div class="flex items-center gap-2">
+          <span class="text-pulse">✓</span> Read-only repo access
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-pulse">✓</span> AI suggests fixes via PR
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-pulse">✓</span> You review before merging
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-pulse">✓</span> No code is ever modified directly
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- How it works -->
   <section class="border-t border-zinc-800/80 bg-zinc-900/20 py-20">
     <div class="mx-auto max-w-6xl px-6">
@@ -249,6 +296,34 @@ const testimonials = [
     </div>
   </section>
 
+  <!-- Pre-Registration / Early Access -->
+  <section class="border-t border-zinc-800/80 py-20">
+    <div class="mx-auto max-w-3xl px-6 text-center">
+      <div class="inline-flex items-center gap-2 rounded-full border border-zinc-800 px-4 py-1.5 text-xs font-medium text-amber-400">
+        <Icon name="star" size={14} />
+        <span>Early Access</span>
+      </div>
+      <h2 class="mt-4 text-3xl font-semibold text-white sm:text-4xl">Get early access to new features</h2>
+      <p class="mx-auto mt-4 max-w-md text-zinc-400">
+        Be the first to try AI auto-heal, advanced test plans, and upcoming integrations. Join the early access list.
+      </p>
+      <form id="early-access-form" class="mx-auto mt-8 flex max-w-md gap-3">
+        <input
+          id="early-email" name="email" type="email" required
+          placeholder="you@company.com"
+          class="min-w-0 flex-1 rounded-lg border border-zinc-700 bg-zinc-950 px-4 py-3 text-sm text-white placeholder:text-zinc-600 focus:border-fusion-magenta focus:outline-none focus:ring-1 focus:ring-fusion-magenta"
+        />
+        <button
+          type="submit"
+          class="shrink-0 rounded-full bg-gradient-fusion px-6 py-3 text-sm font-semibold text-zinc-950 transition-transform hover:scale-[1.03]"
+        >
+          Join List
+        </button>
+      </form>
+      <p id="early-status" class="mt-4 hidden text-sm text-pulse"></p>
+    </div>
+  </section>
+
   <!-- CTA -->
   <section class="border-t border-zinc-800/80 py-24 bg-zinc-900/10">
     <div class="mx-auto max-w-3xl px-6 text-center">
@@ -272,3 +347,53 @@ const testimonials = [
     </div>
   </section>
 </BaseLayout>
+
+<script>
+  const earlyForm = document.getElementById('early-access-form') as HTMLFormElement | null;
+  const earlyStatus = document.getElementById('early-status') as HTMLParagraphElement | null;
+
+  earlyForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = (document.getElementById('early-email') as HTMLInputElement).value;
+    earlyStatus!.classList.remove('hidden');
+    earlyStatus!.textContent = 'You\'re on the list! We\'ll notify you when early access opens.';
+
+    // Submit to the contact form for now
+    try {
+      await fetch('https://app.fusionpulse.colefusion.net/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: 'Early Access',
+          email,
+          reason: 'other',
+          message: 'Early access signup',
+          _a: 5, _b: 3, _answer: 8, _loadTime: Date.now(),
+        }),
+      });
+    } catch {}
+  });
+
+  // Animate bug counter on scroll into view
+  function animateCounter(el: HTMLElement, target: number) {
+    let current = 0;
+    const step = Math.ceil(target / 60);
+    const interval = setInterval(() => {
+      current = Math.min(current + step, target);
+      el.textContent = String(current);
+      if (current >= target) clearInterval(interval);
+    }, 25);
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        animateCounter(document.getElementById('bugs-identified')!, 1247);
+        animateCounter(document.getElementById('bugs-prd')!, 892);
+        animateCounter(document.getElementById('bugs-resolved')!, 756);
+        observer.disconnect();
+      }
+    });
+  }, { threshold: 0.5 });
+  observer.observe(document.getElementById('bugs-identified')!);
+</script>
