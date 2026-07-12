@@ -70,13 +70,12 @@ jobs:
           sudo pct push $CT /tmp/api.tar.gz /tmp/api.tar.gz
           sudo pct push $CT /tmp/test-runner.tar.gz /tmp/test-runner.tar.gz
           sudo pct push $CT /tmp/web.tar.gz /tmp/web.tar.gz
+          sudo pct push $CT $GITHUB_WORKSPACE/ecosystem.config.cjs /opt/fusionpulse/ecosystem.config.cjs
 
           sudo pct exec $CT -- bash -c "cd /opt/fusionpulse/api && tar xzf /tmp/api.tar.gz --strip-components=1 && npm install --production 2>/dev/null"
           sudo pct exec $CT -- bash -c "cd /opt/fusionpulse/test-runner && tar xzf /tmp/test-runner.tar.gz --strip-components=1 && npm install --production 2>/dev/null"
           sudo pct exec $CT -- bash -c "cd /opt/fusionpulse/web && tar xzf /tmp/web.tar.gz --strip-components=1"
-          sudo pct exec $CT -- bash -c "pm2 restart fusionpulse-api || (cd /opt/fusionpulse/api && pm2 start dist/index.js --name fusionpulse-api)"
-          sudo pct exec $CT -- bash -c "pm2 restart fusionpulse-runner || (cd /opt/fusionpulse/test-runner && pm2 start dist/worker.js --name fusionpulse-runner)"
-          sudo pct exec $CT -- bash -c "pm2 save"
+          sudo pct exec $CT -- bash -c "cd /opt/fusionpulse && pm2 delete all 2>/dev/null; pm2 start ecosystem.config.cjs && pm2 save"
           sudo pct exec $CT -- bash -c "nginx -t && systemctl reload nginx"
 
           echo "Staging deployment complete"
