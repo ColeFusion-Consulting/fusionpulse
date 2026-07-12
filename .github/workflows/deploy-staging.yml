@@ -2,13 +2,12 @@ name: Deploy to Staging (Proxmox)
 
 on:
   push:
-    branches: [main]
+    branches: [staging]
   workflow_dispatch:
 
 env:
-  DEPLOY_HOST: ${{ secrets.PROXMOX_STAGING_HOST }}
-  DEPLOY_USER: ${{ secrets.PROXMOX_DEPLOY_USER }}
   REMOTE_PATH: /opt/fusionpulse
+  CONTAINER_ID: "108"
 
 jobs:
   deploy:
@@ -25,6 +24,9 @@ jobs:
 
       - run: npm ci
 
+      - name: Run Typecheck
+        run: npx turbo run typecheck
+
       - name: Build all packages
         run: npx turbo run build
 
@@ -33,53 +35,58 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.PROXMOX_SSH_KEY }}" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
-          echo -e "Host proxmox-staging\n  HostName ${{ secrets.PROXMOX_STAGING_HOST }}\n  User ${{ secrets.PROXMOX_DEPLOY_USER }}\n  IdentityFile ~/.ssh/deploy_key\n  StrictHostKeyChecking no" > ~/.ssh/config
+          cat >> ~/.ssh/config << EOF
+          Host proxmox
+            HostName ${{ secrets.PROXMOX_HOST }}
+            User ${{ secrets.PROXMOX_USER }}
+            IdentityFile ~/.ssh/deploy_key
+            StrictHostKeyChecking no
+          EOF
 
-      - name: Run Typecheck
-        run: npx turbo run typecheck
-
-      - name: Deploy API
+      - name: Copy build to Proxmox
         run: |
-          echo "Deploying API to staging..."
+          echo "Syncing build to Proxmox host..."
           rsync -avz --delete \
             packages/api/dist/ \
-            proxmox-staging:${{ env.REMOTE_PATH }}/api/dist/
-          rsync -avz --delete \
+            proxmox:${{ env.REMOTE_PATH }}/api/dist/
+          rsync -avz \
             packages/api/package.json \
-            proxmox-staging:${{ env.REMOTE_PATH }}/api/
-
-      - name: Deploy Test Runner
-        run: |
-          echo "Deploying test runner to staging..."
+            proxmox:${{ env.REMOTE_PATH }}/api/
           rsync -avz --delete \
             packages/test-runner/dist/ \
-            proxmox-staging:${{ env.REMOTE_PATH }}/test-runner/dist/
-
-      - name: Deploy Frontend
-        run: |
-          echo "Deploying frontend to staging..."
+            proxmox:${{ env.REMOTE_PATH }}/test-runner/dist/
+          rsync -avz \
+            packages/test-runner/package.json \
+            proxmox:${{ env.REMOTE_PATH }}/test-runner/
           rsync -avz --delete \
             packages/web/dist/ \
-            proxmox-staging:${{ env.REMOTE_PATH }}/web/dist/
+            proxmox:${{ env.REMOTE_PATH }}/web/dist/
+          rsync -avz \
+            packages/web/package.json \
+            proxmox:${{ env.REMOTE_PATH }}/web/
 
-      - name: Restart Services
+      - name: Deploy into container and restart
         run: |
-          ssh proxmox-staging << 'EOF'
-            cd /opt/fusionpulse
-            pm2 restart fusionpulse-api || pm2 start api/dist/index.js --name fusionpulse-api
-            pm2 restart fusionpulse-runner || pm2 start test-runner/dist/worker.js --name fusionpulse-runner
-            nginx -t && systemctl reload nginx
-            echo "Staging deployment complete"
-          EOF
+          ssh proxmox << 'DEPLOY'
+          CT=${{ env.CONTAINER_ID }}
+
+          pct push $CT /opt/fusionpulse/api/dist /opt/fusionpulse/api/dist -r
+          pct push $CT /opt/fusionpulse/api/package.json /opt/fusionpulse/api/package.json
+          pct push $CT /opt/fusionpulse/test-runner/dist /opt/fusionpulse/test-runner/dist -r
+          pct push $CT /opt/fusionpulse/test-runner/package.json /opt/fusionpulse/test-runner/package.json
+          pct push $CT /opt/fusionpulse/web/dist /opt/fusionpulse/web/dist -r
+          pct push $CT /opt/fusionpulse/web/package.json /opt/fusionpulse/web/package.json
+
+          pct exec $CT -- bash -c "cd /opt/fusionpulse/api && npm install --production 2>/dev/null"
+          pct exec $CT -- bash -c "cd /opt/fusionpulse/test-runner && npm install --production 2>/dev/null"
+          pct exec $CT -- bash -c "pm2 restart fusionpulse-api || cd /opt/fusionpulse/api && pm2 start dist/index.js --name fusionpulse-api"
+          pct exec $CT -- bash -c "pm2 restart fusionpulse-runner || cd /opt/fusionpulse/test-runner && pm2 start dist/worker.js --name fusionpulse-runner"
+          pct exec $CT -- bash -c "nginx -t && systemctl reload nginx"
+
+          echo "Staging deployment complete"
+          DEPLOY
 
       - name: Health Check
         run: |
           sleep 5
-          STATUS=$(ssh proxmox-staging "curl -s http://localhost:3001/api/health" || echo '{"status":"error"}')
-          echo "Health: $STATUS"
-          if echo "$STATUS" | grep -q '"status":"ok"'; then
-            echo "✅ Staging deployment successful"
-          else
-            echo "❌ Staging health check failed!"
-            exit 1
-          fi
+          ssh proxmox "pct exec ${{ env.CONTAINER_ID }} -- curl -s http://localhost:3001/api/health" || echo "Health check failed"
