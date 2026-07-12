@@ -51,19 +51,21 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: build-${{ github.sha }}
-          path: build/
+          path: /tmp/fp-deploy/
+
+      - name: Create tarballs
+        run: |
+          cd /tmp/fp-deploy
+          tar czf /tmp/api.tar.gz packages/api/
+          tar czf /tmp/test-runner.tar.gz packages/test-runner/
+          tar czf /tmp/web.tar.gz packages/web/
 
       - name: Deploy to container
         run: |
           set -e
           CT=${{ env.CONTAINER_ID }}
-          BUILD=$PWD/build
 
           echo "Deploying to fp-staging container $CT..."
-
-          cd $BUILD/packages/api && tar czf /tmp/api.tar.gz dist/ package.json && cd -
-          cd $BUILD/packages/test-runner && tar czf /tmp/test-runner.tar.gz dist/ package.json && cd -
-          cd $BUILD/packages/web && tar czf /tmp/web.tar.gz dist/ package.json && cd -
 
           sudo pct push $CT /tmp/api.tar.gz /tmp/api.tar.gz
           sudo pct push $CT /tmp/test-runner.tar.gz /tmp/test-runner.tar.gz
@@ -85,8 +87,3 @@ jobs:
           CT=${{ env.CONTAINER_ID }}
           STATUS=$(sudo pct exec $CT -- curl -s http://localhost:3001/api/health 2>/dev/null || echo '{"status":"error"}')
           echo "Health: $STATUS"
-          if echo "$STATUS" | grep -q '"status"'; then
-            echo "Staging deployment successful"
-          else
-            echo "Health check inconclusive (API may need .env configured)"
-          fi
