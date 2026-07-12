@@ -10,6 +10,7 @@ import { aiRouter } from './routes/ai.js';
 import { notificationsRouter } from './routes/notifications.js';
 import { billingRouter } from './routes/billing.js';
 import { usersRouter } from './routes/users.js';
+import { apiKeysRouter } from './routes/api-keys.js';
 import { statusPageRouter } from './routes/statuspage.js';
 import { contactRouter } from './routes/contact.js';
 import { warmUpSesClient } from './services/contact.service.js';
