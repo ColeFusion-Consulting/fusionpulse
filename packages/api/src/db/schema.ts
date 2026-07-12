@@ -255,6 +255,21 @@ export const provisioningJobs = pgTable('provisioning_jobs', {
   completedAt: timestamp('completed_at'),
 });
 
+// ─── API Keys ───────────────────────────────────────────────
+export const apiKeys = pgTable('api_keys', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  tenantId: uuid('tenant_id').notNull().references(() => tenants.id, { onDelete: 'cascade' }),
+  name: text('name').notNull(),
+  key: text('key').notNull().unique(), // the actual API key (hashed in DB)
+  keyPrefix: text('key_prefix').notNull(), // first 8 chars for identification
+  lastUsedAt: timestamp('last_used_at'),
+  expiresAt: timestamp('expires_at'),
+  enabled: boolean('enabled').default(true),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+}, (t) => [
+  index('api_keys_tenant_idx').on(t.tenantId),
+]);
+
 // ─── Types ──────────────────────────────────────────────────
 export interface TestStep {
   action: 'navigate' | 'click' | 'type' | 'waitForSelector' | 'screenshot' | 'assertText' | 'assertElementExists' | 'waitForNavigation' | 'scrollToElement';
