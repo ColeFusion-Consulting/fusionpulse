@@ -99,4 +99,4 @@ fusionpulse run
 
 ## License
 
-MIT © [ColeFusion](https://colefusion.com)
+MIT © [ColeFusion](https://colefusion.net)
