@@ -30,4 +30,6 @@ export type IconName =
   | 'search'
   | 'bug'
   | 'wand'
-  | 'heart';
+  | 'heart'
+  | 'shield'
+  | 'camera';

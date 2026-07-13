@@ -1,0 +1,1007 @@
+{
+  "/FusionPulseStack": [
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
+        "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
+        "...node internals, tsx..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/ApiUrl": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApiUrl"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:4975)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
+        "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
+        "...node internals, tsx..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/FrontendUrl": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "FrontendUrl"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:5060)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
+        "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
+        "...node internals, tsx..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/UserPoolId": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "UserPoolId"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:5142)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
+        "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
+        "...node internals, tsx..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/UserPoolClientId": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "UserPoolClientId"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:5207)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
+        "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
+        "...node internals, tsx..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/QueueUrl": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "QueueUrl"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:5290)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
+        "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
+        "...node internals, tsx..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/DatabaseEndpoint": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DatabaseEndpoint"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:5352)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
+        "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
+        "...node internals, tsx..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/BootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BootstrapVersion"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/FusionPulseStack/CheckBootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CheckBootstrapVersion"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/FusionPulseStack/FusionPulseVPC/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "FusionPulseVPCCFB979C4"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Vpc2 in aws-cdk-lib...",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2084)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
+        "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
+        "...node internals, tsx..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/FusionPulseVPC/IGW": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "FusionPulseVPCIGWE153B541"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Vpc2 in aws-cdk-lib...",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2084)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
+        "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
+        "...node internals, tsx..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/FusionPulseVPC/VPCGW": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "FusionPulseVPCVPCGW48B0D8DA"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Vpc2 in aws-cdk-lib...",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2084)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
+        "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
+        "...node internals, tsx..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/FusionPulseDB/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "FusionPulseDBB86B3B15"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new DatabaseCluster2 in aws-cdk-lib...",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2159)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
+        "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
+        "...node internals, tsx..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/RedisSG/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "RedisSGEA80AC17"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new SecurityGroup2 in aws-cdk-lib...",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2595)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
+        "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
+        "...node internals, tsx..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/TestRunnerDLQ/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "TestRunnerDLQ5EBDD0BC"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Queue2 in aws-cdk-lib...",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2797)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
+        "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
+        "...node internals, tsx..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/TestRunnerQueue/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "TestRunnerQueueF68554D8"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Queue2 in aws-cdk-lib...",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2655)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
+        "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
+        "...node internals, tsx..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/FusionPulseUserPool/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "FusionPulseUserPoolBCFF42B7"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new UserPool2 in aws-cdk-lib...",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2909)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
+        "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
+        "...node internals, tsx..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/FusionPulseCluster/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "FusionPulseClusterB6C0CB8D"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Cluster2 in aws-cdk-lib...",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:3296)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
+        "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
+        "...node internals, tsx..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/ApiService/LoadBalancerDNS": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApiServiceLoadBalancerDNSBF9EB7FC"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new ApplicationLoadBalancedFargateService2 in aws-cdk-lib...",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:3385)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
+        "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
+        "...node internals, tsx..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/ApiService/ServiceURL": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApiServiceServiceURL2EB28DB2"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new ApplicationLoadBalancedFargateService2 in aws-cdk-lib...",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:3385)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
+        "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
+        "...node internals, tsx..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/ApiService/Service": [
+    {
+      "type": "aws:cdk:warning",
+      "data": "Enable the 'circuitBreaker' property to trigger a quicker deployment failure if tasks are failing to come start (without this setting deployments may take up to 3 hours to fail). [ack: @aws-cdk/aws-ecs:shouldUseCircuitBreaker]",
+      "trace": [
+        "Annotations.addMessage (C:\\Users\\colem\\source\\fusionpulse\\node_modules\\aws-cdk-lib\\core\\lib\\annotations.js:1:3441)",
+        "Annotations.addWarningV2 (C:\\Users\\colem\\source\\fusionpulse\\node_modules\\aws-cdk-lib\\core\\lib\\annotations.js:1:2129)",
+        "new BaseService2 (C:\\Users\\colem\\source\\fusionpulse\\node_modules\\aws-cdk-lib\\aws-ecs\\lib\\base\\base-service.js:1:14671)",
+        "new BaseService2 (C:\\Users\\colem\\source\\fusionpulse\\node_modules\\aws-cdk-lib\\core\\lib\\no-box-stack-traces.js:1:345)",
+        "new FargateService2 (C:\\Users\\colem\\source\\fusionpulse\\node_modules\\aws-cdk-lib\\aws-ecs\\lib\\fargate\\fargate-service.js:1:7829)",
+        "new FargateService2 (C:\\Users\\colem\\source\\fusionpulse\\node_modules\\aws-cdk-lib\\core\\lib\\prop-injectable.js:1:855)",
+        "new ApplicationLoadBalancedFargateService2 (C:\\Users\\colem\\source\\fusionpulse\\node_modules\\aws-cdk-lib\\aws-ecs-patterns\\lib\\fargate\\application-load-balanced-fargate-service.js:1:7416)",
+        "new ApplicationLoadBalancedFargateService2 (C:\\Users\\colem\\source\\fusionpulse\\node_modules\\aws-cdk-lib\\core\\lib\\prop-injectable.js:1:855)",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:3385)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:1053",
+        "Object.<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
+        "Module._compile (node:internal/modules/cjs/loader:1692:14)",
+        "Object.transformer (C:\\Users\\colem\\source\\fusionpulse\\node_modules\\tsx\\dist\\register-BLUABhh3.cjs:9:3252)",
+        "Module.load (node:internal/modules/cjs/loader:1427:32)",
+        "Module._load (node:internal/modules/cjs/loader:1250:12)",
+        "TracingChannel.traceSync (node:diagnostics_channel:322:14)",
+        "wrapModuleLoad (node:internal/modules/cjs/loader:235:24)",
+        "cjsLoader (node:internal/modules/esm/translators:316:5)",
+        "ModuleWrap.<anonymous> (node:internal/modules/esm/translators:208:7)",
+        "ModuleJob.run (node:internal/modules/esm/module_job:370:25)",
+        "onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:665:26)",
+        "asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:99:5)"
+      ]
+    },
+    {
+      "type": "aws:cdk:warning",
+      "data": "minHealthyPercent has not been configured so the default value of 50% is used. The number of running tasks will decrease below the desired count during deployments etc. See https://github.com/aws/aws-cdk/issues/31705 [ack: @aws-cdk/aws-ecs:minHealthyPercent]",
+      "trace": [
+        "Annotations.addMessage (C:\\Users\\colem\\source\\fusionpulse\\node_modules\\aws-cdk-lib\\core\\lib\\annotations.js:1:3441)",
+        "Annotations.addWarningV2 (C:\\Users\\colem\\source\\fusionpulse\\node_modules\\aws-cdk-lib\\core\\lib\\annotations.js:1:2129)",
+        "new BaseService2 (C:\\Users\\colem\\source\\fusionpulse\\node_modules\\aws-cdk-lib\\aws-ecs\\lib\\base\\base-service.js:1:16295)",
+        "new BaseService2 (C:\\Users\\colem\\source\\fusionpulse\\node_modules\\aws-cdk-lib\\core\\lib\\no-box-stack-traces.js:1:345)",
+        "new FargateService2 (C:\\Users\\colem\\source\\fusionpulse\\node_modules\\aws-cdk-lib\\aws-ecs\\lib\\fargate\\fargate-service.js:1:7829)",
+        "new FargateService2 (C:\\Users\\colem\\source\\fusionpulse\\node_modules\\aws-cdk-lib\\core\\lib\\prop-injectable.js:1:855)",
+        "new ApplicationLoadBalancedFargateService2 (C:\\Users\\colem\\source\\fusionpulse\\node_modules\\aws-cdk-lib\\aws-ecs-patterns\\lib\\fargate\\application-load-balanced-fargate-service.js:1:7416)",
+        "new ApplicationLoadBalancedFargateService2 (C:\\Users\\colem\\source\\fusionpulse\\node_modules\\aws-cdk-lib\\core\\lib\\prop-injectable.js:1:855)",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:3385)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:1053",
+        "Object.<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
+        "Module._compile (node:internal/modules/cjs/loader:1692:14)",
+        "Object.transformer (C:\\Users\\colem\\source\\fusionpulse\\node_modules\\tsx\\dist\\register-BLUABhh3.cjs:9:3252)",
+        "Module.load (node:internal/modules/cjs/loader:1427:32)",
+        "Module._load (node:internal/modules/cjs/loader:1250:12)",
+        "TracingChannel.traceSync (node:diagnostics_channel:322:14)",
+        "wrapModuleLoad (node:internal/modules/cjs/loader:235:24)",
+        "cjsLoader (node:internal/modules/esm/translators:316:5)",
+        "ModuleWrap.<anonymous> (node:internal/modules/esm/translators:208:7)",
+        "ModuleJob.run (node:internal/modules/esm/module_job:370:25)",
+        "onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:665:26)",
+        "asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:99:5)"
+      ]
+    }
+  ],
+  "/FusionPulseStack/FrontendBucket/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "FrontendBucketEFE2E19C"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Bucket2 in aws-cdk-lib...",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:4476)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
+        "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
+        "...node internals, tsx..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/FrontendDistribution/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "FrontendDistributionE6EAF405"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Distribution2 in aws-cdk-lib...",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:4664)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
+        "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
+        "...node internals, tsx..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/CDKMetadata/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CDKMetadata"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, node internals...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/FusionPulseStack/FusionPulseVPC/PublicSubnet1/Subnet": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "FusionPulseVPCPublicSubnet1Subnet4F47F825"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...C:\\Users\\colem\\source\\fusionpulse\\node_modules\\aws-cdk-lib\\aws-ec2\\lib\\vpc.js:1:268 in aws-cdk-lib...",
+        "Array.forEach (:)",
+        "...aws-cdk-lib..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/FusionPulseVPC/PublicSubnet1/RouteTable": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "FusionPulseVPCPublicSubnet1RouteTableE431A278"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...C:\\Users\\colem\\source\\fusionpulse\\node_modules\\aws-cdk-lib\\aws-ec2\\lib\\vpc.js:1:268 in aws-cdk-lib...",
+        "Array.forEach (:)",
+        "...aws-cdk-lib..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/FusionPulseVPC/PublicSubnet1/RouteTableAssociation": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "FusionPulseVPCPublicSubnet1RouteTableAssociation62CBA526"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...C:\\Users\\colem\\source\\fusionpulse\\node_modules\\aws-cdk-lib\\aws-ec2\\lib\\vpc.js:1:268 in aws-cdk-lib...",
+        "Array.forEach (:)",
+        "...aws-cdk-lib..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/FusionPulseVPC/PublicSubnet1/DefaultRoute": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "FusionPulseVPCPublicSubnet1DefaultRoute9F9D6020"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...C:\\Users\\colem\\source\\fusionpulse\\node_modules\\aws-cdk-lib\\aws-ec2\\lib\\vpc.js:1:208 in aws-cdk-lib...",
+        "Array.forEach (:)",
+        "...new Vpc2 in aws-cdk-lib...",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2084)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
+        "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/FusionPulseVPC/PublicSubnet1/EIP": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "FusionPulseVPCPublicSubnet1EIPE9C44863"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Vpc2 in aws-cdk-lib...",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2084)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
+        "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/FusionPulseVPC/PublicSubnet1/NATGateway": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "FusionPulseVPCPublicSubnet1NATGateway5EE1A2BA"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Vpc2 in aws-cdk-lib...",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2084)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
+        "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/FusionPulseVPC/PublicSubnet2/Subnet": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "FusionPulseVPCPublicSubnet2Subnet2CDECC5F"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...C:\\Users\\colem\\source\\fusionpulse\\node_modules\\aws-cdk-lib\\aws-ec2\\lib\\vpc.js:1:268 in aws-cdk-lib...",
+        "Array.forEach (:)",
+        "...aws-cdk-lib..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/FusionPulseVPC/PublicSubnet2/RouteTable": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "FusionPulseVPCPublicSubnet2RouteTable05C24F3B"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...C:\\Users\\colem\\source\\fusionpulse\\node_modules\\aws-cdk-lib\\aws-ec2\\lib\\vpc.js:1:268 in aws-cdk-lib...",
+        "Array.forEach (:)",
+        "...aws-cdk-lib..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/FusionPulseVPC/PublicSubnet2/RouteTableAssociation": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "FusionPulseVPCPublicSubnet2RouteTableAssociationB688135B"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...C:\\Users\\colem\\source\\fusionpulse\\node_modules\\aws-cdk-lib\\aws-ec2\\lib\\vpc.js:1:268 in aws-cdk-lib...",
+        "Array.forEach (:)",
+        "...aws-cdk-lib..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/FusionPulseVPC/PublicSubnet2/DefaultRoute": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "FusionPulseVPCPublicSubnet2DefaultRoute47FDE5E8"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...C:\\Users\\colem\\source\\fusionpulse\\node_modules\\aws-cdk-lib\\aws-ec2\\lib\\vpc.js:1:208 in aws-cdk-lib...",
+        "Array.forEach (:)",
+        "...new Vpc2 in aws-cdk-lib...",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2084)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
+        "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/FusionPulseVPC/PrivateSubnet1/Subnet": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "FusionPulseVPCPrivateSubnet1SubnetD4B3846A"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...C:\\Users\\colem\\source\\fusionpulse\\node_modules\\aws-cdk-lib\\aws-ec2\\lib\\vpc.js:1:270 in aws-cdk-lib...",
+        "Array.forEach (:)",
+        "...aws-cdk-lib..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/FusionPulseVPC/PrivateSubnet1/RouteTable": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "FusionPulseVPCPrivateSubnet1RouteTableF45B0B9C"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...C:\\Users\\colem\\source\\fusionpulse\\node_modules\\aws-cdk-lib\\aws-ec2\\lib\\vpc.js:1:270 in aws-cdk-lib...",
+        "Array.forEach (:)",
+        "...aws-cdk-lib..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/FusionPulseVPC/PrivateSubnet1/RouteTableAssociation": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "FusionPulseVPCPrivateSubnet1RouteTableAssociation9679147F"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...C:\\Users\\colem\\source\\fusionpulse\\node_modules\\aws-cdk-lib\\aws-ec2\\lib\\vpc.js:1:270 in aws-cdk-lib...",
+        "Array.forEach (:)",
+        "...aws-cdk-lib..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/FusionPulseVPC/PrivateSubnet1/DefaultRoute": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "FusionPulseVPCPrivateSubnet1DefaultRoute05C6D9B7"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Vpc2 in aws-cdk-lib...",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2084)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
+        "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)"
+      ]
+    }
+  ],
+  "/FusionPulseStack/FusionPulseVPC/PrivateSubnet2/Subnet": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "FusionPulseVPCPrivateSubnet2Subnet61235D2D"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...C:\\Users\\colem\\source\\fusionpulse\\node_modules\\aws-cdk-lib\\aws-ec2\\lib\\vpc.js:1:270 in aws-cdk-lib...",
+        "Array.forEach (:)",
+        "...aws-cdk-lib..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/FusionPulseVPC/PrivateSubnet2/RouteTable": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "FusionPulseVPCPrivateSubnet2RouteTable2E13DBBC"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...C:\\Users\\colem\\source\\fusionpulse\\node_modules\\aws-cdk-lib\\aws-ec2\\lib\\vpc.js:1:270 in aws-cdk-lib...",
+        "Array.forEach (:)",
+        "...aws-cdk-lib..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/FusionPulseVPC/PrivateSubnet2/RouteTableAssociation": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "FusionPulseVPCPrivateSubnet2RouteTableAssociationDB92BB8D"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...C:\\Users\\colem\\source\\fusionpulse\\node_modules\\aws-cdk-lib\\aws-ec2\\lib\\vpc.js:1:270 in aws-cdk-lib...",
+        "Array.forEach (:)",
+        "...aws-cdk-lib..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/FusionPulseVPC/PrivateSubnet2/DefaultRoute": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "FusionPulseVPCPrivateSubnet2DefaultRouteCB094F46"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Vpc2 in aws-cdk-lib...",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2084)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
+        "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)"
+      ]
+    }
+  ],
+  "/FusionPulseStack/FusionPulseDB/Subnets/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "FusionPulseDBSubnetsC07AF88B"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new DatabaseCluster2 in aws-cdk-lib...",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2159)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
+        "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
+        "...node internals, tsx..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/FusionPulseDB/SecurityGroup/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "FusionPulseDBSecurityGroup8C879DB6"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new DatabaseCluster2 in aws-cdk-lib...",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2159)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
+        "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/FusionPulseDB/Secret/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "FusionPulseDBSecretB4DA1C06"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new DatabaseCluster2 in aws-cdk-lib...",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2159)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)"
+      ]
+    }
+  ],
+  "/FusionPulseStack/FusionPulseDB/writer/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "FusionPulseDBwriter71B745F5"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new DatabaseCluster2 in aws-cdk-lib...",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2159)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
+        "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/FusionPulseDB/reader/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "FusionPulseDBreaderDDD844CB"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...C:\\Users\\colem\\source\\fusionpulse\\node_modules\\aws-cdk-lib\\aws-rds\\lib\\cluster.js:1:175 in aws-cdk-lib...",
+        "Array.forEach (:)",
+        "...new DatabaseCluster2 in aws-cdk-lib...",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2159)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)"
+      ]
+    }
+  ],
+  "/FusionPulseStack/FusionPulseUserPool/WebClient/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "FusionPulseUserPoolWebClientD752676D"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...WrappedClass.addClient in aws-cdk-lib...",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:3144)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
+        "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
+        "...node internals, tsx..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/ApiService/LB/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApiServiceLB08B891CD"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new ApplicationLoadBalancedFargateService2 in aws-cdk-lib...",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:3385)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
+        "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/ApiService/TaskDef/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApiServiceTaskDefDF3191FB"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new ApplicationLoadBalancedFargateService2 in aws-cdk-lib...",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:3385)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
+        "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/ApiService/Service/Service": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApiService199661B5"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new ApplicationLoadBalancedFargateService2 in aws-cdk-lib...",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:3385)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
+        "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
+        "...node internals..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/FrontendBucket/Policy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "FrontendBucketPolicy1DFF75D9"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/FusionPulseStack/FusionPulseDB/Secret/Attachment/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "FusionPulseDBSecretAttachmentED72A3B3"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new DatabaseCluster2 in aws-cdk-lib...",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2159)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
+        "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
+        "...node internals, tsx..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/ApiService/LB/SecurityGroup/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApiServiceLBSecurityGroup5C16BEF8"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new ApplicationLoadBalancedFargateService2 in aws-cdk-lib...",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:3385)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)"
+      ]
+    }
+  ],
+  "/FusionPulseStack/ApiService/LB/SecurityGroup/to FusionPulseStackApiServiceSecurityGroupC6A2386A:3001": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApiServiceLBSecurityGrouptoFusionPulseStackApiServiceSecurityGroupC6A2386A30010E0B1E88"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/FusionPulseStack/ApiService/LB/PublicListener/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApiServiceLBPublicListener1394DF3E"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/FusionPulseStack/ApiService/TaskDef/TaskRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApiServiceTaskDefTaskRole1014CB34"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new ApplicationLoadBalancedFargateService2 in aws-cdk-lib...",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:3385)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)"
+      ]
+    }
+  ],
+  "/FusionPulseStack/ApiService/TaskDef/ExecutionRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApiServiceTaskDefExecutionRole43B90DD6"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/FusionPulseStack/ApiService/Service/SecurityGroup/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApiServiceSecurityGroup2592096B"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new ApplicationLoadBalancedFargateService2 in aws-cdk-lib...",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:3385)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)"
+      ]
+    }
+  ],
+  "/FusionPulseStack/ApiService/Service/SecurityGroup/from FusionPulseStackApiServiceLBSecurityGroupF528D02E:3001": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApiServiceSecurityGroupfromFusionPulseStackApiServiceLBSecurityGroupF528D02E3001FC3B1986"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/FusionPulseStack/FrontendDistribution/Origin1/S3Origin/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "FrontendDistributionOrigin1S3OriginC94250A2"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Distribution2 in aws-cdk-lib...",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:4664)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)"
+      ]
+    }
+  ],
+  "/FusionPulseStack/ApiService/LB/PublicListener/ECSGroup/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApiServiceLBPublicListenerECSGroup14A87FE9"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new ApplicationLoadBalancedFargateService2 in aws-cdk-lib...",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:3385)"
+      ]
+    }
+  ],
+  "/FusionPulseStack/ApiService/TaskDef/TaskRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApiServiceTaskDefTaskRoleDefaultPolicy63C68204"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...WrappedClass.<anonymous> in aws-cdk-lib...",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:4345)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
+        "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
+        "...node internals, tsx..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/ApiService/TaskDef/web/LogGroup/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApiServiceTaskDefwebLogGroup57352A09"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/FusionPulseStack/ApiService/TaskDef/ExecutionRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApiServiceTaskDefExecutionRoleDefaultPolicyDCB48050"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ]
+}
