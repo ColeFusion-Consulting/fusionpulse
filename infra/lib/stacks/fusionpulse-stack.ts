@@ -3,6 +3,7 @@ import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as rds from 'aws-cdk-lib/aws-rds';
 import * as ecs from 'aws-cdk-lib/aws-ecs';
 import * as ecsPatterns from 'aws-cdk-lib/aws-ecs-patterns';
+import * as ecr from 'aws-cdk-lib/aws-ecr';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as cloudfront from 'aws-cdk-lib/aws-cloudfront';
 import * as origins from 'aws-cdk-lib/aws-cloudfront-origins';
@@ -10,6 +11,7 @@ import * as sqs from 'aws-cdk-lib/aws-sqs';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import * as acm from 'aws-cdk-lib/aws-certificatemanager';
 import * as iam from 'aws-cdk-lib/aws-iam';
+import * as secretsmanager from 'aws-cdk-lib/aws-secretsmanager';
 import { Construct } from 'constructs';
 
 export class FusionPulseStack extends cdk.Stack {
@@ -50,7 +52,7 @@ export class FusionPulseStack extends cdk.Stack {
       retentionPeriod: cdk.Duration.days(14),
       deadLetterQueue: {
         queue: new sqs.Queue(this, 'TestRunnerDLQ', {
-          retentionPeriod: cdk.Duration.days(30),
+          retentionPeriod: cdk.Duration.days(14),
         }),
         maxReceiveCount: 3,
       },
@@ -83,21 +85,45 @@ export class FusionPulseStack extends cdk.Stack {
       memoryLimitMiB: 1024,
       desiredCount: 1,
       taskImageOptions: {
-        image: ecs.ContainerImage.fromAsset('../', { buildArgs: { TARGET: 'api' } }),
+        image: ecs.ContainerImage.fromEcrRepository(
+          ecr.Repository.fromRepositoryName(this, 'ApiRepo', 'fusionpulse-api')
+        ),
         containerPort: 3001,
         environment: {
           NODE_ENV: 'production',
           DATABASE_URL: `postgresql://postgres:postgres@${database.clusterEndpoint.hostname}:5432/fusionpulse`,
-          JWT_SECRET: 'CHANGE_ME_IN_PRODUCTION',
           AWS_REGION: this.region,
           CONTACT_FROM_EMAIL: 'contact@colefusion.net',
           CONTACT_TO_EMAIL: 'colemcmannus@gmail.com',
         },
-        secrets: {},
+        secrets: {
+          JWT_SECRET: ecs.Secret.fromSecretsManager(
+            secretsmanager.Secret.fromSecretNameV2(this, 'JwtSecret', 'fusionpulse/jwt-secret')
+          ),
+        },
       },
       publicLoadBalancer: true,
-      certificate: undefined, // Add ACM certificate for HTTPS
+      certificate: acm.Certificate.fromCertificateArn(
+        this, 'FusionPulseCert',
+        'arn:aws:acm:us-east-1:729988623719:certificate/9df45806-7cac-4bb0-b5a1-f6669503620e'
+      ),
     });
+
+    apiService.targetGroup.configureHealthCheck({
+      path: '/api/health',
+      healthyHttpCodes: '200',
+    });
+
+    // Grant execution role access to manually-created secrets
+    apiService.taskDefinition.executionRole?.addToPrincipalPolicy(
+      new iam.PolicyStatement({
+        actions: ['secretsmanager:GetSecretValue'],
+        resources: [
+          'arn:aws:secretsmanager:us-east-1:729988623719:secret:fusionpulse/jwt-secret-*',
+          'arn:aws:secretsmanager:us-east-1:729988623719:secret:fusionpulse/db-password-*',
+        ],
+      })
+    );
 
     // Grant the API task role permission to send contact-form email via SES —
     // no static keys needed in production, unlike the Proxmox dev/staging envs.
