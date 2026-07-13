@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Icon from '../components/Icon.astro';
 import type { IconName } from '../lib/icon-names';
 
-const APP_URL = 'https://app.fusionpulse.colefusion.net';
+const APP_URL = 'https://fusionpulse-prod-1784089318.us-east-1.elb.amazonaws.com';
 
 const features: { icon: IconName; title: string; body: string }[] = [
   {
@@ -18,13 +18,23 @@ const features: { icon: IconName; title: string; body: string }[] = [
   },
   {
     icon: 'zap',
-    title: 'Auto-Heal Selectors',
-    body: 'When your UI changes and a selector breaks, AI detects it and suggests — or applies — a fix automatically.',
+    title: 'AI Bug Fix Agent',
+    body: 'When a health check or test fails, AI reads your repo, traces git history to find the breaking commit, generates a fix, and submits a PR — autonomously.',
   },
   {
     icon: 'bell',
     title: 'Multi-Channel Alerts',
     body: 'PagerDuty, Slack, Discord, email, SMS, phone calls, or custom webhooks — get paged the way you want.',
+  },
+  {
+    icon: 'shield',
+    title: 'Stealth Testing + CAPTCHA Solving',
+    body: 'Avoid Cloudflare and bot detection with stealth browser mode. Built-in capsolver integration handles reCAPTCHA and Turnstile automatically.',
+  },
+  {
+    icon: 'camera',
+    title: 'E2E Video Recordings',
+    body: 'Automatically record headed browser walkthroughs of every test run. Videos stored in S3, emailed on completion, auto-purged after 1 year.',
   },
   {
     icon: 'globe',
@@ -34,7 +44,7 @@ const features: { icon: IconName; title: string; body: string }[] = [
   {
     icon: 'terminal',
     title: 'Free OSS CLI',
-    body: '@fusionpulse/cli generates tests locally for free, forever — upgrade only when you want cloud scheduling and alerts.',
+    body: '@fusionpulse/cli generates tests locally for free, forever. Available on npm with SDKs for TS, Python, Go, Rust, and .NET.',
   },
 ];
 

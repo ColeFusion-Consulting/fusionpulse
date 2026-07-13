@@ -1,0 +1,21 @@
+{
+  "version": "54.0.0",
+  "files": {
+    "10bdde732ab3aadb8d6d6909e02c75ff1666fc25f9d8d42bbc388d9a5ae2121d": {
+      "displayName": "FusionPulseStack Template",
+      "source": {
+        "path": "FusionPulseStack.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "729988623719-us-east-1-53621bdf": {
+          "bucketName": "cdk-hnb659fds-assets-729988623719-us-east-1",
+          "objectKey": "10bdde732ab3aadb8d6d6909e02c75ff1666fc25f9d8d42bbc388d9a5ae2121d.json",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::729988623719:role/cdk-hnb659fds-file-publishing-role-729988623719-us-east-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}
