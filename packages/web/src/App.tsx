@@ -9,6 +9,7 @@ import AIConsole from './pages/AIConsole';
 import Notifications from './pages/Notifications';
 import Billing from './pages/Billing';
 import Settings from './pages/Settings';
+import TestPlans from './pages/TestPlans';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Provisioning from './pages/Provisioning';
