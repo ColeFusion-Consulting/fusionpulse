@@ -11,3 +11,5 @@ reports/
 playwright-report/
 test-results/
 fusionpulse.config.json
+
+.env*
