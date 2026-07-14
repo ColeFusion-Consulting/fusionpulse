@@ -34,14 +34,11 @@ const currentPath = Astro.url.pathname;
     </nav>
 
     <div class="hidden items-center gap-5 md:flex">
-      <a href={`${APP_URL}/login`} class="text-sm font-medium text-zinc-400 transition-colors hover:text-white">
-        Log in
-      </a>
       <a
-        href={`${APP_URL}/signup`}
+        href="/contact"
         class="inline-flex items-center gap-1.5 rounded-full bg-gradient-fusion px-4 py-2 text-sm font-semibold text-zinc-950 shadow-lg shadow-fuchsia-500/10 transition-transform hover:scale-[1.03]"
       >
-        Get Started
+        Get Early Access
         <Icon name="arrow-right" size={15} strokeWidth={2.25} />
       </a>
     </div>
@@ -63,12 +60,11 @@ const currentPath = Astro.url.pathname;
         </a>
       ))}
       <div class="mt-2 flex flex-col gap-3 border-t border-zinc-800 pt-4">
-        <a href={`${APP_URL}/login`} class="text-sm font-medium text-zinc-300 hover:text-white">Log in</a>
         <a
-          href={`${APP_URL}/signup`}
+          href="/contact"
           class="inline-flex items-center justify-center gap-1.5 rounded-full bg-gradient-fusion px-4 py-2.5 text-sm font-semibold text-zinc-950"
         >
-          Get Started
+          Get Early Access
         </a>
       </div>
     </nav>
