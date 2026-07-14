@@ -15,4 +15,6 @@ program.addCommand(generateCommand);
 program.addCommand(initCommand);
 program.addCommand(runCommand);
 
-program.parse();
+if (process.env.NODE_ENV !== 'test') {
+  program.parse();
+}

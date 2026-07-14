@@ -90,7 +90,7 @@ export async function getRunHistory(tenantId: string, caseId?: string, limit = 5
 }
 
 export async function recordRun(data: {
-  tenantId: string; testType: string; testId: string;
+  id?: string; tenantId: string; testType: string; testId: string;
   status: string; durationMs?: number;
   stepsPassed?: number; stepsTotal?: number;
   errorMessage?: string; screenshotUrls?: string[];

@@ -18,6 +18,7 @@ import { testPlanRouter } from './routes/test-plans.js';
 import { auditRouter } from './routes/audit.js';
 import { statusPageRouter } from './routes/statuspage.js';
 import { contactRouter } from './routes/contact.js';
+import { internalRouter } from './routes/internal.js';
 import { warmUpSesClient } from './services/contact.service.js';
 
 // This host's network is IPv4-only. Prefer IPv4 DNS resolution to avoid
@@ -74,6 +75,9 @@ app.use('/api/status', statusPageRouter);
 // Public contact form (no auth)
 app.use('/api/contact', contactRouter);
 
+// Internal API (authenticated via x-internal-key header, not user JWT)
+app.use('/api/internal', internalRouter);
+
 // Stripe webhook — raw body, no auth (Stripe can't provide Bearer tokens).
 // Mounted via app.post() so Express won't fall through to the authenticate
 // middleware on the billingRouter below.
@@ -86,6 +90,9 @@ app.use('/api/ai', authenticate, aiLimiter, aiRouter);
 app.use('/api/notifications', authenticate, notificationsRouter);
 app.use('/api/billing', authenticate, billingRouter);
 app.use('/api/users', authenticate, usersRouter);
+app.use('/api/keys', authenticate, apiKeysRouter);
+app.use('/api/test-plans', authenticate, testPlanRouter);
+app.use('/api/audit', authenticate, auditRouter);
 
 // ─── Error handler ──────────────────────────────────────────
 app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
@@ -94,10 +101,14 @@ app.use((err: Error, req: express.Request, res: express.Response, next: express.
 });
 
 // ─── Start ──────────────────────────────────────────────────
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`FusionPulse API running on http://0.0.0.0:${PORT}`);
-  warmUpSesClient();
-});
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`FusionPulse API running on http://0.0.0.0:${PORT}`);
+    warmUpSesClient();
+  });
+}
+
+export { app };
 
 // Graceful shutdown
 process.on('SIGTERM', async () => {
