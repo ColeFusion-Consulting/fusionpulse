@@ -8,8 +8,17 @@ export const tenants = pgTable('tenants', {
   name: text('name').notNull(),
   slug: text('slug').notNull().unique(),
   plan: text('plan').notNull().default('free'),
+  addons: jsonb('addons').default([]).$type<string[]>(),
   stripeCustomerId: text('stripe_customer_id'),
   stripeSubscriptionId: text('stripe_subscription_id'),
+  provisioningStatus: text('provisioning_status').default('pending'),
+  crawlInstructions: text('crawl_instructions'),
+  agentInstructions: text('agent_instructions'),
+  siteUrl: text('site_url'),
+  siteMonitorId: text('site_monitor_id'),
+  repoProvider: text('repo_provider'),
+  repoOwner: text('repo_owner'),
+  repoName: text('repo_name'),
   settings: jsonb('settings').default({}).$type<Record<string, unknown>>(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
@@ -254,6 +263,19 @@ export const provisioningJobs = pgTable('provisioning_jobs', {
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
   completedAt: timestamp('completed_at'),
 });
+
+// ─── Provisioning Log (step-by-step audit trail) ───────────
+export const provisioningLog = pgTable('provisioning_log', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  tenantId: uuid('tenant_id').notNull().references(() => tenants.id, { onDelete: 'cascade' }),
+  step: text('step').notNull(),
+  status: text('status').notNull(),
+  message: text('message'),
+  startedAt: timestamp('started_at').defaultNow().notNull(),
+  completedAt: timestamp('completed_at'),
+}, (t) => [
+  index('provisioning_log_tenant_idx').on(t.tenantId),
+]);
 
 // ─── Test Plans (AI-generated plans for paid signup) ────────
 export const testPlans = pgTable('test_plans', {
