@@ -21,6 +21,7 @@ const plans = [
       'Email alerts',
       '1 monitored site',
       'Manual PR review required',
+      'Status page (basic)',
     ],
   },
   {
@@ -39,6 +40,8 @@ const plans = [
       'Slack + PagerDuty alerts',
       'Multi-location checks',
       'AI auto-repair (manual review)',
+      'Status page (branded)',
+      'Basic audit log',
     ],
   },
   {
@@ -61,6 +64,9 @@ const plans = [
       'Phone call alerts',
       'Custom webhooks',
       'Priority support',
+      'AI test plan generation',
+      'Full audit log',
+      'Escalation chains',
     ],
   },
   {
@@ -83,6 +89,10 @@ const plans = [
       'AI auto-repair (auto PR submit)',
       'E2E video recordings',
       'Unlimited AI generations',
+      'AI test plan generation',
+      'Full audit log',
+      'Escalation chains',
+      'SSO/SAML',
     ],
   },
 ];
@@ -107,6 +117,14 @@ const faqs = [
   {
     q: 'Do you offer annual billing?',
     a: "Not yet — all plans are billed monthly through Stripe so you're never locked in. Reach out on the Contact page if annual billing would help your team.",
+  },
+  {
+    q: 'How do AI test plans work?',
+    a: "Give FusionPulse your site URL. AI crawls every page, identifies user flows, and generates a structured test plan with prioritized test cases. Your QA team reviews, adds feedback, and approves. FusionPulse then generates the corresponding Playwright tests automatically.",
+  },
+  {
+    q: 'What kind of audit logging is available?',
+    a: "Every API request, alert action, test run, and configuration change is logged with timestamp, user identity, IP address, user agent, and duration. Root users can query the full audit log from the dashboard or API. Audit logs are retained per your plan's retention policy.",
   },
 ];
 ---

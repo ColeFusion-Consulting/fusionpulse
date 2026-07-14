@@ -104,6 +104,7 @@ const APP_URL = 'https://api.fusionpulse.colefusion.com';
           <li class="flex items-start gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-pulse" /> REST API for monitors, tests, and notifications</li>
           <li class="flex items-start gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-pulse" /> Webhooks for every alert and test result</li>
           <li class="flex items-start gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-pulse" /> Official GitHub Action for CI-triggered runs</li>
+          <li class="flex items-start gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-pulse" /> API key authentication for headless access</li>
         </ul>
       </div>
       <div class="card-glass rounded-2xl p-1">
@@ -112,6 +113,100 @@ const APP_URL = 'https://api.fusionpulse.colefusion.com';
           <p class="pl-8">-H <span class="text-zinc-200">"Authorization: Bearer $FP_API_KEY"</span> \</p>
           <p class="pl-8">-d <span class="text-zinc-200">'&#123;"prompt": "Test the login flow"&#125;'</span></p>
           <p class="mt-3 text-pulse">&#123; "status": "queued", "testId": "t_8fk2..." &#125;</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AI Test Plans -->
+  <section class="border-t border-zinc-800/80 py-20">
+    <div class="mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 px-6 lg:grid-cols-2">
+      <div>
+        <div class="inline-flex rounded-lg bg-zinc-900 p-2.5 text-fusion-magenta">
+          <Icon name="layers" size={22} />
+        </div>
+        <h2 class="mt-5 text-2xl font-semibold text-white sm:text-3xl">AI Test Plans</h2>
+        <p class="mt-3 text-zinc-400">
+          Point FusionPulse at your site URL. AI crawls your pages, identifies every user flow, and generates a
+          comprehensive test plan with suggested test cases, prioritized by risk — ready for your team to review and approve.
+        </p>
+        <ul class="mt-6 space-y-3 text-sm text-zinc-300">
+          <li class="flex items-start gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-pulse" /> Automatic page discovery and flow analysis</li>
+          <li class="flex items-start gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-pulse" /> Suggested test cases with priority ratings</li>
+          <li class="flex items-start gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-pulse" /> Review-and-approve workflow before generation</li>
+          <li class="flex items-start gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-pulse" /> Iterative refinement via team feedback</li>
+        </ul>
+      </div>
+      <div class="card-glass rounded-2xl p-1">
+        <div class="rounded-xl bg-zinc-950/60 p-6 font-mono text-xs leading-relaxed text-zinc-400">
+          <p class="text-zinc-500">fusionpulse test-plan generate --url https://yourapp.com</p>
+          <p class="mt-3"><span class="text-pulse">✓</span> Discovered 12 pages</p>
+          <p><span class="text-pulse">✓</span> Identified 34 user flows</p>
+          <p><span class="text-pulse">✓</span> Generated 18 prioritized test cases</p>
+          <p class="mt-3 text-zinc-600">Awaiting review by your QA team</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AI Bug Fix Agent (expanded) -->
+  <section class="border-t border-zinc-800/80 bg-zinc-900/20 py-20">
+    <div class="mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 px-6 lg:grid-cols-2">
+      <div class="order-2 lg:order-1">
+        <div class="inline-flex rounded-lg bg-zinc-900 p-2.5 text-fusion-magenta">
+          <Icon name="bug" size={22} />
+        </div>
+        <h2 class="mt-5 text-2xl font-semibold text-white sm:text-3xl">AI Bug Fix Agent</h2>
+        <p class="mt-3 text-zinc-400">
+          When a test or health check fails, the AI Bug Fix Agent reads your git repository, traces commit history
+          to find the breaking change, generates a targeted fix, and opens a pull request — completely autonomously.
+        </p>
+        <ul class="mt-6 space-y-3 text-sm text-zinc-300">
+          <li class="flex items-start gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-pulse" /> Read-only GitHub integration — we never write to your branches</li>
+          <li class="flex items-start gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-pulse" /> Git bisect-style commit tracing to find the breaking change</li>
+          <li class="flex items-start gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-pulse" /> AI generates a fix and opens a PR for your review</li>
+          <li class="flex items-start gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-pulse" /> Works with both test failures and monitor downtime</li>
+        </ul>
+      </div>
+      <div class="order-1 card-glass rounded-2xl p-1 lg:order-2">
+        <div class="rounded-xl bg-zinc-950/60 p-6 font-mono text-xs leading-relaxed text-zinc-400">
+          <p class="text-zinc-500">[Monitor] api.yourapp.com — status: 500</p>
+          <p class="mt-2 text-zinc-500">[AI Agent] Tracing commits...</p>
+          <p><span class="text-fusion-violet">→</span> Found breaking commit: <span class="text-zinc-200">a3f8e2</span></p>
+          <p><span class="text-fusion-violet">→</span> Generated fix in <span class="text-zinc-200">src/routes/users.ts</span></p>
+          <p class="mt-2 text-pulse">✓ PR #142 opened: "Fix user auth regression"</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Escalation Chains + Audit Logging -->
+  <section class="border-t border-zinc-800/80 py-20">
+    <div class="mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 px-6 lg:grid-cols-2">
+      <div>
+        <div class="inline-flex rounded-lg bg-zinc-900 p-2.5 text-fusion-magenta">
+          <Icon name="bell" size={22} />
+        </div>
+        <h2 class="mt-5 text-2xl font-semibold text-white sm:text-3xl">Escalation Chains &amp; Audit</h2>
+        <p class="mt-3 text-zinc-400">
+          When an alert fires, FusionPulse escalates through your team automatically — email, Slack, PagerDuty,
+          phone call — with configurable delays. Every action is logged to an immutable audit trail.
+        </p>
+        <ul class="mt-6 space-y-3 text-sm text-zinc-300">
+          <li class="flex items-start gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-pulse" /> Multi-step escalation chains with configurable delays</li>
+          <li class="flex items-start gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-pulse" /> Quiet hours and on-call rotation support</li>
+          <li class="flex items-start gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-pulse" /> Full audit log: who did what, when, from where</li>
+          <li class="flex items-start gap-2.5"><Icon name="check" size={16} class="mt-0.5 shrink-0 text-pulse" /> Acknowledgment tracking for incident response</li>
+        </ul>
+      </div>
+      <div class="card-glass rounded-2xl p-1">
+        <div class="rounded-xl bg-zinc-950/60 p-6 font-mono text-xs leading-relaxed text-zinc-400">
+          <p class="text-zinc-500">00:00 — Slack alert sent</p>
+          <p class="text-zinc-500">00:05 — Unacknowledged, escalating</p>
+          <p class="text-zinc-500">00:05 — PagerDuty notified</p>
+          <p class="text-zinc-500">00:10 — Unacknowledged, escalating</p>
+          <p class="text-zinc-500">00:10 — Phone call to on-call engineer</p>
+          <p class="mt-3 text-pulse">00:15 — Acknowledged by Sarah C.</p>
         </div>
       </div>
     </div>
@@ -143,6 +238,39 @@ const APP_URL = 'https://api.fusionpulse.colefusion.com';
           View on GitHub
           <Icon name="arrow-right" size={15} strokeWidth={2.25} />
         </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SDKs & Integrations -->
+  <section class="border-t border-zinc-800/80 py-20">
+    <div class="mx-auto max-w-6xl px-6">
+      <div class="mx-auto max-w-2xl text-center">
+        <div class="inline-flex rounded-lg bg-zinc-900 p-2.5 text-fusion-magenta">
+          <Icon name="code" size={22} />
+        </div>
+        <h2 class="mt-5 text-2xl font-semibold text-white sm:text-3xl">SDKs &amp; Integrations</h2>
+        <p class="mt-3 text-zinc-400">
+          FusionPulse integrates with your existing stack — no rip-and-replace required.
+        </p>
+      </div>
+      <div class="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-4">
+        <div class="card-glass rounded-xl p-5 text-center">
+          <p class="text-lg font-semibold text-white">TypeScript</p>
+          <p class="mt-1 text-xs text-zinc-500">@fusionpulse/api-client</p>
+        </div>
+        <div class="card-glass rounded-xl p-5 text-center">
+          <p class="text-lg font-semibold text-white">Python</p>
+          <p class="mt-1 text-xs text-zinc-500">Coming soon</p>
+        </div>
+        <div class="card-glass rounded-xl p-5 text-center">
+          <p class="text-lg font-semibold text-white">Go</p>
+          <p class="mt-1 text-xs text-zinc-500">Coming soon</p>
+        </div>
+        <div class="card-glass rounded-xl p-5 text-center">
+          <p class="text-lg font-semibold text-white">GitHub Action</p>
+          <p class="mt-1 text-xs text-zinc-500">colefusion/fusionpulse-test</p>
+        </div>
       </div>
     </div>
   </section>
