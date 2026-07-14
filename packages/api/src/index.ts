@@ -5,6 +5,7 @@ import cors from 'cors';
 import rateLimit from 'express-rate-limit';
 import { authenticate, requireRole, requireUserType } from './middleware/auth.js';
 import { requestLogger } from './middleware/audit.js';
+import { configRouter } from './routes/config.js';
 import { authRouter } from './routes/auth.js';
 import { provisioningRouter } from './routes/provisioning.js';
 import { monitorsRouter } from './routes/monitors.js';
@@ -62,6 +63,9 @@ app.use(requestLogger);
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', service: 'fusionpulse-api', version: '0.1.0', uptime: process.uptime() });
 });
+
+// Public config endpoint (no auth, no rate limit)
+app.use('/api/config', configRouter);
 
 // Public auth routes (signup, login, refresh, logout) — rate limited
 app.use('/api/auth', authLimiter, authRouter);

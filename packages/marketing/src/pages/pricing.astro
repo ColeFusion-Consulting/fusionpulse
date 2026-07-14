@@ -1,8 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Icon from '../components/Icon.astro';
-
-const APP_URL = 'https://app.fusionpulse.colefusion.com';
+import { APP_URL, getPlanButtonLabel, getPlanButtonClass, isSignupLive } from '../lib/signup-config';
 
 const plans = [
   {
@@ -167,12 +166,21 @@ const faqs = [
             </div>
             <p class="mt-1 text-xs font-medium text-fusion-magenta">{plan.interval}</p>
 
-            <span
-              class="mt-6 inline-flex cursor-not-allowed items-center justify-center rounded-full border border-zinc-700 px-4 py-2.5 text-sm font-semibold text-zinc-500"
-              title="Self-service signup coming soon"
-            >
-              {plan.price === 0 ? 'Start Free' : 'Choose ' + plan.name} — Soon
-            </span>
+            {isSignupLive() ? (
+              <a
+                href={APP_URL}
+                class="mt-6 inline-flex items-center justify-center rounded-full px-4 py-2.5 text-sm font-semibold transition-transform hover:scale-[1.02] bg-gradient-fusion text-zinc-950 shadow-lg shadow-fuchsia-500/10"
+              >
+                {plan.price === 0 ? 'Start Free' : 'Choose ' + plan.name}
+              </a>
+            ) : (
+              <span
+                class="mt-6 inline-flex cursor-not-allowed items-center justify-center rounded-full border border-zinc-700 px-4 py-2.5 text-sm font-semibold text-zinc-500"
+                title="Self-service signup coming soon"
+              >
+                {plan.price === 0 ? 'Start Free' : 'Choose ' + plan.name} — Soon
+              </span>
+            )}
 
             <ul class="mt-7 space-y-2.5 text-sm text-zinc-400">
               {plan.features.map((f) => (

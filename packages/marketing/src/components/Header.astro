@@ -1,8 +1,7 @@
 ---
 import Logo from './Logo.astro';
 import Icon from './Icon.astro';
-
-const APP_URL = 'https://app.fusionpulse.colefusion.com';
+import { APP_URL, getSignupLabel, getSignupHref } from '../lib/signup-config';
 
 const navLinks = [
   { href: '/about', label: 'About' },
@@ -35,10 +34,10 @@ const currentPath = Astro.url.pathname;
 
     <div class="hidden items-center gap-5 md:flex">
       <a
-        href="/contact"
+        href={getSignupHref()}
         class="inline-flex items-center gap-1.5 rounded-full bg-gradient-fusion px-4 py-2 text-sm font-semibold text-zinc-950 shadow-lg shadow-fuchsia-500/10 transition-transform hover:scale-[1.03]"
       >
-        Get Early Access
+        {getSignupLabel()}
         <Icon name="arrow-right" size={15} strokeWidth={2.25} />
       </a>
     </div>
@@ -61,10 +60,10 @@ const currentPath = Astro.url.pathname;
       ))}
       <div class="mt-2 flex flex-col gap-3 border-t border-zinc-800 pt-4">
         <a
-          href="/contact"
+          href={getSignupHref()}
           class="inline-flex items-center justify-center gap-1.5 rounded-full bg-gradient-fusion px-4 py-2.5 text-sm font-semibold text-zinc-950"
         >
-          Get Early Access
+          {getSignupLabel()}
         </a>
       </div>
     </nav>

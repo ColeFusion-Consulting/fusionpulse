@@ -12,9 +12,10 @@ import { eq } from 'drizzle-orm';
 import { randomUUID } from 'crypto';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { startProvisioning } from './provisioning.service.js';
+import { startProvisioning, startFullProvisioning } from './provisioning.service.js';
 import { recordAuditEvent } from './audit.service.js';
 import type { SignUpInput as SignUpInputType } from '../types/index.js';
+import type { SignupInput as FullSignUpInput } from '../types/subscription.js';
 
 const cognitoClient = new CognitoIdentityProviderClient({
   region: process.env.AWS_REGION || 'us-east-1',
@@ -137,6 +138,59 @@ export async function provisioningSignUp(input: SignUpInputType): Promise<Provis
     input.manager.password,
     input.siteUrl
   );
+
+  return { tenantId, provisioningToken };
+}
+
+export async function fullSignUp(input: FullSignUpInput): Promise<ProvisioningSignUpResult> {
+  const tenantId = randomUUID();
+  const tenantSlug = input.companyName
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
+    .slice(0, 50);
+
+  await db.insert(tenants).values({
+    id: tenantId,
+    name: input.companyName,
+    slug: tenantSlug,
+    plan: input.plan,
+    addons: input.addons,
+    provisioningStatus: 'pending',
+    siteUrl: input.siteUrl,
+    crawlInstructions: input.crawlInstructions || null,
+    agentInstructions: input.agentInstructions || null,
+    repoProvider: input.repoProvider || null,
+    repoOwner: input.repoOwner || null,
+    repoName: input.repoName || null,
+    settings: { status: 'provisioning' },
+  });
+
+  const userId = randomUUID();
+  await db.insert(users).values({
+    id: userId,
+    tenantId,
+    email: input.email,
+    name: input.name,
+    role: 'admin',
+    userType: 'user',
+  });
+
+  await db.insert(provisioningJobs).values({
+    id: randomUUID(),
+    tenantId,
+    status: 'pending',
+    steps: [],
+    stepsCompleted: [],
+  });
+
+  const provisioningToken = jwt.sign(
+    { tenantId, type: 'provisioning' },
+    JWT_SECRET,
+    { expiresIn: '30m', algorithm: 'HS256' }
+  );
+
+  startFullProvisioning(tenantId, input);
 
   return { tenantId, provisioningToken };
 }

@@ -58,6 +58,34 @@ authRouter.post('/signup', validate(signUpSchema), async (req, res) => {
   }
 });
 
+const fullSignUpSchema = z.object({
+  name: z.string().min(1).max(100),
+  email: z.string().email(),
+  password: z.string().min(8),
+  companyName: z.string().min(1).max(100),
+  siteUrl: z.string().url(),
+  phone: z.string().optional(),
+  crawlInstructions: z.string().max(5000).optional(),
+  plan: z.enum(['free', 'starter', 'pro', 'business']),
+  addons: z.array(z.enum(['ai_repair_agent', 'e2e_video_recordings', 'stealth_browser', 'phone_alerts', 'multi_region'])).default([]),
+  repoProvider: z.enum(['github', 'gitlab', 'bitbucket']).optional(),
+  repoOwner: z.string().max(255).optional(),
+  repoName: z.string().max(255).optional(),
+  repoAccessToken: z.string().optional(),
+  agentInstructions: z.string().max(5000).optional(),
+  paymentMethodId: z.string().optional(),
+});
+
+authRouter.post('/full-signup', validate(fullSignUpSchema), async (req, res) => {
+  try {
+    const result = await authService.fullSignUp(req.body);
+    res.status(202).json({ success: true, data: result });
+  } catch (err: any) {
+    console.error('Full signup error:', err);
+    res.status(400).json({ success: false, error: err.message || 'Signup failed' });
+  }
+});
+
 // POST /auth/provisioning-signup — new tenant signup with async provisioning
 authRouter.post('/provisioning-signup', validate(provisioningSignUpSchema), async (req, res) => {
   try {

@@ -8,6 +8,17 @@ interface StepState {
   status: 'pending' | 'in_progress' | 'completed' | 'failed';
 }
 
+const STEP_LABELS: Record<string, string> = {
+  create_account: 'Creating account',
+  setup_billing: 'Setting up billing',
+  provision_monitoring: 'Provisioning monitoring',
+  crawl_site: 'Crawling site',
+  generate_test_plan: 'Generating test plans',
+  provision_repair_agent: 'Provisioning repair agent',
+  verify_infrastructure: 'Verifying infrastructure',
+  finalize: 'Finalizing setup',
+};
+
 export default function Provisioning() {
   const { tenantId } = useParams<{ tenantId: string }>();
   const [searchParams] = useSearchParams();
@@ -46,7 +57,7 @@ export default function Provisioning() {
           if (data.steps) {
             const stepStates: StepState[] = data.steps.map((s: any) => ({
               key: s.key,
-              name: s.name,
+              name: s.name || STEP_LABELS[s.key] || s.key,
               status: data.stepsCompleted?.includes(s.key) ? 'completed' : s.key === data.step ? 'in_progress' : 'pending',
             }));
             setSteps(stepStates);
@@ -54,10 +65,9 @@ export default function Provisioning() {
           return;
         }
 
-        // Provisioning event
         if (data.step) {
           setProgress(data.progress);
-          setMessage(data.message || '');
+          setMessage(data.message || STEP_LABELS[data.step] || data.step);
 
           if (data.status === 'in_progress' || data.status === 'completed') {
             setSteps((prev) => {
@@ -66,16 +76,18 @@ export default function Provisioning() {
               if (idx >= 0) {
                 updated[idx] = { ...updated[idx], status: data.status };
               } else {
-                updated.push({ key: data.step, name: data.message || data.step, status: data.status });
+                updated.push({
+                  key: data.step,
+                  name: data.message || STEP_LABELS[data.step] || data.step,
+                  status: data.status,
+                });
               }
-              // Mark previously uncompleted steps
               return updated;
             });
           }
 
           if (data.status === 'completed' && data.tokens) {
             setStatus('completed');
-            // Decode user info from the root token
             const payload = JSON.parse(atob(data.tokens.accessToken.split('.')[1]));
             setAuth(data.tokens.accessToken, {
               id: payload.sub || '',
@@ -127,7 +139,6 @@ export default function Provisioning() {
         </div>
 
         <div className="bg-gray-900 rounded-xl border border-gray-800 p-8">
-          {/* Progress bar */}
           <div className="mb-6">
             <div className="flex justify-between text-sm mb-2">
               <span className="text-gray-400">{message}</span>
@@ -143,7 +154,6 @@ export default function Provisioning() {
             </div>
           </div>
 
-          {/* Steps list */}
           <div className="space-y-3">
             {steps.length === 0 && status === 'provisioning' && (
               <div className="text-center py-8">
@@ -184,7 +194,6 @@ export default function Provisioning() {
             ))}
           </div>
 
-          {/* Status messages */}
           {status === 'completed' && (
             <div className="mt-6 bg-green-900/30 border border-green-800 text-green-400 text-sm rounded-lg px-4 py-3 text-center">
               Your account is ready! Redirecting to dashboard...
