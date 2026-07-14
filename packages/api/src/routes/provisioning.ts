@@ -52,20 +52,33 @@ provisioningRouter.get('/events/:tenantId', (req: Request, res: Response) => {
         stepsCompleted: job.stepsCompleted,
       })}\n\n`);
     }
+  }).catch((err) => {
+    console.error('Error fetching provisioning status:', err);
   });
 
   // Listen for provisioning events
   const cleanup = onProvisioningEvent(tenantId, (event: ProvisioningEvent | ProvisioningCompleteEvent) => {
-    res.write(`data: ${JSON.stringify(event)}\n\n`);
+    try {
+      res.write(`data: ${JSON.stringify(event)}\n\n`);
 
-    if (event.status === 'completed' || event.status === 'failed') {
-      res.write(`data: ${JSON.stringify({ type: 'done' })}\n\n`);
-      res.end();
+      if (event.status === 'completed' || event.status === 'failed') {
+        res.write(`data: ${JSON.stringify({ type: 'done' })}\n\n`);
+        res.end();
+      }
+    } catch (err) {
+      console.error('Error writing SSE event:', err);
+      cleanup();
     }
   });
 
   // Clean up on client disconnect
   req.on('close', () => {
+    cleanup();
+  });
+
+  // Handle response errors
+  res.on('error', (err) => {
+    console.error('SSE response error:', err);
     cleanup();
   });
 });

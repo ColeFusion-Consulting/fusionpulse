@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Icon from '../components/Icon.astro';
 import type { IconName } from '../lib/icon-names';
 
-const APP_URL = 'https://api.fusionpulse.colefusion.net';
+const APP_URL = 'https://app.fusionpulse.colefusion.net';
 
 const features: { icon: IconName; title: string; body: string }[] = [
   {
@@ -34,7 +34,7 @@ const features: { icon: IconName; title: string; body: string }[] = [
   {
     icon: 'camera',
     title: 'E2E Video Recordings',
-    body: 'Automatically record headed browser walkthroughs of every test run. Videos stored in S3, emailed on completion, auto-purged after 1 year.',
+    body: 'Automatically record headed browser walkthroughs of every E2E test run. Videos stored in S3, emailed on completion, auto-purged after 1 year. (API tests use standard HTTP checks — no video.)',
   },
   {
     icon: 'globe',
@@ -370,7 +370,7 @@ const testimonials = [
 
     // Submit to the contact form for now
     try {
-      await fetch('https://app.fusionpulse.colefusion.net/api/contact', {
+      await fetch('https://api.fusionpulse.colefusion.net/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
