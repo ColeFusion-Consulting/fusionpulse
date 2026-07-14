@@ -95,7 +95,7 @@ export class FusionPulseStack extends cdk.Stack {
           DATABASE_URL: `postgresql://postgres:postgres@${database.clusterEndpoint.hostname}:5432/fusionpulse`,
           AWS_REGION: this.region,
           CONTACT_FROM_EMAIL: 'contact@colefusion.com',
-          CONTACT_TO_EMAIL: 'colemcmannus@gmail.com',
+          CONTACT_TO_EMAIL: 'hello@colefusion.com',
           REDIS_URL: 'redis://localhost:6379',
           SQS_QUEUE_URL: testQueue.queueUrl,
           COGNITO_USER_POOL_ID: userPool.userPoolId,
