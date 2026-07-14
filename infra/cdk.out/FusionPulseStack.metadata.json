@@ -17,7 +17,7 @@
     {
       "type": "aws:cdk:creationStack",
       "data": [
-        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:4975)",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:8447)",
         "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
         "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
         "...node internals, tsx..."
@@ -32,7 +32,7 @@
     {
       "type": "aws:cdk:creationStack",
       "data": [
-        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:5060)",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:8532)",
         "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
         "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
         "...node internals, tsx..."
@@ -47,7 +47,7 @@
     {
       "type": "aws:cdk:creationStack",
       "data": [
-        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:5142)",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:8614)",
         "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
         "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
         "...node internals, tsx..."
@@ -62,7 +62,7 @@
     {
       "type": "aws:cdk:creationStack",
       "data": [
-        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:5207)",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:8679)",
         "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
         "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
         "...node internals, tsx..."
@@ -77,7 +77,7 @@
     {
       "type": "aws:cdk:creationStack",
       "data": [
-        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:5290)",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:8762)",
         "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
         "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
         "...node internals, tsx..."
@@ -92,7 +92,37 @@
     {
       "type": "aws:cdk:creationStack",
       "data": [
-        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:5352)",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:8824)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
+        "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
+        "...node internals, tsx..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/HostedZoneId": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "HostedZoneId"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:8909)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
+        "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
+        "...node internals, tsx..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/NameServers": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "NameServers"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:8980)",
         "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
         "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
         "...node internals, tsx..."
@@ -134,7 +164,7 @@
       "type": "aws:cdk:creationStack",
       "data": [
         "...new Vpc2 in aws-cdk-lib...",
-        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2084)",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2140)",
         "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
         "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
         "...node internals, tsx..."
@@ -150,7 +180,7 @@
       "type": "aws:cdk:creationStack",
       "data": [
         "...new Vpc2 in aws-cdk-lib...",
-        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2084)",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2140)",
         "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
         "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
         "...node internals, tsx..."
@@ -166,7 +196,7 @@
       "type": "aws:cdk:creationStack",
       "data": [
         "...new Vpc2 in aws-cdk-lib...",
-        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2084)",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2140)",
         "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
         "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
         "...node internals, tsx..."
@@ -182,7 +212,7 @@
       "type": "aws:cdk:creationStack",
       "data": [
         "...new DatabaseCluster2 in aws-cdk-lib...",
-        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2159)",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2215)",
         "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
         "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
         "...node internals, tsx..."
@@ -198,7 +228,7 @@
       "type": "aws:cdk:creationStack",
       "data": [
         "...new SecurityGroup2 in aws-cdk-lib...",
-        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2595)",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2651)",
         "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
         "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
         "...node internals, tsx..."
@@ -214,7 +244,7 @@
       "type": "aws:cdk:creationStack",
       "data": [
         "...new Queue2 in aws-cdk-lib...",
-        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2797)",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2853)",
         "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
         "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
         "...node internals, tsx..."
@@ -230,7 +260,7 @@
       "type": "aws:cdk:creationStack",
       "data": [
         "...new Queue2 in aws-cdk-lib...",
-        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2655)",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2711)",
         "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
         "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
         "...node internals, tsx..."
@@ -246,7 +276,7 @@
       "type": "aws:cdk:creationStack",
       "data": [
         "...new UserPool2 in aws-cdk-lib...",
-        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2909)",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2965)",
         "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
         "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
         "...node internals, tsx..."
@@ -262,7 +292,7 @@
       "type": "aws:cdk:creationStack",
       "data": [
         "...new Cluster2 in aws-cdk-lib...",
-        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:3296)",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:3352)",
         "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
         "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
         "...node internals, tsx..."
@@ -278,7 +308,7 @@
       "type": "aws:cdk:creationStack",
       "data": [
         "...new ApplicationLoadBalancedFargateService2 in aws-cdk-lib...",
-        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:3385)",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:3441)",
         "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
         "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
         "...node internals, tsx..."
@@ -294,7 +324,7 @@
       "type": "aws:cdk:creationStack",
       "data": [
         "...new ApplicationLoadBalancedFargateService2 in aws-cdk-lib...",
-        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:3385)",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:3441)",
         "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
         "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
         "...node internals, tsx..."
@@ -314,7 +344,7 @@
         "new FargateService2 (C:\\Users\\colem\\source\\fusionpulse\\node_modules\\aws-cdk-lib\\core\\lib\\prop-injectable.js:1:855)",
         "new ApplicationLoadBalancedFargateService2 (C:\\Users\\colem\\source\\fusionpulse\\node_modules\\aws-cdk-lib\\aws-ecs-patterns\\lib\\fargate\\application-load-balanced-fargate-service.js:1:7416)",
         "new ApplicationLoadBalancedFargateService2 (C:\\Users\\colem\\source\\fusionpulse\\node_modules\\aws-cdk-lib\\core\\lib\\prop-injectable.js:1:855)",
-        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:3385)",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:3441)",
         "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:1053",
         "Object.<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
         "Module._compile (node:internal/modules/cjs/loader:1692:14)",
@@ -342,7 +372,7 @@
         "new FargateService2 (C:\\Users\\colem\\source\\fusionpulse\\node_modules\\aws-cdk-lib\\core\\lib\\prop-injectable.js:1:855)",
         "new ApplicationLoadBalancedFargateService2 (C:\\Users\\colem\\source\\fusionpulse\\node_modules\\aws-cdk-lib\\aws-ecs-patterns\\lib\\fargate\\application-load-balanced-fargate-service.js:1:7416)",
         "new ApplicationLoadBalancedFargateService2 (C:\\Users\\colem\\source\\fusionpulse\\node_modules\\aws-cdk-lib\\core\\lib\\prop-injectable.js:1:855)",
-        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:3385)",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:3441)",
         "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:1053",
         "Object.<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
         "Module._compile (node:internal/modules/cjs/loader:1692:14)",
@@ -368,7 +398,7 @@
       "type": "aws:cdk:creationStack",
       "data": [
         "...new Bucket2 in aws-cdk-lib...",
-        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:4476)",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:6878)",
         "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
         "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
         "...node internals, tsx..."
@@ -384,7 +414,119 @@
       "type": "aws:cdk:creationStack",
       "data": [
         "...new Distribution2 in aws-cdk-lib...",
-        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:4664)",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:7066)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
+        "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
+        "...node internals, tsx..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/ColeFusionZone/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ColeFusionZone111D0E48"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new PublicHostedZone2 in aws-cdk-lib...",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:7394)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
+        "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
+        "...node internals, tsx..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/RootRecord/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "RootRecord6E93F00C"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new CnameRecord2 in aws-cdk-lib...",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:7474)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
+        "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
+        "...node internals, tsx..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/AppRecord/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AppRecordD9BF1812"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new CnameRecord2 in aws-cdk-lib...",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:7650)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
+        "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
+        "...node internals, tsx..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/ApiRecord/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApiRecord15755A12"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new CnameRecord2 in aws-cdk-lib...",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:7829)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
+        "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
+        "...node internals, tsx..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/MxRecord/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "MxRecord3409E8C8"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new MxRecord2 in aws-cdk-lib...",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:8016)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
+        "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
+        "...node internals, tsx..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/SpfRecord/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "SpfRecord65BABC0A"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new TxtRecord2 in aws-cdk-lib...",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:8194)",
+        "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
+        "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
+        "...node internals, tsx..."
+      ]
+    }
+  ],
+  "/FusionPulseStack/ZohoVerification/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ZohoVerification71488E9C"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new TxtRecord2 in aws-cdk-lib...",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:8296)",
         "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
         "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
         "...node internals, tsx..."
@@ -457,7 +599,7 @@
         "...C:\\Users\\colem\\source\\fusionpulse\\node_modules\\aws-cdk-lib\\aws-ec2\\lib\\vpc.js:1:208 in aws-cdk-lib...",
         "Array.forEach (:)",
         "...new Vpc2 in aws-cdk-lib...",
-        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2084)",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2140)",
         "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
         "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
         "...node internals..."
@@ -473,7 +615,7 @@
       "type": "aws:cdk:creationStack",
       "data": [
         "...new Vpc2 in aws-cdk-lib...",
-        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2084)",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2140)",
         "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
         "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
         "...node internals..."
@@ -489,7 +631,7 @@
       "type": "aws:cdk:creationStack",
       "data": [
         "...new Vpc2 in aws-cdk-lib...",
-        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2084)",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2140)",
         "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
         "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
         "...node internals..."
@@ -549,7 +691,7 @@
         "...C:\\Users\\colem\\source\\fusionpulse\\node_modules\\aws-cdk-lib\\aws-ec2\\lib\\vpc.js:1:208 in aws-cdk-lib...",
         "Array.forEach (:)",
         "...new Vpc2 in aws-cdk-lib...",
-        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2084)",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2140)",
         "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
         "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
         "...node internals..."
@@ -607,7 +749,7 @@
       "type": "aws:cdk:creationStack",
       "data": [
         "...new Vpc2 in aws-cdk-lib...",
-        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2084)",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2140)",
         "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
         "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)"
       ]
@@ -664,7 +806,7 @@
       "type": "aws:cdk:creationStack",
       "data": [
         "...new Vpc2 in aws-cdk-lib...",
-        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2084)",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2140)",
         "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
         "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)"
       ]
@@ -679,7 +821,7 @@
       "type": "aws:cdk:creationStack",
       "data": [
         "...new DatabaseCluster2 in aws-cdk-lib...",
-        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2159)",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2215)",
         "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
         "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
         "...node internals, tsx..."
@@ -695,7 +837,7 @@
       "type": "aws:cdk:creationStack",
       "data": [
         "...new DatabaseCluster2 in aws-cdk-lib...",
-        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2159)",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2215)",
         "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
         "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
         "...node internals..."
@@ -711,7 +853,7 @@
       "type": "aws:cdk:creationStack",
       "data": [
         "...new DatabaseCluster2 in aws-cdk-lib...",
-        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2159)",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2215)",
         "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)"
       ]
     }
@@ -725,7 +867,7 @@
       "type": "aws:cdk:creationStack",
       "data": [
         "...new DatabaseCluster2 in aws-cdk-lib...",
-        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2159)",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2215)",
         "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
         "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
         "...node internals..."
@@ -743,7 +885,7 @@
         "...C:\\Users\\colem\\source\\fusionpulse\\node_modules\\aws-cdk-lib\\aws-rds\\lib\\cluster.js:1:175 in aws-cdk-lib...",
         "Array.forEach (:)",
         "...new DatabaseCluster2 in aws-cdk-lib...",
-        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2159)",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2215)",
         "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)"
       ]
     }
@@ -757,7 +899,7 @@
       "type": "aws:cdk:creationStack",
       "data": [
         "...WrappedClass.addClient in aws-cdk-lib...",
-        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:3144)",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:3200)",
         "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
         "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
         "...node internals, tsx..."
@@ -773,7 +915,7 @@
       "type": "aws:cdk:creationStack",
       "data": [
         "...new ApplicationLoadBalancedFargateService2 in aws-cdk-lib...",
-        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:3385)",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:3441)",
         "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
         "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
         "...node internals..."
@@ -789,7 +931,7 @@
       "type": "aws:cdk:creationStack",
       "data": [
         "...new ApplicationLoadBalancedFargateService2 in aws-cdk-lib...",
-        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:3385)",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:3441)",
         "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
         "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
         "...node internals..."
@@ -805,7 +947,7 @@
       "type": "aws:cdk:creationStack",
       "data": [
         "...new ApplicationLoadBalancedFargateService2 in aws-cdk-lib...",
-        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:3385)",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:3441)",
         "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
         "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
         "...node internals..."
@@ -834,7 +976,7 @@
       "type": "aws:cdk:creationStack",
       "data": [
         "...new DatabaseCluster2 in aws-cdk-lib...",
-        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2159)",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:2215)",
         "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
         "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
         "...node internals, tsx..."
@@ -850,7 +992,7 @@
       "type": "aws:cdk:creationStack",
       "data": [
         "...new ApplicationLoadBalancedFargateService2 in aws-cdk-lib...",
-        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:3385)",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:3441)",
         "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)"
       ]
     }
@@ -890,7 +1032,7 @@
       "type": "aws:cdk:creationStack",
       "data": [
         "...new ApplicationLoadBalancedFargateService2 in aws-cdk-lib...",
-        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:3385)",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:3441)",
         "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)"
       ]
     }
@@ -917,7 +1059,7 @@
       "type": "aws:cdk:creationStack",
       "data": [
         "...new ApplicationLoadBalancedFargateService2 in aws-cdk-lib...",
-        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:3385)",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:3441)",
         "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)"
       ]
     }
@@ -944,7 +1086,7 @@
       "type": "aws:cdk:creationStack",
       "data": [
         "...new Distribution2 in aws-cdk-lib...",
-        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:4664)",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:7066)",
         "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)"
       ]
     }
@@ -958,7 +1100,7 @@
       "type": "aws:cdk:creationStack",
       "data": [
         "...new ApplicationLoadBalancedFargateService2 in aws-cdk-lib...",
-        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:3385)"
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:3441)"
       ]
     }
   ],
@@ -971,7 +1113,7 @@
       "type": "aws:cdk:creationStack",
       "data": [
         "...WrappedClass.<anonymous> in aws-cdk-lib...",
-        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:4345)",
+        "new FusionPulseStack (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\stacks\\fusionpulse-stack.ts:2:6556)",
         "C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:10 (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:3:105)",
         "<anonymous> (C:\\Users\\colem\\source\\fusionpulse\\infra\\lib\\app.ts:4:3)",
         "...node internals, tsx..."
