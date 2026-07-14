@@ -13,7 +13,7 @@ export function warmUpSesClient(): void {
 }
 
 const CONTACT_FROM = process.env.CONTACT_FROM_EMAIL || 'contact@colefusion.com';
-const CONTACT_TO = process.env.CONTACT_TO_EMAIL || 'hello@colefusion.com';
+const CONTACT_TO = process.env.CONTACT_TO_EMAIL || 'cole@colefusion.com';
 
 export interface ContactSubmission {
   name: string;
