@@ -65,17 +65,32 @@ Available actions:
 - assertElementExists: Assert element exists. Use "target".
 - scrollToElement: Scroll to element. Use "target".
 
-Prefer data-testid, id, or name attributes over tag names.`;
+Prefer data-testid, id, or name attributes over tag names.
+
+CRITICAL — You MUST include verification steps after every action that changes state:
+1. Form interactions: After typing into a form, ALWAYS include steps to submit and then assertElementExists or assertText for success indicators AND for error message containers (ensure they are absent). If the description implies testing validation, also submit empty/invalid data first and assert error messages appear.
+2. Navigation: After every click or navigate, always assertText or assertElementExists to confirm the expected page loaded.
+3. Data display: For tables, lists, or dynamic content, assertElementExists on expected data elements and assertText on key values.
+4. Error handling: Always check that error message containers (e.g. .error, [role="alert"], .text-red-*, .validation-error) are absent after successful operations.
+5. Final state: Always take a screenshot at the end.`;
 
 export async function generateTestSteps(tenantId: string, request: {
   prompt: string;
   context?: string;
   suiteId?: string;
 }): Promise<{ steps: TestStep[]; suggestedName: string; suggestedDescription: string }> {
-  const userMessage = `Generate E2E test steps:
+  const userMessage = `Generate E2E test steps with thorough verifications:
 
 Description: ${request.prompt}
 ${request.context ? `Context: ${request.context}` : ''}
+
+For every step that changes state (form submission, navigation, click), add a verification step afterward:
+- After form submission: assert no error messages visible, assert success message or page transition appeared
+- After navigation: assert the expected page loaded (check heading, URL, or key element)
+- For data entry: attempt invalid/empty values first and assert validation errors appear, then use valid values and assert success
+- For lists/tables: assert data appears, assert empty state handles correctly
+- For toggles/buttons: assert the resulting state change (class toggled, content shown/hidden)
+- Always end with a screenshot to capture the final state
 
 Respond with ONLY the JSON object.`;
 
