@@ -11,6 +11,7 @@
     "dev": "turbo run dev",
     "build": "turbo run build",
     "lint": "turbo run lint",
+    "test": "turbo run test",
     "typecheck": "turbo run typecheck",
     "db:generate": "npm run db:generate --workspace=@fusionpulse/api",
     "db:migrate": "npm run db:migrate --workspace=@fusionpulse/api",
