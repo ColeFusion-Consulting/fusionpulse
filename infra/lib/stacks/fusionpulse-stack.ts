@@ -12,6 +12,7 @@ import * as cognito from 'aws-cdk-lib/aws-cognito';
 import * as acm from 'aws-cdk-lib/aws-certificatemanager';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as secretsmanager from 'aws-cdk-lib/aws-secretsmanager';
+import * as route53 from 'aws-cdk-lib/aws-route53';
 import { Construct } from 'constructs';
 
 export class FusionPulseStack extends cdk.Stack {
@@ -198,6 +199,60 @@ export class FusionPulseStack extends cdk.Stack {
       ],
     });
 
+    // ─── Route 53 hosted zone for colefusion.com ──────────
+    const hostedZone = new route53.PublicHostedZone(this, 'ColeFusionZone', {
+      zoneName: 'colefusion.com',
+    });
+
+    // ─── Temporary CNAME records for existing infra ──────────
+    // Once ACM certificates are issued for *.colefusion.com (follow-up),
+    // swap these for Alias A records + add domainNames to CloudFront.
+    // fusionpulse.colefusion.com → CloudFront
+    new route53.CnameRecord(this, 'RootRecord', {
+      zone: hostedZone,
+      recordName: 'fusionpulse.colefusion.com',
+      domainName: distribution.distributionDomainName,
+      ttl: cdk.Duration.minutes(5),
+    });
+
+    // app.fusionpulse.colefusion.com → same CloudFront
+    new route53.CnameRecord(this, 'AppRecord', {
+      zone: hostedZone,
+      recordName: 'app.fusionpulse.colefusion.com',
+      domainName: distribution.distributionDomainName,
+      ttl: cdk.Duration.minutes(5),
+    });
+
+    // api.fusionpulse.colefusion.com → ALB
+    new route53.CnameRecord(this, 'ApiRecord', {
+      zone: hostedZone,
+      recordName: 'api.fusionpulse.colefusion.com',
+      domainName: apiService.loadBalancer.loadBalancerDnsName,
+      ttl: cdk.Duration.minutes(5),
+    });
+
+    // ─── Email records (Zoho Mail — mirrors colefusion.net) ──
+    new route53.MxRecord(this, 'MxRecord', {
+      zone: hostedZone,
+      values: [
+        { priority: 10, hostName: 'mx.zoho.com' },
+        { priority: 20, hostName: 'mx2.zoho.com' },
+        { priority: 50, hostName: 'mx3.zoho.com' },
+      ],
+    });
+
+    new route53.TxtRecord(this, 'SpfRecord', {
+      zone: hostedZone,
+      values: ['v=spf1 include:zohomail.com ~all'],
+    });
+
+    // Zoho domain verification
+    new route53.TxtRecord(this, 'ZohoVerification', {
+      zone: hostedZone,
+      recordName: 'colefusion.com',
+      values: ['zoho-verification=zb77341378.zmverify.zoho.com'],
+    });
+
     // ─── Outputs ──────────────────────────────────────────
     new cdk.CfnOutput(this, 'ApiUrl', { value: apiService.loadBalancer.loadBalancerDnsName });
     new cdk.CfnOutput(this, 'FrontendUrl', { value: distribution.distributionDomainName });
@@ -205,5 +260,9 @@ export class FusionPulseStack extends cdk.Stack {
     new cdk.CfnOutput(this, 'UserPoolClientId', { value: userPoolClient.userPoolClientId });
     new cdk.CfnOutput(this, 'QueueUrl', { value: testQueue.queueUrl });
     new cdk.CfnOutput(this, 'DatabaseEndpoint', { value: database.clusterEndpoint.hostname });
+    new cdk.CfnOutput(this, 'HostedZoneId', { value: hostedZone.hostedZoneId });
+    new cdk.CfnOutput(this, 'NameServers', {
+      value: cdk.Fn.join(', ', hostedZone.hostedZoneNameServers!),
+    });
   }
 }
