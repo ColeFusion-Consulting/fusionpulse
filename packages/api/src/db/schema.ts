@@ -20,6 +20,7 @@ export const tenants = pgTable('tenants', {
   repoOwner: text('repo_owner'),
   repoName: text('repo_name'),
   settings: jsonb('settings').default({}).$type<Record<string, unknown>>(),
+  featureOverrides: jsonb('feature_overrides').default({}).$type<Record<string, number>>(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });

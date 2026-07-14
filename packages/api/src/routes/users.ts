@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { z } from 'zod';
 import { validate } from '../middleware/validate.js';
 import { requireUserType } from '../middleware/auth.js';
+import { requireFeature } from '../services/feature-enforcement.service.js';
 import { db } from '../db/client.js';
 import { users } from '../db/schema.js';
 import { eq } from 'drizzle-orm';
@@ -25,7 +26,7 @@ const inviteSchema = z.object({
   role: z.enum(['admin', 'member']).default('member'),
 });
 
-usersRouter.post('/invite', validate(inviteSchema), async (req, res) => {
+usersRouter.post('/invite', requireFeature('users'), validate(inviteSchema), async (req, res) => {
   const { email, name, role } = req.body;
   const userId = randomUUID();
   await db.insert(users).values({

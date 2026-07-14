@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { z } from 'zod';
 import { validate } from '../middleware/validate.js';
+import { requireFeature } from '../services/feature-enforcement.service.js';
 import * as aiService from '../services/ai.service.js';
 
 export const aiRouter = Router();
@@ -23,7 +24,7 @@ const analyzeSchema = z.object({
   testSteps: z.array(z.any()),
 });
 
-aiRouter.post('/generate', validate(generateSchema), async (req, res) => {
+aiRouter.post('/generate', requireFeature('aiGenerationsPerMonth'), validate(generateSchema), async (req, res) => {
   try {
     const result = await aiService.generateTestSteps(req.user!.tenantId, req.body);
     res.json({ success: true, data: result });
