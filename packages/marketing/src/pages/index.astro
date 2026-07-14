@@ -139,13 +139,12 @@ const testimonials = [
         </div>
 
         <div class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <a
-            href={`${APP_URL}/signup`}
-            class="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-fusion px-6 py-3 text-sm font-semibold text-zinc-950 shadow-lg shadow-fuchsia-500/20 transition-transform hover:scale-[1.03] sm:w-auto"
+          <span
+            class="inline-flex w-full cursor-not-allowed items-center justify-center gap-2 rounded-full border border-zinc-700 px-6 py-3 text-sm font-semibold text-zinc-500 sm:w-auto"
+            title="Self-service signup coming soon"
           >
-            Get Started Free
-            <Icon name="arrow-right" size={16} strokeWidth={2.25} />
-          </a>
+            Get Started Free — Coming Soon
+          </span>
           <a
             href="/pricing"
             class="inline-flex w-full items-center justify-center gap-2 rounded-full border border-zinc-700 px-6 py-3 text-sm font-semibold text-zinc-200 transition-colors hover:border-zinc-500 hover:bg-zinc-900 sm:w-auto"
@@ -313,9 +312,9 @@ const testimonials = [
         <Icon name="star" size={14} />
         <span>Early Access</span>
       </div>
-      <h2 class="mt-4 text-3xl font-semibold text-white sm:text-4xl">Get early access to new features</h2>
+      <h2 class="mt-4 text-3xl font-semibold text-white sm:text-4xl">Get early access</h2>
       <p class="mx-auto mt-4 max-w-md text-zinc-400">
-        Be the first to try AI auto-heal, advanced test plans, and upcoming integrations. Join the early access list.
+        Self-service signup is coming soon. Join the early access list and we'll notify you the moment it's ready.
       </p>
       <form id="early-access-form" class="mx-auto mt-8 flex max-w-md gap-3">
         <input
@@ -341,17 +340,11 @@ const testimonials = [
       <p class="mt-4 text-zinc-400">Free forever for small projects. Upgrade when you need faster monitoring and AI auto-heal.</p>
       <div class="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
         <a
-          href={`${APP_URL}/signup`}
+          href="/contact"
           class="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-fusion px-6 py-3 text-sm font-semibold text-zinc-950 shadow-lg shadow-fuchsia-500/20 transition-transform hover:scale-[1.03] sm:w-auto"
         >
-          Get Started Free
+          Contact Us for Early Access
           <Icon name="arrow-right" size={16} strokeWidth={2.25} />
-        </a>
-        <a
-          href="/contact"
-          class="inline-flex w-full items-center justify-center gap-2 rounded-full border border-zinc-700 px-6 py-3 text-sm font-semibold text-zinc-200 transition-colors hover:border-zinc-500 hover:bg-zinc-900 sm:w-auto"
-        >
-          Talk to Us
         </a>
       </div>
     </div>
