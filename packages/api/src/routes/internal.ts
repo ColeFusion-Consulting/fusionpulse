@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { internalAuth } from '../middleware/internal-auth.js';
+import { checkLimit } from '../services/feature-enforcement.service.js';
 import { recordRun } from '../services/test.service.js';
 
 export const internalRouter = Router();
@@ -15,6 +16,11 @@ internalRouter.post('/test-runs', async (req, res) => {
   }
 
   try {
+    const limitCheck = await checkLimit(tenantId, 'testRunsPerMonth');
+    if (!limitCheck.allowed) {
+      res.status(403).json({ success: false, error: `Plan limit reached: ${limitCheck.current}/${limitCheck.limit} testRunsPerMonth. Upgrade your plan or contact support to increase limits.`, data: limitCheck });
+      return;
+    }
     await recordRun({
       id: runId,
       tenantId,

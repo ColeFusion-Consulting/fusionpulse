@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { z } from 'zod';
 import { validate } from '../middleware/validate.js';
+import { requireFeature } from '../services/feature-enforcement.service.js';
 import * as testService from '../services/test.service.js';
 
 export const testsRouter = Router();
@@ -56,7 +57,7 @@ testsRouter.get('/cases/:id', async (req, res) => {
   res.json({ success: true, data: tc });
 });
 
-testsRouter.post('/cases', validate(createCaseSchema), async (req, res) => {
+testsRouter.post('/cases', requireFeature('testCases'), validate(createCaseSchema), async (req, res) => {
   const tc = await testService.createCase(req.user!.tenantId, req.body);
   res.status(201).json({ success: true, data: tc });
 });

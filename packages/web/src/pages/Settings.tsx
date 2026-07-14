@@ -15,7 +15,7 @@ export default function Settings() {
   const api = useApi();
   const { user } = useAuth();
   const isRoot = user?.userType === 'root';
-  const [tab, setTab] = useState<'profile' | 'users' | 'api-keys'>(isRoot ? 'users' : 'profile');
+  const [tab, setTab] = useState<'profile' | 'users' | 'api-keys' | 'limits'>(isRoot ? 'users' : 'profile');
 
   return (
     <div>
@@ -25,11 +25,13 @@ export default function Settings() {
         <button onClick={() => setTab('profile')} className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${tab === 'profile' ? 'bg-brand-600 text-white' : 'text-gray-400 hover:text-gray-200'}`}>Profile</button>
         <button onClick={() => setTab('users')} className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${tab === 'users' ? 'bg-brand-600 text-white' : 'text-gray-400 hover:text-gray-200'}`}>Users</button>
         <button onClick={() => setTab('api-keys')} className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${tab === 'api-keys' ? 'bg-brand-600 text-white' : 'text-gray-400 hover:text-gray-200'}`}>API Keys</button>
+        {isRoot && <button onClick={() => setTab('limits')} className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${tab === 'limits' ? 'bg-brand-600 text-white' : 'text-gray-400 hover:text-gray-200'}`}>Limits</button>}
       </div>
 
       {tab === 'profile' && <ProfileSection api={api} />}
       {tab === 'users' && <UsersSection api={api} isRoot={isRoot} currentUserId={user?.id || ''} />}
       {tab === 'api-keys' && <ApiKeysSection />}
+      {tab === 'limits' && <LimitsSection api={api} />}
     </div>
   );
 }
@@ -300,6 +302,81 @@ function CreateKeyModal({ api, onClose, onCreated }: { api: ReturnType<typeof us
           </div>
         </form>
       </div>
+    </div>
+  );
+}
+
+interface FeatureLimitRow { key: string; label: string; limit: number; }
+
+function LimitsSection({ api }: { api: ReturnType<typeof useApi> }) {
+  const [plan, setPlan] = useState<string>('free');
+  const [limits, setLimits] = useState<FeatureLimitRow[]>([]);
+  const [overrides, setOverrides] = useState<Record<string, number>>({});
+  const [saving, setSaving] = useState(false);
+  const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    (async () => {
+      const res = await api.get('/api/admin/tenants') as any;
+      if (res?.data?.[0]) {
+        setPlan(res.data[0].plan || 'free');
+        const existingOverrides = (res.data[0].settings as any)?.featureOverrides || {};
+        setOverrides(existingOverrides);
+      }
+      const limitsRes = await api.get('/api/admin/tenants/0/limits') as any;
+      if (limitsRes?.data) {
+        const rows: FeatureLimitRow[] = Object.entries(limitsRes.data)
+          .filter(([k]) => !k.endsWith('Seconds') && k !== 'monitoredSites')
+          .map(([key, value]) => ({ key, label: key.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase()), limit: value as number }));
+        setLimits(rows);
+      }
+    })();
+  }, []);
+
+  async function save() {
+    setSaving(true);
+    setMessage('');
+    try {
+      const res = await api.put('/api/admin/tenants/0/overrides', { overrides }) as any;
+      if (res?.success) setMessage('Limits updated successfully');
+      else setMessage('Failed to update limits');
+    } catch { setMessage('Error saving limits'); }
+    setSaving(false);
+  }
+
+  return (
+    <div className="bg-gray-900 rounded-xl border border-gray-800 p-6 max-w-2xl">
+      <h2 className="text-lg font-semibold mb-1">Feature Limits</h2>
+      <p className="text-sm text-gray-400 mb-4">Current plan: <span className="text-brand-400 font-medium capitalize">{plan}</span></p>
+      <table className="w-full text-sm">
+        <thead>
+          <tr className="text-gray-400 border-b border-gray-800">
+            <th className="text-left py-2 pr-4">Feature</th>
+            <th className="text-right py-2 pr-4">Plan Limit</th>
+            <th className="text-right py-2">Override</th>
+          </tr>
+        </thead>
+        <tbody>
+          {limits.map((row) => (
+            <tr key={row.key} className="border-b border-gray-800/50">
+              <td className="py-2 pr-4 text-gray-200">{row.label}</td>
+              <td className="py-2 pr-4 text-right text-gray-400">{row.limit}</td>
+              <td className="py-2 text-right">
+                <input type="number" value={overrides[row.key] ?? ''} placeholder={String(row.limit)}
+                  onChange={(e) => setOverrides({ ...overrides, [row.key]: parseInt(e.target.value) || 0 })}
+                  className="w-24 bg-gray-800 border border-gray-700 rounded px-2 py-1 text-white text-right" />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <div className="flex items-center gap-4 mt-6">
+        <button onClick={save} disabled={saving} className="bg-brand-600 hover:bg-brand-700 disabled:opacity-50 text-white px-4 py-2 rounded-lg text-sm font-medium">
+          {saving ? 'Saving...' : 'Save Overrides'}
+        </button>
+        {message && <span className="text-sm text-gray-300">{message}</span>}
+      </div>
+      <p className="text-xs text-gray-500 mt-4">Leave blank to use plan default. Root users only. Changes take effect immediately.</p>
     </div>
   );
 }

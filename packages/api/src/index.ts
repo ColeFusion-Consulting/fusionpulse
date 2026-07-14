@@ -16,6 +16,7 @@ import { billingRouter, handleStripeWebhook } from './routes/billing.js';
 import { usersRouter } from './routes/users.js';
 import { apiKeysRouter } from './routes/api-keys.js';
 import { testPlanRouter } from './routes/test-plans.js';
+import { adminRouter } from './routes/admin.js';
 import { auditRouter } from './routes/audit.js';
 import { statusPageRouter } from './routes/statuspage.js';
 import { contactRouter } from './routes/contact.js';
@@ -97,6 +98,7 @@ app.use('/api/users', authenticate, usersRouter);
 app.use('/api/keys', authenticate, apiKeysRouter);
 app.use('/api/test-plans', authenticate, testPlanRouter);
 app.use('/api/audit', authenticate, auditRouter);
+app.use('/api/admin', authenticate, adminRouter);
 
 // ─── Error handler ──────────────────────────────────────────
 app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
