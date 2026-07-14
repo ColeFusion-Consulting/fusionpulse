@@ -12,7 +12,7 @@ export function warmUpSesClient(): void {
   });
 }
 
-const CONTACT_FROM = process.env.CONTACT_FROM_EMAIL || 'contact@colefusion.net';
+const CONTACT_FROM = process.env.CONTACT_FROM_EMAIL || 'contact@colefusion.com';
 const CONTACT_TO = process.env.CONTACT_TO_EMAIL || 'colemcmannus@gmail.com';
 
 export interface ContactSubmission {
@@ -33,7 +33,7 @@ export async function sendContactEmail(submission: ContactSubmission): Promise<v
   const reasonLabel = REASON_LABELS[submission.reason] || submission.reason;
 
   const textBody = [
-    `New contact form submission from fusionpulse.colefusion.net`,
+    `New contact form submission from fusionpulse.colefusion.com`,
     ``,
     `Name: ${submission.name}`,
     `Email: ${submission.email}`,

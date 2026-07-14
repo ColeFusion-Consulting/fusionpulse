@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useEffect, useCallback, type React
 import * as SecureStore from 'expo-secure-store';
 import { createApiClient } from '@fusionpulse/api-client';
 
-const API_URL = 'https://app.fusionpulse.colefusion.net/api';
+const API_URL = 'https://app.fusionpulse.colefusion.com/api';
 
 interface AuthUser {
   id: string;
