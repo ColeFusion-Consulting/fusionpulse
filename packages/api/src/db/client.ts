@@ -16,7 +16,7 @@ pool.on('error', (err) => {
 export const db = drizzle(pool, { schema });
 
 export async function setTenantContext(tenantId: string) {
-  await pool.query(`SET app.tenant_id = '${tenantId}'`);
+  await pool.query('SET app.tenant_id = $1', [tenantId]);
 }
 
 export async function closePool() {

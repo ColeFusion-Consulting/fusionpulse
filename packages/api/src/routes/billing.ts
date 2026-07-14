@@ -1,4 +1,4 @@
-import { Router, raw } from 'express';
+import { Router, raw, Request, Response } from 'express';
 import { z } from 'zod';
 import { validate } from '../middleware/validate.js';
 import * as billingService from '../services/billing.service.js';
@@ -12,6 +12,36 @@ function getStripe(): Stripe {
     _stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2026-06-24.dahlia' });
   }
   return _stripe!;
+}
+
+// ─── Stripe webhook handler (exported for index.ts to mount without auth) ──
+
+export async function handleStripeWebhook(req: Request, res: Response) {
+  const sig = req.headers['stripe-signature'];
+  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
+  if (!webhookSecret) {
+    console.warn('STRIPE_WEBHOOK_SECRET not set, skipping webhook verification');
+    res.json({ received: true });
+    return;
+  }
+
+  let event: Stripe.Event;
+  try {
+    event = getStripe().webhooks.constructEvent(req.body, sig!, webhookSecret);
+  } catch (err: any) {
+    console.error(`Webhook signature verification failed: ${err.message}`);
+    res.status(400).json({ error: 'Invalid signature' });
+    return;
+  }
+
+  try {
+    await billingService.handleWebhook(event);
+    res.json({ received: true });
+  } catch (err: any) {
+    console.error('Webhook handler error:', err);
+    res.status(500).json({ error: 'Webhook handler failed' });
+  }
 }
 
 // ─── Get current plan + usage ──────────────────────────────
@@ -85,36 +115,6 @@ billingRouter.post('/portal', validate(portalSchema), async (req, res) => {
     res.json({ success: true, data: { url } });
   } catch (err: any) {
     res.status(400).json({ success: false, error: err.message });
-  }
-});
-
-// ─── Stripe webhook (raw body required) ────────────────────
-
-billingRouter.post('/webhook', raw({ type: 'application/json' }), async (req, res) => {
-  const sig = req.headers['stripe-signature'];
-  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
-
-  if (!webhookSecret) {
-    console.warn('STRIPE_WEBHOOK_SECRET not set, skipping webhook verification');
-    res.json({ received: true });
-    return;
-  }
-
-  let event: Stripe.Event;
-  try {
-    event = getStripe().webhooks.constructEvent(req.body, sig!, webhookSecret);
-  } catch (err: any) {
-    console.error(`Webhook signature verification failed: ${err.message}`);
-    res.status(400).json({ error: 'Invalid signature' });
-    return;
-  }
-
-  try {
-    await billingService.handleWebhook(event);
-    res.json({ received: true });
-  } catch (err: any) {
-    console.error('Webhook handler error:', err);
-    res.status(500).json({ error: 'Webhook handler failed' });
   }
 });
 

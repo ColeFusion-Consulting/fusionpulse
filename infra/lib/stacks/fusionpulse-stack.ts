@@ -95,10 +95,37 @@ export class FusionPulseStack extends cdk.Stack {
           AWS_REGION: this.region,
           CONTACT_FROM_EMAIL: 'contact@colefusion.net',
           CONTACT_TO_EMAIL: 'colemcmannus@gmail.com',
+          REDIS_URL: 'redis://localhost:6379',
+          SQS_QUEUE_URL: testQueue.queueUrl,
+          COGNITO_USER_POOL_ID: userPool.userPoolId,
+          COGNITO_CLIENT_ID: userPoolClient.userPoolClientId,
+          LOG_LEVEL: 'info',
         },
         secrets: {
           JWT_SECRET: ecs.Secret.fromSecretsManager(
             secretsmanager.Secret.fromSecretNameV2(this, 'JwtSecret', 'fusionpulse/jwt-secret')
+          ),
+          // TODO: Create and reference actual Secrets Manager secrets for these values
+          OPENAI_API_KEY: ecs.Secret.fromSecretsManager(
+            secretsmanager.Secret.fromSecretNameV2(this, 'OpenAiApiKey', 'fusionpulse/openai-api-key')
+          ),
+          INTERNAL_API_KEY: ecs.Secret.fromSecretsManager(
+            secretsmanager.Secret.fromSecretNameV2(this, 'InternalApiKey', 'fusionpulse/internal-api-key')
+          ),
+          STRIPE_SECRET_KEY: ecs.Secret.fromSecretsManager(
+            secretsmanager.Secret.fromSecretNameV2(this, 'StripeSecretKey', 'fusionpulse/stripe-secret-key')
+          ),
+          STRIPE_WEBHOOK_SECRET: ecs.Secret.fromSecretsManager(
+            secretsmanager.Secret.fromSecretNameV2(this, 'StripeWebhookSecret', 'fusionpulse/stripe-webhook-secret')
+          ),
+          STRIPE_STARTER_PRICE_ID: ecs.Secret.fromSecretsManager(
+            secretsmanager.Secret.fromSecretNameV2(this, 'StripeStarterPriceId', 'fusionpulse/stripe-starter-price-id')
+          ),
+          STRIPE_PRO_PRICE_ID: ecs.Secret.fromSecretsManager(
+            secretsmanager.Secret.fromSecretNameV2(this, 'StripeProPriceId', 'fusionpulse/stripe-pro-price-id')
+          ),
+          STRIPE_BUSINESS_PRICE_ID: ecs.Secret.fromSecretsManager(
+            secretsmanager.Secret.fromSecretNameV2(this, 'StripeBusinessPriceId', 'fusionpulse/stripe-business-price-id')
           ),
         },
       },
@@ -114,14 +141,29 @@ export class FusionPulseStack extends cdk.Stack {
       healthyHttpCodes: '200',
     });
 
-    // Grant execution role access to manually-created secrets
+    // Grant execution role access to secrets
     apiService.taskDefinition.executionRole?.addToPrincipalPolicy(
       new iam.PolicyStatement({
         actions: ['secretsmanager:GetSecretValue'],
         resources: [
           'arn:aws:secretsmanager:us-east-1:729988623719:secret:fusionpulse/jwt-secret-*',
           'arn:aws:secretsmanager:us-east-1:729988623719:secret:fusionpulse/db-password-*',
+          'arn:aws:secretsmanager:us-east-1:729988623719:secret:fusionpulse/openai-api-key-*',
+          'arn:aws:secretsmanager:us-east-1:729988623719:secret:fusionpulse/internal-api-key-*',
+          'arn:aws:secretsmanager:us-east-1:729988623719:secret:fusionpulse/stripe-secret-key-*',
+          'arn:aws:secretsmanager:us-east-1:729988623719:secret:fusionpulse/stripe-webhook-secret-*',
+          'arn:aws:secretsmanager:us-east-1:729988623719:secret:fusionpulse/stripe-starter-price-id-*',
+          'arn:aws:secretsmanager:us-east-1:729988623719:secret:fusionpulse/stripe-pro-price-id-*',
+          'arn:aws:secretsmanager:us-east-1:729988623719:secret:fusionpulse/stripe-business-price-id-*',
         ],
+      })
+    );
+
+    // Grant the API task role permission to poll SQS
+    apiService.taskDefinition.taskRole.addToPrincipalPolicy(
+      new iam.PolicyStatement({
+        actions: ['sqs:ReceiveMessage', 'sqs:DeleteMessage', 'sqs:GetQueueAttributes'],
+        resources: [testQueue.queueArn],
       })
     );
 
