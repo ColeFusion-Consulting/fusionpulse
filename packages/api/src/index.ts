@@ -38,7 +38,7 @@ app.use((req, res, next) => {
   next();
 });
 
-const ALLOWED_ORIGINS = (process.env.CORS_ORIGINS || 'http://localhost:3000,http://localhost:5173,https://app.fusionpulse.colefusion.com').split(',');
+const ALLOWED_ORIGINS = (process.env.CORS_ORIGINS || 'http://localhost:3000,http://localhost:5173,https://fusionpulse.colefusion.com,https://app.fusionpulse.colefusion.com,https://api.fusionpulse.colefusion.com').split(',');
 app.use(cors({ origin: ALLOWED_ORIGINS, credentials: true }));
 
 const authLimiter = rateLimit({
