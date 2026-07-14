@@ -92,7 +92,7 @@ jobs:
           sudo pct exec $CT -- bash -c "nginx -t && systemctl reload nginx"
 
           # Verify nginx config was actually updated (catches silent push failures)
-          sudo pct exec $CT -- grep -q "fusionpulse.colefusion.net" /etc/nginx/sites-available/fusionpulse || { echo "ERROR: nginx config not updated"; exit 1; }
+          sudo pct exec $CT -- grep -q "fusionpulse.colefusion.com" /etc/nginx/sites-available/fusionpulse || { echo "ERROR: nginx config not updated"; exit 1; }
 
           echo "Dev deployment complete"
 

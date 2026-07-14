@@ -94,7 +94,7 @@ export class FusionPulseStack extends cdk.Stack {
           NODE_ENV: 'production',
           DATABASE_URL: `postgresql://postgres:postgres@${database.clusterEndpoint.hostname}:5432/fusionpulse`,
           AWS_REGION: this.region,
-          CONTACT_FROM_EMAIL: 'contact@colefusion.net',
+          CONTACT_FROM_EMAIL: 'contact@colefusion.com',
           CONTACT_TO_EMAIL: 'colemcmannus@gmail.com',
           REDIS_URL: 'redis://localhost:6379',
           SQS_QUEUE_URL: testQueue.queueUrl,
@@ -231,7 +231,7 @@ export class FusionPulseStack extends cdk.Stack {
       ttl: cdk.Duration.minutes(5),
     });
 
-    // ─── Email records (Zoho Mail — mirrors colefusion.net) ──
+    // ─── Email records (Zoho Mail — mirrors colefusion.com) ──
     new route53.MxRecord(this, 'MxRecord', {
       zone: hostedZone,
       values: [

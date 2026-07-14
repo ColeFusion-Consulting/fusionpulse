@@ -319,7 +319,7 @@ async function sendEmail(addresses: string[], event: AlertEvent, emoji: string) 
   // import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses';
   // const ses = new SESClient({});
   // await ses.send(new SendEmailCommand({
-  //   Source: 'alerts@fusionpulse.colefusion.net',
+  //   Source: 'alerts@fusionpulse.colefusion.com',
   //   Destination: { ToAddresses: addresses },
   //   Message: {
   //     Subject: { Data: `${emoji} ${event.title}` },
@@ -439,7 +439,7 @@ async function sendSlack(webhookUrl: string, event: AlertEvent, emoji: string) {
           type: 'context',
           elements: [{
             type: 'mrkdwn',
-            text: `FusionPulse by ColeFusion | <https://dashboard.fusionpulse.colefusion.net|View Dashboard>`,
+            text: `FusionPulse by ColeFusion | <https://dashboard.fusionpulse.colefusion.com|View Dashboard>`,
           }],
         },
       ],

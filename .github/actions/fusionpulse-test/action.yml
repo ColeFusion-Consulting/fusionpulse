@@ -12,7 +12,7 @@ inputs:
   base-url:
     description: 'Base URL of your FusionPulse instance (default: cloud API)'
     required: false
-    default: 'https://api.fusionpulse.colefusion.net'
+    default: 'https://api.fusionpulse.colefusion.com'
   test-suite:
     description: 'Test suite name or ID to run (runs all enabled suites if empty)'
     required: false

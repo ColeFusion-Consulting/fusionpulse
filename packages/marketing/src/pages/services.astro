@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Icon from '../components/Icon.astro';
 
-const APP_URL = 'https://api.fusionpulse.colefusion.net';
+const APP_URL = 'https://api.fusionpulse.colefusion.com';
 ---
 
 <BaseLayout title="Services" description="FusionPulse Test, Monitor, API, and CLI — AI-powered testing and monitoring for every stage of your stack.">
@@ -108,7 +108,7 @@ const APP_URL = 'https://api.fusionpulse.colefusion.net';
       </div>
       <div class="card-glass rounded-2xl p-1">
         <div class="rounded-xl bg-zinc-950/60 p-6 font-mono text-xs leading-relaxed text-zinc-400">
-          <p><span class="text-fusion-violet">curl</span> https://app.fusionpulse.colefusion.net/api/tests \</p>
+          <p><span class="text-fusion-violet">curl</span> https://app.fusionpulse.colefusion.com/api/tests \</p>
           <p class="pl-8">-H <span class="text-zinc-200">"Authorization: Bearer $FP_API_KEY"</span> \</p>
           <p class="pl-8">-d <span class="text-zinc-200">'&#123;"prompt": "Test the login flow"&#125;'</span></p>
           <p class="mt-3 text-pulse">&#123; "status": "queued", "testId": "t_8fk2..." &#125;</p>
