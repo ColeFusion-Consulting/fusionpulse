@@ -2,6 +2,7 @@ import { db } from '../db/client.js';
 import { aiGenerations, type TestStep } from '../db/schema.js';
 
 const LLAMA_URL = process.env.LLAMA_URL || 'http://192.168.50.205:8080/v1/chat/completions';
+const ADAPTER_URL = process.env.ADAPTER_URL || 'http://192.168.50.10:3501/v1/chat/completions';
 const OPENAI_URL = 'https://api.openai.com/v1/chat/completions';
 const AI_MODEL = process.env.AI_MODEL || 'gpt-4o-mini';
 const OPENAI_KEY = process.env.OPENAI_API_KEY || '';
@@ -9,9 +10,27 @@ const OPENAI_KEY = process.env.OPENAI_API_KEY || '';
 interface ChatMessage {
   role: 'system' | 'user' | 'assistant';
   content: string;
+  adapter?: string;
 }
 
 export async function callAI(messages: ChatMessage[]): Promise<string> {
+  const adapter = messages.find(m => 'adapter' in m) as any;
+  const adapterName = adapter?.adapter;
+  if (adapterName) {
+    const cleanMessages = messages.map(({ adapter, ...rest }) => rest);
+    try {
+      const response = await fetch(ADAPTER_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ model: adapterName, messages: cleanMessages, temperature: 0.3, max_tokens: 2048 }),
+      });
+      if (response.ok) {
+        const data = await response.json() as any;
+        return data.choices?.[0]?.message?.content || '';
+      }
+    } catch {}
+  }
+
   if (OPENAI_KEY) {
     const response = await fetch(OPENAI_URL, {
       method: 'POST',
@@ -96,7 +115,7 @@ Respond with ONLY the JSON object.`;
 
   const content = await callAI([
     { role: 'system', content: SYSTEM_PROMPT },
-    { role: 'user', content: userMessage },
+    { role: 'user', content: userMessage, adapter: 'test_generation' },
   ]);
 
   let jsonStr = content;
@@ -136,6 +155,7 @@ export async function analyzeFailure(tenantId: string, data: {
     {
       role: 'user',
       content: `Test failed with error: ${data.errorMessage}\n\nTest steps: ${JSON.stringify(data.testSteps, null, 2)}\n\nWhat went wrong and how to fix it?`,
+      adapter: 'failure_analysis',
     },
   ]);
 }
@@ -153,6 +173,7 @@ export async function healSelector(tenantId: string, data: {
     {
       role: 'user',
       content: `Broken selector: ${data.failedSelector}\nIntent: ${data.intent}\nDOM snapshot:\n${data.domSnapshot.substring(0, 3000)}`,
+      adapter: 'selector_healing',
     },
   ]);
 
