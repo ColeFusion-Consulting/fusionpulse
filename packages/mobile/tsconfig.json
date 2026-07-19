@@ -5,6 +5,7 @@
     "outDir": "./dist",
     "rootDir": ".",
     "jsx": "react-jsx",
+    "module": "ESNext",
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "noEmit": true,
