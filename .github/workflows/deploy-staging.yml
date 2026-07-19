@@ -37,6 +37,7 @@ jobs:
             packages/api/package.json
             packages/api/drizzle.config.ts
             packages/api/drizzle/
+            packages/api/src/db/
             packages/test-runner/dist/
             packages/test-runner/package.json
             packages/web/dist/
