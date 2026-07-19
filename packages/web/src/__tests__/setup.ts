@@ -1,5 +1,5 @@
 import { vi } from 'vitest';
-import type { ReactNode } from 'react';
+import React, { type ReactNode } from 'react';
 
 vi.mock('../contexts/AuthContext', () => ({
   useAuth: vi.fn(() => ({
@@ -11,5 +11,5 @@ vi.mock('../contexts/AuthContext', () => ({
     logout: vi.fn(),
     setAuth: vi.fn(),
   })),
-  AuthProvider: ({ children }: { children: ReactNode }) => <>{children}</>,
+  AuthProvider: ({ children }: { children: ReactNode }) => React.createElement(React.Fragment, null, children),
 }));
