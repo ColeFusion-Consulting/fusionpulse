@@ -88,7 +88,7 @@ jobs:
           sudo pct exec $CT -- bash -c "cd /opt/fusionpulse/marketing && tar xzf /tmp/marketing.tar.gz --strip-components=1"
           
           # Push database schema (requires dev dependencies)
-          sudo pct exec $CT -- bash -c "cd /opt/fusionpulse/api && npm install --no-save drizzle-kit && npx drizzle-kit push --config=drizzle.config.ts"
+          sudo pct exec $CT -- bash -c 'set -a && source /opt/fusionpulse/.env && set +a && cd /opt/fusionpulse/api && npm install --no-save drizzle-kit && npx drizzle-kit push --config=drizzle.config.ts'
           
           sudo pct exec $CT -- bash -c "cd /opt/fusionpulse && pm2 delete all 2>/dev/null; pm2 start ecosystem.config.cjs && pm2 save"
           sudo pct exec $CT -- bash -c "nginx -t && systemctl reload nginx"
