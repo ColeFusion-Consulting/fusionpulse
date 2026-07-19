@@ -10,7 +10,7 @@ async function request<T>(config: ApiClientConfig, path: string, options?: Reque
     },
   });
   if (!res.ok) throw new Error(`API error: ${res.status}`);
-  return res.json();
+  return res.json() as Promise<T>;
 }
 
 export function createApiClient(config: ApiClientConfig) {
