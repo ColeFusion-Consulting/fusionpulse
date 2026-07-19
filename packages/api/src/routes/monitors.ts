@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { z } from 'zod';
 import { validate } from '../middleware/validate.js';
+import { requireFeature, getEffectiveLimits } from '../services/feature-enforcement.service.js';
 import * as monitorService from '../services/monitor.service.js';
 
 export const monitorsRouter = Router();
@@ -31,8 +32,12 @@ monitorsRouter.get('/:id', async (req, res) => {
   res.json({ success: true, data: monitor });
 });
 
-monitorsRouter.post('/', validate(createMonitorSchema), async (req, res) => {
-  const monitor = await monitorService.createMonitor(req.user!.tenantId, req.body);
+monitorsRouter.post('/', requireFeature('monitors'), validate(createMonitorSchema), async (req, res) => {
+  const limits = await getEffectiveLimits(req.user!.tenantId);
+  const clampedInterval = req.body.intervalSeconds
+    ? Math.max(req.body.intervalSeconds, limits.monitorIntervalSeconds)
+    : undefined;
+  const monitor = await monitorService.createMonitor(req.user!.tenantId, { ...req.body, intervalSeconds: clampedInterval });
   res.status(201).json({ success: true, data: monitor });
 });
 

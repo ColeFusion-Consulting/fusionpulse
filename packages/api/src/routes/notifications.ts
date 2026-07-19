@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { z } from 'zod';
 import { validate } from '../middleware/validate.js';
+import { requireFeature } from '../services/feature-enforcement.service.js';
 import * as notificationService from '../services/notification.service.js';
 
 export const notificationsRouter = Router();
@@ -41,7 +42,7 @@ notificationsRouter.get('/channels/:id', async (req, res) => {
   res.json({ success: true, data: channel });
 });
 
-notificationsRouter.post('/channels', validate(createChannelSchema), async (req, res) => {
+notificationsRouter.post('/channels', requireFeature('notificationChannels'), validate(createChannelSchema), async (req, res) => {
   const channel = await notificationService.createChannel(req.user!.tenantId, req.body);
   res.status(201).json({ success: true, data: channel });
 });

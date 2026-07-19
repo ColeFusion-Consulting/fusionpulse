@@ -1,8 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Icon from '../components/Icon.astro';
-
-const APP_URL = 'https://app.fusionpulse.colefusion.net';
+import { APP_URL, getPlanButtonLabel, getPlanButtonClass, isSignupLive } from '../lib/signup-config';
 
 const plans = [
   {
@@ -19,6 +18,9 @@ const plans = [
       '2 notification channels',
       '3 team members',
       'Email alerts',
+      '1 monitored site',
+      'Manual PR review required',
+      'Status page (basic)',
     ],
   },
   {
@@ -36,6 +38,9 @@ const plans = [
       '10 team members',
       'Slack + PagerDuty alerts',
       'Multi-location checks',
+      'AI auto-repair (manual review)',
+      'Status page (branded)',
+      'Basic audit log',
     ],
   },
   {
@@ -52,9 +57,15 @@ const plans = [
       '15 notification channels',
       '25 team members',
       'AI auto-heal selectors',
+      'AI auto-repair (auto PR submit)',
+      'Stealth browser mode',
+      'CAPTCHA solving (capsolver)',
       'Phone call alerts',
       'Custom webhooks',
       'Priority support',
+      'AI test plan generation',
+      'Full audit log',
+      'Escalation chains',
     ],
   },
   {
@@ -74,6 +85,13 @@ const plans = [
       'SLA guarantees',
       'SSO/SAML',
       'Dedicated support',
+      'AI auto-repair (auto PR submit)',
+      'E2E video recordings',
+      'Unlimited AI generations',
+      'AI test plan generation',
+      'Full audit log',
+      'Escalation chains',
+      'SSO/SAML',
     ],
   },
 ];
@@ -83,10 +101,10 @@ const faqs = [
     q: 'Can I change plans at any time?',
     a: 'Yes — upgrade or downgrade whenever you like from the billing page inside the app. Changes are prorated automatically by Stripe.',
   },
-  {
-    q: 'What happens if I go over my plan limits?',
-    a: "We'll email you before you hit a hard limit. Test runs and AI generations beyond your monthly allowance pause until the next billing cycle or an upgrade — we never silently overcharge you.",
-  },
+      {
+        q: 'What happens if I go over my plan limits?',
+        a: "Nothing breaks. We never silently block your monitors or tests. You keep running — overage is billed automatically at a transparent premium rate (e.g. $1.99/additional monitor per month, $0.01/additional test run). You can see your current overage charges on the billing page inside the app at any time.",
+      },
   {
     q: 'Can I use my own AI model instead of OpenAI?',
     a: 'Yes. FusionPulse supports OpenAI, Anthropic, or a self-hosted LLM endpoint of your own (e.g. a local llama.cpp server) — configurable per account.',
@@ -98,6 +116,14 @@ const faqs = [
   {
     q: 'Do you offer annual billing?',
     a: "Not yet — all plans are billed monthly through Stripe so you're never locked in. Reach out on the Contact page if annual billing would help your team.",
+  },
+  {
+    q: 'How do AI test plans work?',
+    a: "Give FusionPulse your site URL. AI crawls every page, identifies user flows, and generates a structured test plan with prioritized test cases. Your QA team reviews, adds feedback, and approves. FusionPulse then generates the corresponding Playwright tests automatically.",
+  },
+  {
+    q: 'What kind of audit logging is available?',
+    a: "Every API request, alert action, test run, and configuration change is logged with timestamp, user identity, IP address, user agent, and duration. Root users can query the full audit log from the dashboard or API. Audit logs are retained per your plan's retention policy.",
   },
 ];
 ---
@@ -140,17 +166,21 @@ const faqs = [
             </div>
             <p class="mt-1 text-xs font-medium text-fusion-magenta">{plan.interval}</p>
 
-            <a
-              href={APP_URL}
-              class:list={[
-                'mt-6 inline-flex items-center justify-center rounded-full px-4 py-2.5 text-sm font-semibold transition-transform hover:scale-[1.02]',
-                plan.highlighted
-                  ? 'bg-gradient-fusion text-zinc-950'
-                  : 'border border-zinc-700 text-zinc-100 hover:border-zinc-500',
-              ]}
-            >
-              {plan.price === 0 ? 'Start Free' : 'Choose ' + plan.name}
-            </a>
+            {isSignupLive() ? (
+              <a
+                href={APP_URL}
+                class="mt-6 inline-flex items-center justify-center rounded-full px-4 py-2.5 text-sm font-semibold transition-transform hover:scale-[1.02] bg-gradient-fusion text-zinc-950 shadow-lg shadow-fuchsia-500/10"
+              >
+                {plan.price === 0 ? 'Start Free' : 'Choose ' + plan.name}
+              </a>
+            ) : (
+              <span
+                class="mt-6 inline-flex cursor-not-allowed items-center justify-center rounded-full border border-zinc-700 px-4 py-2.5 text-sm font-semibold text-zinc-500"
+                title="Self-service signup coming soon"
+              >
+                {plan.price === 0 ? 'Start Free' : 'Choose ' + plan.name} — Soon
+              </span>
+            )}
 
             <ul class="mt-7 space-y-2.5 text-sm text-zinc-400">
               {plan.features.map((f) => (
@@ -162,6 +192,49 @@ const faqs = [
             </ul>
           </div>
         ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Overage Pricing -->
+  <section class="border-t border-zinc-800/80 py-16">
+    <div class="mx-auto max-w-3xl px-6 text-center">
+      <p class="text-xs font-semibold uppercase tracking-widest text-zinc-500">Overage Pricing</p>
+      <h2 class="mt-4 text-2xl font-semibold text-white sm:text-3xl">Premium pay-as-you-go rates</h2>
+      <p class="mt-3 text-sm text-zinc-400">
+        Exceed a plan limit? Your monitors and tests keep running. Overage is billed automatically at these rates.
+      </p>
+    </div>
+    <div class="mx-auto mt-10 grid max-w-2xl grid-cols-2 gap-4 px-6 sm:grid-cols-3">
+      <div class="card-glass rounded-xl p-4 text-center">
+        <p class="text-xs text-zinc-500">Monitors</p>
+        <p class="mt-1 text-lg font-semibold text-white">$1.99</p>
+        <p class="text-xs text-zinc-600">per monitor / mo</p>
+      </div>
+      <div class="card-glass rounded-xl p-4 text-center">
+        <p class="text-xs text-zinc-500">Test Cases</p>
+        <p class="mt-1 text-lg font-semibold text-white">$0.99</p>
+        <p class="text-xs text-zinc-600">per case / mo</p>
+      </div>
+      <div class="card-glass rounded-xl p-4 text-center">
+        <p class="text-xs text-zinc-500">Test Runs</p>
+        <p class="mt-1 text-lg font-semibold text-white">$0.01</p>
+        <p class="text-xs text-zinc-600">per run</p>
+      </div>
+      <div class="card-glass rounded-xl p-4 text-center">
+        <p class="text-xs text-zinc-500">AI Generations</p>
+        <p class="mt-1 text-lg font-semibold text-white">$0.05</p>
+        <p class="text-xs text-zinc-600">per generation</p>
+      </div>
+      <div class="card-glass rounded-xl p-4 text-center">
+        <p class="text-xs text-zinc-500">Channels</p>
+        <p class="mt-1 text-lg font-semibold text-white">$2.99</p>
+        <p class="text-xs text-zinc-600">per channel / mo</p>
+      </div>
+      <div class="card-glass rounded-xl p-4 text-center">
+        <p class="text-xs text-zinc-500">Users</p>
+        <p class="mt-1 text-lg font-semibold text-white">$9.99</p>
+        <p class="text-xs text-zinc-600">per user / mo</p>
       </div>
     </div>
   </section>

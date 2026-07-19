@@ -8,9 +8,19 @@ export const tenants = pgTable('tenants', {
   name: text('name').notNull(),
   slug: text('slug').notNull().unique(),
   plan: text('plan').notNull().default('free'),
+  addons: jsonb('addons').default([]).$type<string[]>(),
   stripeCustomerId: text('stripe_customer_id'),
   stripeSubscriptionId: text('stripe_subscription_id'),
+  provisioningStatus: text('provisioning_status').default('pending'),
+  crawlInstructions: text('crawl_instructions'),
+  agentInstructions: text('agent_instructions'),
+  siteUrl: text('site_url'),
+  siteMonitorId: text('site_monitor_id'),
+  repoProvider: text('repo_provider'),
+  repoOwner: text('repo_owner'),
+  repoName: text('repo_name'),
   settings: jsonb('settings').default({}).$type<Record<string, unknown>>(),
+  featureOverrides: jsonb('feature_overrides').default({}).$type<Record<string, number>>(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
@@ -19,9 +29,12 @@ export const tenants = pgTable('tenants', {
 export const users = pgTable('users', {
   id: uuid('id').primaryKey().defaultRandom(),
   tenantId: uuid('tenant_id').notNull().references(() => tenants.id, { onDelete: 'cascade' }),
-  email: text('email').notNull(),
+  email: text('email'),
   name: text('name'),
-  role: text('role').notNull().default('member'),
+  userType: text('user_type').notNull().default('user'), // 'root' | 'user'
+  role: text('role').notNull().default('member'), // 'root' | 'admin' | 'member'
+  username: text('username'), // for root users (not email-based)
+  passwordHash: text('password_hash'), // bcrypt hash for root users
   cognitoSub: text('cognito_sub').unique(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 }, (t) => [
@@ -235,6 +248,101 @@ export const alertAcknowledgements = pgTable('alert_acknowledgements', {
   note: text('note'),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
+
+// ─── Provisioning Jobs (async new-tenant pipeline) ──────────
+export const provisioningJobs = pgTable('provisioning_jobs', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  tenantId: uuid('tenant_id').notNull().references(() => tenants.id, { onDelete: 'cascade' }).unique(),
+  status: text('status').notNull().default('pending'), // 'pending' | 'in_progress' | 'completed' | 'failed'
+  currentStep: text('current_step').default(''),
+  progress: integer('progress').default(0), // 0-100
+  steps: jsonb('steps').notNull().default([]),
+  stepsCompleted: jsonb('steps_completed').notNull().default([]),
+  errorMessage: text('error_message'),
+  metadata: jsonb('metadata').default({}),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+  completedAt: timestamp('completed_at'),
+});
+
+// ─── Provisioning Log (step-by-step audit trail) ───────────
+export const provisioningLog = pgTable('provisioning_log', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  tenantId: uuid('tenant_id').notNull().references(() => tenants.id, { onDelete: 'cascade' }),
+  step: text('step').notNull(),
+  status: text('status').notNull(),
+  message: text('message'),
+  startedAt: timestamp('started_at').defaultNow().notNull(),
+  completedAt: timestamp('completed_at'),
+}, (t) => [
+  index('provisioning_log_tenant_idx').on(t.tenantId),
+]);
+
+// ─── Test Plans (AI-generated plans for paid signup) ────────
+export const testPlans = pgTable('test_plans', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  tenantId: uuid('tenant_id').notNull().references(() => tenants.id, { onDelete: 'cascade' }),
+  name: text('name').notNull(),
+  description: text('description'),
+  siteUrl: text('site_url'),
+  status: text('status').notNull().default('draft'), // 'draft' | 'review' | 'approved' | 'implemented'
+  pages: jsonb('pages').default([]).$type<TestPlanPage[]>(),
+  suggestedCases: jsonb('suggested_cases').default([]).$type<TestPlanCase[]>(),
+  userFeedback: text('user_feedback'),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+}, (t) => [
+  index('test_plans_tenant_idx').on(t.tenantId),
+]);
+
+export interface TestPlanPage {
+  path: string;
+  title: string;
+  elements: string[];
+}
+
+export interface TestPlanCase {
+  id: string;
+  name: string;
+  description: string;
+  priority: 'critical' | 'high' | 'medium' | 'low';
+  steps: string[];
+  pagePath?: string;
+}
+
+// ─── API Keys ───────────────────────────────────────────────
+export const apiKeys = pgTable('api_keys', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  tenantId: uuid('tenant_id').notNull().references(() => tenants.id, { onDelete: 'cascade' }),
+  name: text('name').notNull(),
+  key: text('key').notNull().unique(), // the actual API key (hashed in DB)
+  keyPrefix: text('key_prefix').notNull(), // first 8 chars for identification
+  lastUsedAt: timestamp('last_used_at'),
+  expiresAt: timestamp('expires_at'),
+  enabled: boolean('enabled').default(true),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+}, (t) => [
+  index('api_keys_tenant_idx').on(t.tenantId),
+]);
+
+// ─── Audit Logs ─────────────────────────────────────────────
+export const auditLogs = pgTable('audit_logs', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  tenantId: uuid('tenant_id'),
+  userId: text('user_id'), // cognito sub or user id
+  action: text('action').notNull(), // e.g. 'monitor.create', 'test.run', 'auth.login'
+  resource: text('resource'), // e.g. 'monitor:abc-123', 'suite:xyz'
+  details: jsonb('details').default({}),
+  ip: text('ip'),
+  userAgent: text('user_agent'),
+  durationMs: integer('duration_ms'),
+  success: boolean('success').default(true),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+}, (t) => [
+  index('audit_logs_tenant_idx').on(t.tenantId),
+  index('audit_logs_action_idx').on(t.action),
+  index('audit_logs_created_idx').on(t.createdAt),
+]);
 
 // ─── Types ──────────────────────────────────────────────────
 export interface TestStep {

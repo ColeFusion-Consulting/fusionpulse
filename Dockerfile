@@ -1,35 +1,37 @@
-FROM node:20-alpine AS base
+ARG target=api
+
+# ─── API Build Stage ────────────────────────────────────────
+FROM node:20-alpine AS api-build
 WORKDIR /app
 
-# Install dependencies
-COPY package.json package-lock.json* ./
+COPY package.json package-lock.json* tsconfig.base.json ./
 COPY packages/api/package.json ./packages/api/
 COPY packages/test-runner/package.json ./packages/test-runner/
 COPY packages/web/package.json ./packages/web/
 COPY packages/cli/package.json ./packages/cli/
-RUN npm ci --workspace=@fusionpulse/api --workspace=@fusionpulse/test-runner
+RUN npm ci --workspace=@fusionpulse/api
 
-# Build API
 COPY packages/api/ ./packages/api/
-RUN cd packages/api && npm run build
-
-# Build test runner
-COPY packages/test-runner/ ./packages/test-runner/
-RUN cd packages/test-runner && npm run build
+RUN npm run build --workspace=@fusionpulse/api
 
 # ─── API Image ──────────────────────────────────────────────
 FROM node:20-alpine AS api
 WORKDIR /app
-COPY --from=base /app/node_modules ./node_modules
-COPY --from=base /app/packages/api/dist ./dist
-COPY --from=base /app/packages/api/package.json ./
+COPY --from=api-build /app/node_modules ./node_modules
+COPY --from=api-build /app/packages/api/dist ./dist
+COPY --from=api-build /app/packages/api/package.json ./
 EXPOSE 3001
 CMD ["node", "dist/index.js"]
 
 # ─── Test Runner Image ──────────────────────────────────────
 FROM mcr.microsoft.com/playwright:v1.52.0-alpine AS test-runner
 WORKDIR /app
-RUN apk add --no-cache nodejs npm
-COPY --from=base /app/node_modules ./node_modules
-COPY --from=base /app/packages/test-runner/dist ./dist
+COPY package.json package-lock.json* tsconfig.base.json ./
+COPY packages/test-runner/package.json ./packages/test-runner/
+RUN npm ci --workspace=@fusionpulse/test-runner
+COPY packages/test-runner/ ./packages/test-runner/
+RUN npm run build --workspace=@fusionpulse/test-runner
 CMD ["node", "dist/worker.js"]
+
+# ─── Final stage (alias for the chosen target) ─────────────
+FROM ${target}

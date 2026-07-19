@@ -15,7 +15,8 @@ env:
   ECR_REPOSITORY_RUNNER: fusionpulse-runner
   ECS_CLUSTER: FusionPulseStack-FusionPulseCluster
   ECS_SERVICE_API: FusionPulseStack-ApiService
-  ECS_SERVICE_RUNNER: FusionPulseStack-RunnerService
+  # NOTE: Runner ECS service not yet created in CDK — uncomment when added
+  # ECS_SERVICE_RUNNER: FusionPulseStack-RunnerService
 
 jobs:
   build-and-push:
@@ -66,13 +67,14 @@ jobs:
           docker push "$IMAGE"
           docker push "${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_API }}:latest"
 
-      - name: Build and push Runner image
-        run: |
-          IMAGE="${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_RUNNER }}:${{ steps.version.outputs.tag }}"
-          docker build -t "$IMAGE" -t "${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_RUNNER }}:latest" \
-            --build-arg TARGET=test-runner .
-          docker push "$IMAGE"
-          docker push "${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_RUNNER }}:latest"
+      # NOTE: Runner ECR image build disabled — ECS service not created yet
+      # - name: Build and push Runner image
+      #   run: |
+      #     IMAGE="${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_RUNNER }}:${{ steps.version.outputs.tag }}"
+      #     docker build -t "$IMAGE" -t "${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_RUNNER }}:latest" \
+      #       --build-arg TARGET=test-runner .
+      #     docker push "$IMAGE"
+      #     docker push "${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_RUNNER }}:latest"
 
   deploy:
     needs: build-and-push
@@ -102,12 +104,13 @@ jobs:
               --query 'taskDefinition.taskDefinitionArn' \
               --output text)"
 
-      - name: Update ECS Runner service
-        run: |
-          aws ecs update-service \
-            --cluster ${{ env.ECS_CLUSTER }} \
-            --service ${{ env.ECS_SERVICE_RUNNER }} \
-            --force-new-deployment
+      # NOTE: Runner ECS service not yet created — uncomment when added
+      # - name: Update ECS Runner service
+      #   run: |
+      #     aws ecs update-service \
+      #       --cluster ${{ env.ECS_CLUSTER }} \
+      #       --service ${{ env.ECS_SERVICE_RUNNER }} \
+      #       --force-new-deployment
 
       - name: Wait for deployment
         run: |
@@ -132,3 +135,35 @@ jobs:
             echo "❌ Production health check failed!"
             exit 1
           fi
+
+      - name: Build marketing site
+        run: npx turbo run build --filter=@fusionpulse/marketing
+
+      - name: Get frontend bucket name
+        id: frontend-bucket
+        run: |
+          BUCKET=$(aws cloudformation describe-stack-resources \
+            --stack-name FusionPulseStack \
+            --logical-resource-id FrontendBucket \
+            --query 'StackResources[0].PhysicalResourceId' \
+            --output text)
+          echo "bucket=$BUCKET" >> $GITHUB_OUTPUT
+
+      - name: Get CloudFront distribution ID
+        id: cf-dist
+        run: |
+          DIST_ID=$(aws cloudformation describe-stack-resources \
+            --stack-name FusionPulseStack \
+            --logical-resource-id FrontendDistribution \
+            --query 'StackResources[0].PhysicalResourceId' \
+            --output text)
+          echo "dist_id=$DIST_ID" >> $GITHUB_OUTPUT
+
+      - name: Deploy marketing site to S3
+        run: aws s3 sync packages/marketing/dist/ s3://${{ steps.frontend-bucket.outputs.bucket }} --delete
+
+      - name: Invalidate CloudFront cache
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id ${{ steps.cf-dist.outputs.dist_id }} \
+            --paths "/*"

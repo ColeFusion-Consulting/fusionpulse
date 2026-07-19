@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://fusionpulse.colefusion.com/sitemap-index.xml

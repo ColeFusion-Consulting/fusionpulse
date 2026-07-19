@@ -18,25 +18,27 @@ const FUSIONPULSE_CONFIG = `{
   }
 }`;
 
+export async function initAction() {
+  const configPath = 'fusionpulse.config.json';
+
+  if (existsSync(configPath)) {
+    console.log(chalk.yellow('fusionpulse.config.json already exists'));
+    return;
+  }
+
+  writeFileSync(configPath, FUSIONPULSE_CONFIG);
+
+  if (!existsSync('./tests')) mkdirSync('./tests');
+  if (!existsSync('./screenshots')) mkdirSync('./screenshots');
+
+  console.log(chalk.green('\nInitialized FusionPulse!'));
+  console.log(chalk.gray('Created:'));
+  console.log(chalk.gray('  fusionpulse.config.json'));
+  console.log(chalk.gray('  tests/'));
+  console.log(chalk.gray('  screenshots/'));
+  console.log(chalk.gray('\nNext: Run `fusionpulse generate` to create your first test\n'));
+}
+
 export const initCommand = new Command('init')
   .description('Initialize a FusionPulse config in the current directory')
-  .action(async () => {
-    const configPath = 'fusionpulse.config.json';
-
-    if (existsSync(configPath)) {
-      console.log(chalk.yellow('fusionpulse.config.json already exists'));
-      return;
-    }
-
-    writeFileSync(configPath, FUSIONPULSE_CONFIG);
-
-    if (!existsSync('./tests')) mkdirSync('./tests');
-    if (!existsSync('./screenshots')) mkdirSync('./screenshots');
-
-    console.log(chalk.green('\nInitialized FusionPulse!'));
-    console.log(chalk.gray('Created:'));
-    console.log(chalk.gray('  fusionpulse.config.json'));
-    console.log(chalk.gray('  tests/'));
-    console.log(chalk.gray('  screenshots/'));
-    console.log(chalk.gray('\nNext: Run `fusionpulse generate` to create your first test\n'));
-  });
+  .action(initAction);

@@ -1,6 +1,7 @@
 import { db } from '../db/client.js';
 import { monitors, monitorResults } from '../db/schema.js';
 import { eq, desc, and } from 'drizzle-orm';
+import { recordAuditEvent } from './audit.service.js';
 
 export async function getAllMonitors(tenantId: string) {
   return db.select().from(monitors)
@@ -30,6 +31,7 @@ export async function createMonitor(tenantId: string, data: {
     locations: data.locations ?? ['us-east-1'],
     enabled: true,
   }).returning();
+  recordAuditEvent({ tenantId, action: 'monitor.create', resource: `monitor:${rows[0].id}`, details: { name: data.name, url: data.url } });
   return rows[0];
 }
 
