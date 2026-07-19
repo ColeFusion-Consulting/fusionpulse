@@ -55,10 +55,14 @@ jobs:
       - name: Build all packages
         run: npx turbo run build
 
-      # Add AWS credentials and deploy steps here
-      # - name: Deploy to AWS
-      #   run: npm run infra:deploy
-      #   env:
-      #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #     AWS_DEFAULT_REGION: us-east-1
+      - name: Run tests
+        run: npx turbo run test
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: us-east-1
+
+      - name: Deploy to AWS
+        run: npm run infra:deploy

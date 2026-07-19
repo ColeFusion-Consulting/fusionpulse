@@ -1,0 +1,32 @@
+FusionPulse — Next Steps
+=========================
+
+1.  Email delivery — Contact form submissions and alert emails are logged to console,
+    not actually sent. Needs SES verified domain + production access.
+
+2.  Cognito auto-confirm — IAM user lacks AdminConfirmSignUp permission.
+    Need IAM policy update or separate credentials.
+
+3.  Test plan → test cases — AI-generated plans don't auto-create Playwright test cases
+    yet. Manual save-as-case still needed.
+
+4.  API key auth middleware — verifyApiKey() exists but isn't wired into the
+    authenticate middleware.
+
+5.  Provisioning crawl + test gen — Website crawling and recommendation generation
+    are stubs with artificial delays.
+
+6.  Stripe integration — Checkout and portal endpoints exist but STRIPE_SECRET_KEY
+    isn't configured in dev.
+
+7.  Production ECS — ECS service exists but may need task definition updates for
+    new env vars.
+
+8.  Drizzle migrations — Need to configure the runner properly with DATABASE_URL
+    or switch to manual SQL migrations.
+
+9.  colefusion.com email — Domain needs DNS records (MX, TXT) + SES domain
+    verification + production access request.
+
+10. Mobile apps — Expo project structure exists in packages/mobile/ but needs local
+    setup with npm install + native builds.

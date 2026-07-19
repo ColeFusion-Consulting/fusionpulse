@@ -1,0 +1,78 @@
+---
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { APP_URL, getSignupLabel, getSignupHref } from '../lib/signup-config';
+
+const navLinks = [
+  { href: '/about', label: 'About' },
+  { href: '/services', label: 'Services' },
+  { href: '/contact', label: 'Contact' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="sticky top-0 z-50 border-b border-zinc-800/80 bg-zinc-950/80 backdrop-blur-md">
+  <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+    <a href="/" class="shrink-0">
+      <Logo size={30} />
+    </a>
+
+    <nav class="hidden items-center gap-8 md:flex">
+      {navLinks.map((link) => (
+        <a
+          href={link.href}
+          class={`text-sm font-medium transition-colors hover:text-white ${
+            currentPath === link.href ? 'text-white' : 'text-zinc-400'
+          }`}
+        >
+          {link.label}
+        </a>
+      ))}
+    </nav>
+
+    <div class="hidden items-center gap-5 md:flex">
+      <a
+        href={getSignupHref()}
+        class="inline-flex items-center gap-1.5 rounded-full bg-gradient-fusion px-4 py-2 text-sm font-semibold text-zinc-950 shadow-lg shadow-fuchsia-500/10 transition-transform hover:scale-[1.03]"
+      >
+        {getSignupLabel()}
+        <Icon name="arrow-right" size={15} strokeWidth={2.25} />
+      </a>
+    </div>
+
+    <button
+      id="mobile-menu-btn"
+      class="flex items-center justify-center rounded-lg p-2 text-zinc-300 md:hidden"
+      aria-label="Toggle menu"
+    >
+      <Icon name="menu" size={24} />
+    </button>
+  </div>
+
+  <div id="mobile-menu" class="hidden border-t border-zinc-800 px-6 py-4 md:hidden">
+    <nav class="flex flex-col gap-4">
+      {navLinks.map((link) => (
+        <a href={link.href} class="text-sm font-medium text-zinc-300 hover:text-white">
+          {link.label}
+        </a>
+      ))}
+      <div class="mt-2 flex flex-col gap-3 border-t border-zinc-800 pt-4">
+        <a
+          href={getSignupHref()}
+          class="inline-flex items-center justify-center gap-1.5 rounded-full bg-gradient-fusion px-4 py-2.5 text-sm font-semibold text-zinc-950"
+        >
+          {getSignupLabel()}
+        </a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  btn?.addEventListener('click', () => {
+    menu?.classList.toggle('hidden');
+  });
+</script>

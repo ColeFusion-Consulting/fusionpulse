@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
+import jwksClient from 'jwks-rsa';
 import type { AuthUser } from '../types/index.js';
 
 declare global {
@@ -10,8 +11,37 @@ declare global {
   }
 }
 
-const JWT_ISSUER = process.env.JWT_ISSUER || '';
-const JWT_AUDIENCE = process.env.JWT_AUDIENCE || '';
+const USER_POOL_ID = process.env.COGNITO_USER_POOL_ID || '';
+const AWS_REGION = process.env.AWS_REGION || 'us-east-1';
+const CLIENT_ID = process.env.COGNITO_CLIENT_ID || '';
+const JWT_SECRET = process.env.JWT_SECRET || 'dev-secret-change-in-production';
+
+// JWKS client for Cognito - fetches public keys to verify JWT signatures
+const jwksUri = `https://cognito-idp.${AWS_REGION}.amazonaws.com/${USER_POOL_ID}/.well-known/jwks.json`;
+const client = jwksClient({
+  jwksUri,
+  cache: true,
+  cacheMaxAge: 600000, // 10 minutes
+  rateLimit: true,
+  jwksRequestsPerMinute: 10,
+});
+
+function getSigningKey(kid: string): Promise<string> {
+  return new Promise((resolve, reject) => {
+    client.getSigningKey(kid, (err, key) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      const signingKey = key?.getPublicKey();
+      if (!signingKey) {
+        reject(new Error('Unable to get signing key'));
+        return;
+      }
+      resolve(signingKey);
+    });
+  });
+}
 
 export function authenticate(req: Request, res: Response, next: NextFunction): void {
   const authHeader = req.headers.authorization;
@@ -22,22 +52,71 @@ export function authenticate(req: Request, res: Response, next: NextFunction): v
 
   const token = authHeader.slice(7);
 
+  // Decode token to check type (Cognito vs local root JWT)
+  const decoded = jwt.decode(token, { complete: true });
+  if (!decoded || typeof decoded === 'string') {
+    res.status(401).json({ success: false, error: 'Invalid token format' });
+    return;
+  }
+
+  if (decoded.header?.kid) {
+    // Cognito JWT — verify via JWKS
+    authenticateCognito(token, decoded.header.kid, req, res, next);
+  } else {
+    // Root local JWT — verify with local secret
+    authenticateRoot(token, req, res, next);
+  }
+}
+
+function authenticateCognito(token: string, kid: string, req: Request, res: Response, next: NextFunction): void {
+  getSigningKey(kid)
+    .then((signingKey) => {
+      const verified = jwt.verify(token, signingKey, {
+        algorithms: ['RS256'],
+        issuer: `https://cognito-idp.${AWS_REGION}.amazonaws.com/${USER_POOL_ID}`,
+      }) as jwt.JwtPayload;
+
+      const tokenClientId = verified.client_id || verified.aud;
+      if (tokenClientId !== CLIENT_ID) {
+        throw new Error('Invalid client_id in token');
+      }
+
+      req.user = {
+        id: verified.sub || '',
+        sub: verified.sub || '',
+        email: verified.email || '',
+        tenantId: verified['custom:tenant_id'] || '',
+        role: verified['custom:role'] || 'member',
+        userType: (verified['custom:user_type'] as 'root' | 'user') || 'user',
+      };
+
+      next();
+    })
+    .catch((err) => {
+      console.error('Cognito JWT verification error:', err);
+      res.status(401).json({ success: false, error: 'Invalid or expired token' });
+    });
+}
+
+function authenticateRoot(token: string, req: Request, res: Response, next: NextFunction): void {
   try {
-    const decoded = jwt.verify(token, getJwtSecret(), {
-      issuer: JWT_ISSUER || undefined,
-      audience: JWT_AUDIENCE || undefined,
+    const verified = jwt.verify(token, JWT_SECRET, {
+      algorithms: ['HS256'],
     }) as jwt.JwtPayload;
 
     req.user = {
-      id: decoded.sub || '',
-      sub: decoded.sub || '',
-      email: decoded.email || '',
-      tenantId: decoded['custom:tenant_id'] || '',
-      role: decoded['custom:role'] || 'member',
+      id: verified.sub || '',
+      sub: verified.sub || '',
+      email: verified.email || '',
+      tenantId: verified.tenant_id as string || '',
+      role: 'root',
+      userType: 'root',
+      username: verified.username as string,
     };
 
     next();
   } catch (err) {
+    console.error('Root JWT verification error:', err);
     res.status(401).json({ success: false, error: 'Invalid or expired token' });
   }
 }
@@ -56,8 +135,16 @@ export function requireRole(...roles: string[]) {
   };
 }
 
-function getJwtSecret(): string {
-  // In production, fetch from Cognito JWKS
-  // For local dev, use a static secret
-  return process.env.JWT_SECRET || 'local-dev-secret-do-not-use-in-production';
+export function requireUserType(...types: string[]) {
+  return (req: Request, res: Response, next: NextFunction): void => {
+    if (!req.user) {
+      res.status(401).json({ success: false, error: 'Not authenticated' });
+      return;
+    }
+    if (!types.includes(req.user.userType)) {
+      res.status(403).json({ success: false, error: 'Access denied for this user type' });
+      return;
+    }
+    next();
+  };
 }

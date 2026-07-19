@@ -1,0 +1,1899 @@
+{
+ "Resources": {
+  "FusionPulseVPCCFB979C4": {
+   "Type": "AWS::EC2::VPC",
+   "Properties": {
+    "CidrBlock": "10.0.0.0/16",
+    "EnableDnsHostnames": true,
+    "EnableDnsSupport": true,
+    "InstanceTenancy": "default",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "FusionPulseStack/FusionPulseVPC"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/FusionPulseVPC/Resource"
+   }
+  },
+  "FusionPulseVPCPublicSubnet1Subnet4F47F825": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "us-east-1a",
+    "CidrBlock": "10.0.0.0/18",
+    "MapPublicIpOnLaunch": true,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Public"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Public"
+     },
+     {
+      "Key": "Name",
+      "Value": "FusionPulseStack/FusionPulseVPC/PublicSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "FusionPulseVPCCFB979C4"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/FusionPulseVPC/PublicSubnet1/Subnet"
+   }
+  },
+  "FusionPulseVPCPublicSubnet1RouteTableE431A278": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "FusionPulseStack/FusionPulseVPC/PublicSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "FusionPulseVPCCFB979C4"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/FusionPulseVPC/PublicSubnet1/RouteTable"
+   }
+  },
+  "FusionPulseVPCPublicSubnet1RouteTableAssociation62CBA526": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "FusionPulseVPCPublicSubnet1RouteTableE431A278"
+    },
+    "SubnetId": {
+     "Ref": "FusionPulseVPCPublicSubnet1Subnet4F47F825"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/FusionPulseVPC/PublicSubnet1/RouteTableAssociation"
+   }
+  },
+  "FusionPulseVPCPublicSubnet1DefaultRoute9F9D6020": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "GatewayId": {
+     "Ref": "FusionPulseVPCIGWE153B541"
+    },
+    "RouteTableId": {
+     "Ref": "FusionPulseVPCPublicSubnet1RouteTableE431A278"
+    }
+   },
+   "DependsOn": [
+    "FusionPulseVPCVPCGW48B0D8DA"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/FusionPulseVPC/PublicSubnet1/DefaultRoute"
+   }
+  },
+  "FusionPulseVPCPublicSubnet1EIPE9C44863": {
+   "Type": "AWS::EC2::EIP",
+   "Properties": {
+    "Domain": "vpc",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "FusionPulseStack/FusionPulseVPC/PublicSubnet1"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/FusionPulseVPC/PublicSubnet1/EIP"
+   }
+  },
+  "FusionPulseVPCPublicSubnet1NATGateway5EE1A2BA": {
+   "Type": "AWS::EC2::NatGateway",
+   "Properties": {
+    "AllocationId": {
+     "Fn::GetAtt": [
+      "FusionPulseVPCPublicSubnet1EIPE9C44863",
+      "AllocationId"
+     ]
+    },
+    "SubnetId": {
+     "Ref": "FusionPulseVPCPublicSubnet1Subnet4F47F825"
+    },
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "FusionPulseStack/FusionPulseVPC/PublicSubnet1"
+     }
+    ]
+   },
+   "DependsOn": [
+    "FusionPulseVPCPublicSubnet1DefaultRoute9F9D6020",
+    "FusionPulseVPCPublicSubnet1RouteTableAssociation62CBA526"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/FusionPulseVPC/PublicSubnet1/NATGateway"
+   }
+  },
+  "FusionPulseVPCPublicSubnet2Subnet2CDECC5F": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "us-east-1b",
+    "CidrBlock": "10.0.64.0/18",
+    "MapPublicIpOnLaunch": true,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Public"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Public"
+     },
+     {
+      "Key": "Name",
+      "Value": "FusionPulseStack/FusionPulseVPC/PublicSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "FusionPulseVPCCFB979C4"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/FusionPulseVPC/PublicSubnet2/Subnet"
+   }
+  },
+  "FusionPulseVPCPublicSubnet2RouteTable05C24F3B": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "FusionPulseStack/FusionPulseVPC/PublicSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "FusionPulseVPCCFB979C4"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/FusionPulseVPC/PublicSubnet2/RouteTable"
+   }
+  },
+  "FusionPulseVPCPublicSubnet2RouteTableAssociationB688135B": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "FusionPulseVPCPublicSubnet2RouteTable05C24F3B"
+    },
+    "SubnetId": {
+     "Ref": "FusionPulseVPCPublicSubnet2Subnet2CDECC5F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/FusionPulseVPC/PublicSubnet2/RouteTableAssociation"
+   }
+  },
+  "FusionPulseVPCPublicSubnet2DefaultRoute47FDE5E8": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "GatewayId": {
+     "Ref": "FusionPulseVPCIGWE153B541"
+    },
+    "RouteTableId": {
+     "Ref": "FusionPulseVPCPublicSubnet2RouteTable05C24F3B"
+    }
+   },
+   "DependsOn": [
+    "FusionPulseVPCVPCGW48B0D8DA"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/FusionPulseVPC/PublicSubnet2/DefaultRoute"
+   }
+  },
+  "FusionPulseVPCPrivateSubnet1SubnetD4B3846A": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "us-east-1a",
+    "CidrBlock": "10.0.128.0/18",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Private"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "Name",
+      "Value": "FusionPulseStack/FusionPulseVPC/PrivateSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "FusionPulseVPCCFB979C4"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/FusionPulseVPC/PrivateSubnet1/Subnet"
+   }
+  },
+  "FusionPulseVPCPrivateSubnet1RouteTableF45B0B9C": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "FusionPulseStack/FusionPulseVPC/PrivateSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "FusionPulseVPCCFB979C4"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/FusionPulseVPC/PrivateSubnet1/RouteTable"
+   }
+  },
+  "FusionPulseVPCPrivateSubnet1RouteTableAssociation9679147F": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "FusionPulseVPCPrivateSubnet1RouteTableF45B0B9C"
+    },
+    "SubnetId": {
+     "Ref": "FusionPulseVPCPrivateSubnet1SubnetD4B3846A"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/FusionPulseVPC/PrivateSubnet1/RouteTableAssociation"
+   }
+  },
+  "FusionPulseVPCPrivateSubnet1DefaultRoute05C6D9B7": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "FusionPulseVPCPublicSubnet1NATGateway5EE1A2BA"
+    },
+    "RouteTableId": {
+     "Ref": "FusionPulseVPCPrivateSubnet1RouteTableF45B0B9C"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/FusionPulseVPC/PrivateSubnet1/DefaultRoute"
+   }
+  },
+  "FusionPulseVPCPrivateSubnet2Subnet61235D2D": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "us-east-1b",
+    "CidrBlock": "10.0.192.0/18",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Private"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "Name",
+      "Value": "FusionPulseStack/FusionPulseVPC/PrivateSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "FusionPulseVPCCFB979C4"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/FusionPulseVPC/PrivateSubnet2/Subnet"
+   }
+  },
+  "FusionPulseVPCPrivateSubnet2RouteTable2E13DBBC": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "FusionPulseStack/FusionPulseVPC/PrivateSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "FusionPulseVPCCFB979C4"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/FusionPulseVPC/PrivateSubnet2/RouteTable"
+   }
+  },
+  "FusionPulseVPCPrivateSubnet2RouteTableAssociationDB92BB8D": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "FusionPulseVPCPrivateSubnet2RouteTable2E13DBBC"
+    },
+    "SubnetId": {
+     "Ref": "FusionPulseVPCPrivateSubnet2Subnet61235D2D"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/FusionPulseVPC/PrivateSubnet2/RouteTableAssociation"
+   }
+  },
+  "FusionPulseVPCPrivateSubnet2DefaultRouteCB094F46": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "FusionPulseVPCPublicSubnet1NATGateway5EE1A2BA"
+    },
+    "RouteTableId": {
+     "Ref": "FusionPulseVPCPrivateSubnet2RouteTable2E13DBBC"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/FusionPulseVPC/PrivateSubnet2/DefaultRoute"
+   }
+  },
+  "FusionPulseVPCIGWE153B541": {
+   "Type": "AWS::EC2::InternetGateway",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "FusionPulseStack/FusionPulseVPC"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/FusionPulseVPC/IGW"
+   }
+  },
+  "FusionPulseVPCVPCGW48B0D8DA": {
+   "Type": "AWS::EC2::VPCGatewayAttachment",
+   "Properties": {
+    "InternetGatewayId": {
+     "Ref": "FusionPulseVPCIGWE153B541"
+    },
+    "VpcId": {
+     "Ref": "FusionPulseVPCCFB979C4"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/FusionPulseVPC/VPCGW"
+   }
+  },
+  "FusionPulseDBSubnetsC07AF88B": {
+   "Type": "AWS::RDS::DBSubnetGroup",
+   "Properties": {
+    "DBSubnetGroupDescription": "Subnets for FusionPulseDB database",
+    "SubnetIds": [
+     {
+      "Ref": "FusionPulseVPCPrivateSubnet1SubnetD4B3846A"
+     },
+     {
+      "Ref": "FusionPulseVPCPrivateSubnet2Subnet61235D2D"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/FusionPulseDB/Subnets/Default"
+   }
+  },
+  "FusionPulseDBSecurityGroup8C879DB6": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "RDS security group",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow all outbound traffic by default",
+      "IpProtocol": "-1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "FusionPulseVPCCFB979C4"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/FusionPulseDB/SecurityGroup/Resource"
+   }
+  },
+  "FusionPulseDBSecretB4DA1C06": {
+   "Type": "AWS::SecretsManager::Secret",
+   "Properties": {
+    "Description": {
+     "Fn::Join": [
+      "",
+      [
+       "Generated by the CDK for stack: ",
+       {
+        "Ref": "AWS::StackName"
+       }
+      ]
+     ]
+    },
+    "GenerateSecretString": {
+     "ExcludeCharacters": " %+~`#$&*()|[]{}:;<>?!'/@\"\\",
+     "GenerateStringKey": "password",
+     "PasswordLength": 30,
+     "SecretStringTemplate": "{\"username\":\"postgres\"}"
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/FusionPulseDB/Secret/Resource"
+   }
+  },
+  "FusionPulseDBSecretAttachmentED72A3B3": {
+   "Type": "AWS::SecretsManager::SecretTargetAttachment",
+   "Properties": {
+    "SecretId": {
+     "Ref": "FusionPulseDBSecretB4DA1C06"
+    },
+    "TargetId": {
+     "Ref": "FusionPulseDBB86B3B15"
+    },
+    "TargetType": "AWS::RDS::DBCluster"
+   },
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/FusionPulseDB/Secret/Attachment/Resource"
+   }
+  },
+  "FusionPulseDBB86B3B15": {
+   "Type": "AWS::RDS::DBCluster",
+   "Properties": {
+    "CopyTagsToSnapshot": true,
+    "DBClusterParameterGroupName": "default.aurora-postgresql16",
+    "DBSubnetGroupName": {
+     "Ref": "FusionPulseDBSubnetsC07AF88B"
+    },
+    "DatabaseName": "fusionpulse",
+    "DeletionProtection": true,
+    "Engine": "aurora-postgresql",
+    "EngineVersion": "16.6",
+    "MasterUserPassword": {
+     "Fn::Join": [
+      "",
+      [
+       "{{resolve:secretsmanager:",
+       {
+        "Ref": "FusionPulseDBSecretB4DA1C06"
+       },
+       ":SecretString:password::}}"
+      ]
+     ]
+    },
+    "MasterUsername": {
+     "Fn::Join": [
+      "",
+      [
+       "{{resolve:secretsmanager:",
+       {
+        "Ref": "FusionPulseDBSecretB4DA1C06"
+       },
+       ":SecretString:username::}}"
+      ]
+     ]
+    },
+    "Port": 5432,
+    "ServerlessV2ScalingConfiguration": {
+     "MaxCapacity": 2,
+     "MinCapacity": 0.5
+    },
+    "StorageEncrypted": true,
+    "VpcSecurityGroupIds": [
+     {
+      "Fn::GetAtt": [
+       "FusionPulseDBSecurityGroup8C879DB6",
+       "GroupId"
+      ]
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Snapshot",
+   "DeletionPolicy": "Snapshot",
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/FusionPulseDB/Resource"
+   }
+  },
+  "FusionPulseDBwriter71B745F5": {
+   "Type": "AWS::RDS::DBInstance",
+   "Properties": {
+    "DBClusterIdentifier": {
+     "Ref": "FusionPulseDBB86B3B15"
+    },
+    "DBInstanceClass": "db.serverless",
+    "Engine": "aurora-postgresql",
+    "PromotionTier": 0
+   },
+   "DependsOn": [
+    "FusionPulseVPCPrivateSubnet1DefaultRoute05C6D9B7",
+    "FusionPulseVPCPrivateSubnet1RouteTableAssociation9679147F",
+    "FusionPulseVPCPrivateSubnet2DefaultRouteCB094F46",
+    "FusionPulseVPCPrivateSubnet2RouteTableAssociationDB92BB8D"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/FusionPulseDB/writer/Resource"
+   }
+  },
+  "FusionPulseDBreaderDDD844CB": {
+   "Type": "AWS::RDS::DBInstance",
+   "Properties": {
+    "DBClusterIdentifier": {
+     "Ref": "FusionPulseDBB86B3B15"
+    },
+    "DBInstanceClass": "db.serverless",
+    "Engine": "aurora-postgresql",
+    "PromotionTier": 1
+   },
+   "DependsOn": [
+    "FusionPulseDBwriter71B745F5",
+    "FusionPulseVPCPrivateSubnet1DefaultRoute05C6D9B7",
+    "FusionPulseVPCPrivateSubnet1RouteTableAssociation9679147F",
+    "FusionPulseVPCPrivateSubnet2DefaultRouteCB094F46",
+    "FusionPulseVPCPrivateSubnet2RouteTableAssociationDB92BB8D"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/FusionPulseDB/reader/Resource"
+   }
+  },
+  "RedisSGEA80AC17": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "FusionPulseStack/RedisSG",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow all outbound traffic by default",
+      "IpProtocol": "-1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "FusionPulseVPCCFB979C4"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/RedisSG/Resource"
+   }
+  },
+  "TestRunnerDLQ5EBDD0BC": {
+   "Type": "AWS::SQS::Queue",
+   "Properties": {
+    "MessageRetentionPeriod": 1209600
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/TestRunnerDLQ/Resource"
+   }
+  },
+  "TestRunnerQueueF68554D8": {
+   "Type": "AWS::SQS::Queue",
+   "Properties": {
+    "MessageRetentionPeriod": 1209600,
+    "RedrivePolicy": {
+     "deadLetterTargetArn": {
+      "Fn::GetAtt": [
+       "TestRunnerDLQ5EBDD0BC",
+       "Arn"
+      ]
+     },
+     "maxReceiveCount": 3
+    },
+    "VisibilityTimeout": 600
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/TestRunnerQueue/Resource"
+   }
+  },
+  "FusionPulseUserPoolBCFF42B7": {
+   "Type": "AWS::Cognito::UserPool",
+   "Properties": {
+    "AccountRecoverySetting": {
+     "RecoveryMechanisms": [
+      {
+       "Name": "verified_email",
+       "Priority": 1
+      }
+     ]
+    },
+    "AdminCreateUserConfig": {
+     "AllowAdminCreateUserOnly": false
+    },
+    "AutoVerifiedAttributes": [
+     "email"
+    ],
+    "EmailVerificationMessage": "The verification code to your new account is {####}",
+    "EmailVerificationSubject": "Verify your new account",
+    "Policies": {
+     "PasswordPolicy": {
+      "MinimumLength": 8
+     }
+    },
+    "SmsVerificationMessage": "The verification code to your new account is {####}",
+    "UsernameAttributes": [
+     "email"
+    ],
+    "VerificationMessageTemplate": {
+     "DefaultEmailOption": "CONFIRM_WITH_CODE",
+     "EmailMessage": "The verification code to your new account is {####}",
+     "EmailSubject": "Verify your new account",
+     "SmsMessage": "The verification code to your new account is {####}"
+    }
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/FusionPulseUserPool/Resource"
+   }
+  },
+  "FusionPulseUserPoolWebClientD752676D": {
+   "Type": "AWS::Cognito::UserPoolClient",
+   "Properties": {
+    "AllowedOAuthFlows": [
+     "implicit",
+     "code"
+    ],
+    "AllowedOAuthFlowsUserPoolClient": true,
+    "AllowedOAuthScopes": [
+     "openid",
+     "profile"
+    ],
+    "CallbackURLs": [
+     "https://example.com"
+    ],
+    "ExplicitAuthFlows": [
+     "ALLOW_USER_PASSWORD_AUTH",
+     "ALLOW_USER_SRP_AUTH",
+     "ALLOW_REFRESH_TOKEN_AUTH"
+    ],
+    "SupportedIdentityProviders": [
+     "COGNITO"
+    ],
+    "UserPoolId": {
+     "Ref": "FusionPulseUserPoolBCFF42B7"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/FusionPulseUserPool/WebClient/Resource"
+   }
+  },
+  "FusionPulseClusterB6C0CB8D": {
+   "Type": "AWS::ECS::Cluster",
+   "Properties": {
+    "ClusterSettings": [
+     {
+      "Name": "containerInsights",
+      "Value": "enabled"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/FusionPulseCluster/Resource"
+   }
+  },
+  "ApiServiceLB08B891CD": {
+   "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+   "Properties": {
+    "LoadBalancerAttributes": [
+     {
+      "Key": "deletion_protection.enabled",
+      "Value": "false"
+     }
+    ],
+    "Scheme": "internet-facing",
+    "SecurityGroups": [
+     {
+      "Fn::GetAtt": [
+       "ApiServiceLBSecurityGroup5C16BEF8",
+       "GroupId"
+      ]
+     }
+    ],
+    "Subnets": [
+     {
+      "Ref": "FusionPulseVPCPublicSubnet1Subnet4F47F825"
+     },
+     {
+      "Ref": "FusionPulseVPCPublicSubnet2Subnet2CDECC5F"
+     }
+    ],
+    "Type": "application"
+   },
+   "DependsOn": [
+    "FusionPulseVPCPublicSubnet1DefaultRoute9F9D6020",
+    "FusionPulseVPCPublicSubnet1RouteTableAssociation62CBA526",
+    "FusionPulseVPCPublicSubnet2DefaultRoute47FDE5E8",
+    "FusionPulseVPCPublicSubnet2RouteTableAssociationB688135B"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/ApiService/LB/Resource"
+   }
+  },
+  "ApiServiceLBSecurityGroup5C16BEF8": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "Automatically created Security Group for ELB FusionPulseStackApiServiceLB4B9EFD3C",
+    "SecurityGroupIngress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow from anyone on port 443",
+      "FromPort": 443,
+      "IpProtocol": "tcp",
+      "ToPort": 443
+     }
+    ],
+    "VpcId": {
+     "Ref": "FusionPulseVPCCFB979C4"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/ApiService/LB/SecurityGroup/Resource"
+   }
+  },
+  "ApiServiceLBSecurityGrouptoFusionPulseStackApiServiceSecurityGroupC6A2386A30010E0B1E88": {
+   "Type": "AWS::EC2::SecurityGroupEgress",
+   "Properties": {
+    "Description": "Load balancer to target",
+    "DestinationSecurityGroupId": {
+     "Fn::GetAtt": [
+      "ApiServiceSecurityGroup2592096B",
+      "GroupId"
+     ]
+    },
+    "FromPort": 3001,
+    "GroupId": {
+     "Fn::GetAtt": [
+      "ApiServiceLBSecurityGroup5C16BEF8",
+      "GroupId"
+     ]
+    },
+    "IpProtocol": "tcp",
+    "ToPort": 3001
+   },
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/ApiService/LB/SecurityGroup/to FusionPulseStackApiServiceSecurityGroupC6A2386A:3001"
+   }
+  },
+  "ApiServiceLBPublicListener1394DF3E": {
+   "Type": "AWS::ElasticLoadBalancingV2::Listener",
+   "Properties": {
+    "Certificates": [
+     {
+      "CertificateArn": "arn:aws:acm:us-east-1:729988623719:certificate/9df45806-7cac-4bb0-b5a1-f6669503620e"
+     }
+    ],
+    "DefaultActions": [
+     {
+      "TargetGroupArn": {
+       "Ref": "ApiServiceLBPublicListenerECSGroup14A87FE9"
+      },
+      "Type": "forward"
+     }
+    ],
+    "LoadBalancerArn": {
+     "Ref": "ApiServiceLB08B891CD"
+    },
+    "Port": 443,
+    "Protocol": "HTTPS"
+   },
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/ApiService/LB/PublicListener/Resource"
+   }
+  },
+  "ApiServiceLBPublicListenerECSGroup14A87FE9": {
+   "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+   "Properties": {
+    "HealthCheckPath": "/api/health",
+    "Matcher": {
+     "HttpCode": "200"
+    },
+    "Port": 80,
+    "Protocol": "HTTP",
+    "TargetGroupAttributes": [
+     {
+      "Key": "stickiness.enabled",
+      "Value": "false"
+     }
+    ],
+    "TargetType": "ip",
+    "VpcId": {
+     "Ref": "FusionPulseVPCCFB979C4"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/ApiService/LB/PublicListener/ECSGroup/Resource"
+   }
+  },
+  "ApiServiceTaskDefTaskRole1014CB34": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/ApiService/TaskDef/TaskRole/Resource"
+   }
+  },
+  "ApiServiceTaskDefTaskRoleDefaultPolicy63C68204": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "sqs:ReceiveMessage",
+        "sqs:DeleteMessage",
+        "sqs:GetQueueAttributes"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "TestRunnerQueueF68554D8",
+         "Arn"
+        ]
+       }
+      },
+      {
+       "Action": [
+        "ses:SendEmail",
+        "ses:SendRawEmail"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ApiServiceTaskDefTaskRoleDefaultPolicy63C68204",
+    "Roles": [
+     {
+      "Ref": "ApiServiceTaskDefTaskRole1014CB34"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/ApiService/TaskDef/TaskRole/DefaultPolicy/Resource"
+   }
+  },
+  "ApiServiceTaskDefDF3191FB": {
+   "Type": "AWS::ECS::TaskDefinition",
+   "Properties": {
+    "ContainerDefinitions": [
+     {
+      "Environment": [
+       {
+        "Name": "NODE_ENV",
+        "Value": "production"
+       },
+       {
+        "Name": "DATABASE_URL",
+        "Value": {
+         "Fn::Join": [
+          "",
+          [
+           "postgresql://postgres:postgres@",
+           {
+            "Fn::GetAtt": [
+             "FusionPulseDBB86B3B15",
+             "Endpoint.Address"
+            ]
+           },
+           ":5432/fusionpulse"
+          ]
+         ]
+        }
+       },
+       {
+        "Name": "AWS_REGION",
+        "Value": "us-east-1"
+       },
+       {
+        "Name": "CONTACT_FROM_EMAIL",
+        "Value": "contact@colefusion.com"
+       },
+       {
+        "Name": "CONTACT_TO_EMAIL",
+        "Value": "colemcmannus@gmail.com"
+       },
+       {
+        "Name": "REDIS_URL",
+        "Value": "redis://localhost:6379"
+       },
+       {
+        "Name": "SQS_QUEUE_URL",
+        "Value": {
+         "Ref": "TestRunnerQueueF68554D8"
+        }
+       },
+       {
+        "Name": "COGNITO_USER_POOL_ID",
+        "Value": {
+         "Ref": "FusionPulseUserPoolBCFF42B7"
+        }
+       },
+       {
+        "Name": "COGNITO_CLIENT_ID",
+        "Value": {
+         "Ref": "FusionPulseUserPoolWebClientD752676D"
+        }
+       },
+       {
+        "Name": "LOG_LEVEL",
+        "Value": "info"
+       }
+      ],
+      "Essential": true,
+      "Image": {
+       "Fn::Join": [
+        "",
+        [
+         "729988623719.dkr.ecr.us-east-1.",
+         {
+          "Ref": "AWS::URLSuffix"
+         },
+         "/fusionpulse-api:latest"
+        ]
+       ]
+      },
+      "LogConfiguration": {
+       "LogDriver": "awslogs",
+       "Options": {
+        "awslogs-group": {
+         "Ref": "ApiServiceTaskDefwebLogGroup57352A09"
+        },
+        "awslogs-stream-prefix": "ApiService",
+        "awslogs-region": "us-east-1"
+       }
+      },
+      "Name": "web",
+      "PortMappings": [
+       {
+        "ContainerPort": 3001,
+        "Protocol": "tcp"
+       }
+      ],
+      "Secrets": [
+       {
+        "Name": "JWT_SECRET",
+        "ValueFrom": {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":secretsmanager:us-east-1:729988623719:secret:fusionpulse/jwt-secret"
+          ]
+         ]
+        }
+       },
+       {
+        "Name": "OPENAI_API_KEY",
+        "ValueFrom": {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":secretsmanager:us-east-1:729988623719:secret:fusionpulse/openai-api-key"
+          ]
+         ]
+        }
+       },
+       {
+        "Name": "INTERNAL_API_KEY",
+        "ValueFrom": {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":secretsmanager:us-east-1:729988623719:secret:fusionpulse/internal-api-key"
+          ]
+         ]
+        }
+       },
+       {
+        "Name": "STRIPE_SECRET_KEY",
+        "ValueFrom": {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":secretsmanager:us-east-1:729988623719:secret:fusionpulse/stripe-secret-key"
+          ]
+         ]
+        }
+       },
+       {
+        "Name": "STRIPE_WEBHOOK_SECRET",
+        "ValueFrom": {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":secretsmanager:us-east-1:729988623719:secret:fusionpulse/stripe-webhook-secret"
+          ]
+         ]
+        }
+       },
+       {
+        "Name": "STRIPE_STARTER_PRICE_ID",
+        "ValueFrom": {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":secretsmanager:us-east-1:729988623719:secret:fusionpulse/stripe-starter-price-id"
+          ]
+         ]
+        }
+       },
+       {
+        "Name": "STRIPE_PRO_PRICE_ID",
+        "ValueFrom": {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":secretsmanager:us-east-1:729988623719:secret:fusionpulse/stripe-pro-price-id"
+          ]
+         ]
+        }
+       },
+       {
+        "Name": "STRIPE_BUSINESS_PRICE_ID",
+        "ValueFrom": {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":secretsmanager:us-east-1:729988623719:secret:fusionpulse/stripe-business-price-id"
+          ]
+         ]
+        }
+       }
+      ]
+     }
+    ],
+    "Cpu": "512",
+    "ExecutionRoleArn": {
+     "Fn::GetAtt": [
+      "ApiServiceTaskDefExecutionRole43B90DD6",
+      "Arn"
+     ]
+    },
+    "Family": "FusionPulseStackApiServiceTaskDef54F089E3",
+    "Memory": "1024",
+    "NetworkMode": "awsvpc",
+    "RequiresCompatibilities": [
+     "FARGATE"
+    ],
+    "TaskRoleArn": {
+     "Fn::GetAtt": [
+      "ApiServiceTaskDefTaskRole1014CB34",
+      "Arn"
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/ApiService/TaskDef/Resource"
+   }
+  },
+  "ApiServiceTaskDefwebLogGroup57352A09": {
+   "Type": "AWS::Logs::LogGroup",
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/ApiService/TaskDef/web/LogGroup/Resource"
+   }
+  },
+  "ApiServiceTaskDefExecutionRole43B90DD6": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/ApiService/TaskDef/ExecutionRole/Resource"
+   }
+  },
+  "ApiServiceTaskDefExecutionRoleDefaultPolicyDCB48050": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:BatchGetImage"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":ecr:us-east-1:729988623719:repository/fusionpulse-api"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": "ecr:GetAuthorizationToken",
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "ApiServiceTaskDefwebLogGroup57352A09",
+         "Arn"
+        ]
+       }
+      },
+      {
+       "Action": [
+        "secretsmanager:GetSecretValue",
+        "secretsmanager:DescribeSecret"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":secretsmanager:us-east-1:729988623719:secret:fusionpulse/jwt-secret-??????"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": [
+        "secretsmanager:GetSecretValue",
+        "secretsmanager:DescribeSecret"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":secretsmanager:us-east-1:729988623719:secret:fusionpulse/openai-api-key-??????"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": [
+        "secretsmanager:GetSecretValue",
+        "secretsmanager:DescribeSecret"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":secretsmanager:us-east-1:729988623719:secret:fusionpulse/internal-api-key-??????"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": [
+        "secretsmanager:GetSecretValue",
+        "secretsmanager:DescribeSecret"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":secretsmanager:us-east-1:729988623719:secret:fusionpulse/stripe-secret-key-??????"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": [
+        "secretsmanager:GetSecretValue",
+        "secretsmanager:DescribeSecret"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":secretsmanager:us-east-1:729988623719:secret:fusionpulse/stripe-webhook-secret-??????"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": [
+        "secretsmanager:GetSecretValue",
+        "secretsmanager:DescribeSecret"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":secretsmanager:us-east-1:729988623719:secret:fusionpulse/stripe-starter-price-id-??????"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": [
+        "secretsmanager:GetSecretValue",
+        "secretsmanager:DescribeSecret"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":secretsmanager:us-east-1:729988623719:secret:fusionpulse/stripe-pro-price-id-??????"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": [
+        "secretsmanager:GetSecretValue",
+        "secretsmanager:DescribeSecret"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":secretsmanager:us-east-1:729988623719:secret:fusionpulse/stripe-business-price-id-??????"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": "secretsmanager:GetSecretValue",
+       "Effect": "Allow",
+       "Resource": [
+        "arn:aws:secretsmanager:us-east-1:729988623719:secret:fusionpulse/jwt-secret-*",
+        "arn:aws:secretsmanager:us-east-1:729988623719:secret:fusionpulse/db-password-*",
+        "arn:aws:secretsmanager:us-east-1:729988623719:secret:fusionpulse/openai-api-key-*",
+        "arn:aws:secretsmanager:us-east-1:729988623719:secret:fusionpulse/internal-api-key-*",
+        "arn:aws:secretsmanager:us-east-1:729988623719:secret:fusionpulse/stripe-secret-key-*",
+        "arn:aws:secretsmanager:us-east-1:729988623719:secret:fusionpulse/stripe-webhook-secret-*",
+        "arn:aws:secretsmanager:us-east-1:729988623719:secret:fusionpulse/stripe-starter-price-id-*",
+        "arn:aws:secretsmanager:us-east-1:729988623719:secret:fusionpulse/stripe-pro-price-id-*",
+        "arn:aws:secretsmanager:us-east-1:729988623719:secret:fusionpulse/stripe-business-price-id-*"
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ApiServiceTaskDefExecutionRoleDefaultPolicyDCB48050",
+    "Roles": [
+     {
+      "Ref": "ApiServiceTaskDefExecutionRole43B90DD6"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/ApiService/TaskDef/ExecutionRole/DefaultPolicy/Resource"
+   }
+  },
+  "ApiService199661B5": {
+   "Type": "AWS::ECS::Service",
+   "Properties": {
+    "Cluster": {
+     "Ref": "FusionPulseClusterB6C0CB8D"
+    },
+    "DeploymentConfiguration": {
+     "Alarms": {
+      "AlarmNames": [],
+      "Enable": false,
+      "Rollback": false
+     },
+     "MaximumPercent": 200,
+     "MinimumHealthyPercent": 50
+    },
+    "DesiredCount": 1,
+    "EnableECSManagedTags": false,
+    "HealthCheckGracePeriodSeconds": 60,
+    "LaunchType": "FARGATE",
+    "LoadBalancers": [
+     {
+      "ContainerName": "web",
+      "ContainerPort": 3001,
+      "TargetGroupArn": {
+       "Ref": "ApiServiceLBPublicListenerECSGroup14A87FE9"
+      }
+     }
+    ],
+    "NetworkConfiguration": {
+     "AwsvpcConfiguration": {
+      "AssignPublicIp": "DISABLED",
+      "SecurityGroups": [
+       {
+        "Fn::GetAtt": [
+         "ApiServiceSecurityGroup2592096B",
+         "GroupId"
+        ]
+       }
+      ],
+      "Subnets": [
+       {
+        "Ref": "FusionPulseVPCPrivateSubnet1SubnetD4B3846A"
+       },
+       {
+        "Ref": "FusionPulseVPCPrivateSubnet2Subnet61235D2D"
+       }
+      ]
+     }
+    },
+    "TaskDefinition": {
+     "Ref": "ApiServiceTaskDefDF3191FB"
+    }
+   },
+   "DependsOn": [
+    "ApiServiceLBPublicListenerECSGroup14A87FE9",
+    "ApiServiceLBPublicListener1394DF3E",
+    "ApiServiceTaskDefTaskRoleDefaultPolicy63C68204",
+    "ApiServiceTaskDefTaskRole1014CB34"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/ApiService/Service/Service"
+   }
+  },
+  "ApiServiceSecurityGroup2592096B": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "FusionPulseStack/ApiService/Service/SecurityGroup",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow all outbound traffic by default",
+      "IpProtocol": "-1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "FusionPulseVPCCFB979C4"
+    }
+   },
+   "DependsOn": [
+    "ApiServiceTaskDefTaskRoleDefaultPolicy63C68204",
+    "ApiServiceTaskDefTaskRole1014CB34"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/ApiService/Service/SecurityGroup/Resource"
+   }
+  },
+  "ApiServiceSecurityGroupfromFusionPulseStackApiServiceLBSecurityGroupF528D02E3001FC3B1986": {
+   "Type": "AWS::EC2::SecurityGroupIngress",
+   "Properties": {
+    "Description": "Load balancer to target",
+    "FromPort": 3001,
+    "GroupId": {
+     "Fn::GetAtt": [
+      "ApiServiceSecurityGroup2592096B",
+      "GroupId"
+     ]
+    },
+    "IpProtocol": "tcp",
+    "SourceSecurityGroupId": {
+     "Fn::GetAtt": [
+      "ApiServiceLBSecurityGroup5C16BEF8",
+      "GroupId"
+     ]
+    },
+    "ToPort": 3001
+   },
+   "DependsOn": [
+    "ApiServiceTaskDefTaskRoleDefaultPolicy63C68204",
+    "ApiServiceTaskDefTaskRole1014CB34"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/ApiService/Service/SecurityGroup/from FusionPulseStackApiServiceLBSecurityGroupF528D02E:3001"
+   }
+  },
+  "FrontendBucketEFE2E19C": {
+   "Type": "AWS::S3::Bucket",
+   "Properties": {
+    "BucketEncryption": {
+     "ServerSideEncryptionConfiguration": [
+      {
+       "ServerSideEncryptionByDefault": {
+        "SSEAlgorithm": "AES256"
+       }
+      }
+     ]
+    },
+    "PublicAccessBlockConfiguration": {
+     "BlockPublicAcls": true,
+     "BlockPublicPolicy": true,
+     "IgnorePublicAcls": true,
+     "RestrictPublicBuckets": true
+    }
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/FrontendBucket/Resource"
+   }
+  },
+  "FrontendBucketPolicy1DFF75D9": {
+   "Type": "AWS::S3::BucketPolicy",
+   "Properties": {
+    "Bucket": {
+     "Ref": "FrontendBucketEFE2E19C"
+    },
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "s3:GetObject",
+       "Effect": "Allow",
+       "Principal": {
+        "CanonicalUser": {
+         "Fn::GetAtt": [
+          "FrontendDistributionOrigin1S3OriginC94250A2",
+          "S3CanonicalUserId"
+         ]
+        }
+       },
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          {
+           "Fn::GetAtt": [
+            "FrontendBucketEFE2E19C",
+            "Arn"
+           ]
+          },
+          "/*"
+         ]
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/FrontendBucket/Policy/Resource"
+   }
+  },
+  "FrontendDistributionOrigin1S3OriginC94250A2": {
+   "Type": "AWS::CloudFront::CloudFrontOriginAccessIdentity",
+   "Properties": {
+    "CloudFrontOriginAccessIdentityConfig": {
+     "Comment": "Identity for FusionPulseStackFrontendDistributionOrigin1D33AC97B"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/FrontendDistribution/Origin1/S3Origin/Resource"
+   }
+  },
+  "FrontendDistributionE6EAF405": {
+   "Type": "AWS::CloudFront::Distribution",
+   "Properties": {
+    "DistributionConfig": {
+     "CustomErrorResponses": [
+      {
+       "ErrorCode": 404,
+       "ResponseCode": 200,
+       "ResponsePagePath": "/index.html"
+      }
+     ],
+     "DefaultCacheBehavior": {
+      "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+      "Compress": true,
+      "TargetOriginId": "FusionPulseStackFrontendDistributionOrigin1D33AC97B",
+      "ViewerProtocolPolicy": "redirect-to-https"
+     },
+     "DefaultRootObject": "index.html",
+     "Enabled": true,
+     "HttpVersion": "http2",
+     "IPV6Enabled": true,
+     "Origins": [
+      {
+       "DomainName": {
+        "Fn::GetAtt": [
+         "FrontendBucketEFE2E19C",
+         "RegionalDomainName"
+        ]
+       },
+       "Id": "FusionPulseStackFrontendDistributionOrigin1D33AC97B",
+       "S3OriginConfig": {
+        "OriginAccessIdentity": {
+         "Fn::Join": [
+          "",
+          [
+           "origin-access-identity/cloudfront/",
+           {
+            "Ref": "FrontendDistributionOrigin1S3OriginC94250A2"
+           }
+          ]
+         ]
+        }
+       }
+      }
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/FrontendDistribution/Resource"
+   }
+  },
+  "ColeFusionZone111D0E48": {
+   "Type": "AWS::Route53::HostedZone",
+   "Properties": {
+    "Name": "colefusion.com."
+   },
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/ColeFusionZone/Resource"
+   }
+  },
+  "RootRecord6E93F00C": {
+   "Type": "AWS::Route53::RecordSet",
+   "Properties": {
+    "HostedZoneId": {
+     "Ref": "ColeFusionZone111D0E48"
+    },
+    "Name": "fusionpulse.colefusion.com.",
+    "ResourceRecords": [
+     {
+      "Fn::GetAtt": [
+       "FrontendDistributionE6EAF405",
+       "DomainName"
+      ]
+     }
+    ],
+    "TTL": "300",
+    "Type": "CNAME"
+   },
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/RootRecord/Resource"
+   }
+  },
+  "AppRecordD9BF1812": {
+   "Type": "AWS::Route53::RecordSet",
+   "Properties": {
+    "HostedZoneId": {
+     "Ref": "ColeFusionZone111D0E48"
+    },
+    "Name": "app.fusionpulse.colefusion.com.",
+    "ResourceRecords": [
+     {
+      "Fn::GetAtt": [
+       "FrontendDistributionE6EAF405",
+       "DomainName"
+      ]
+     }
+    ],
+    "TTL": "300",
+    "Type": "CNAME"
+   },
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/AppRecord/Resource"
+   }
+  },
+  "ApiRecord15755A12": {
+   "Type": "AWS::Route53::RecordSet",
+   "Properties": {
+    "HostedZoneId": {
+     "Ref": "ColeFusionZone111D0E48"
+    },
+    "Name": "api.fusionpulse.colefusion.com.",
+    "ResourceRecords": [
+     {
+      "Fn::GetAtt": [
+       "ApiServiceLB08B891CD",
+       "DNSName"
+      ]
+     }
+    ],
+    "TTL": "300",
+    "Type": "CNAME"
+   },
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/ApiRecord/Resource"
+   }
+  },
+  "MxRecord3409E8C8": {
+   "Type": "AWS::Route53::RecordSet",
+   "Properties": {
+    "HostedZoneId": {
+     "Ref": "ColeFusionZone111D0E48"
+    },
+    "Name": "colefusion.com.",
+    "ResourceRecords": [
+     "10 mx.zoho.com",
+     "20 mx2.zoho.com",
+     "50 mx3.zoho.com"
+    ],
+    "TTL": "1800",
+    "Type": "MX"
+   },
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/MxRecord/Resource"
+   }
+  },
+  "SpfRecord65BABC0A": {
+   "Type": "AWS::Route53::RecordSet",
+   "Properties": {
+    "HostedZoneId": {
+     "Ref": "ColeFusionZone111D0E48"
+    },
+    "Name": "colefusion.com.",
+    "ResourceRecords": [
+     "\"v=spf1 include:zohomail.com ~all\""
+    ],
+    "TTL": "1800",
+    "Type": "TXT"
+   },
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/SpfRecord/Resource"
+   }
+  },
+  "ZohoVerification71488E9C": {
+   "Type": "AWS::Route53::RecordSet",
+   "Properties": {
+    "HostedZoneId": {
+     "Ref": "ColeFusionZone111D0E48"
+    },
+    "Name": "colefusion.com.",
+    "ResourceRecords": [
+     "\"zoho-verification=zb77341378.zmverify.zoho.com\""
+    ],
+    "TTL": "1800",
+    "Type": "TXT"
+   },
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/ZohoVerification/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/31UTVMbMQz9LdyNWwLtPR9AM0NLmlAOXBitV2xFNvbWkgMZz/73ztrZZKEfJz09P2klS96RHn0+0x9P4IVPTbk+ranQcSVg1gpe+DGiGel43xg1fbL3i6lahKImswqFRem4I1q6IHgHRY1H/siNmZ0hEHL2IO7A5XzRmW8g1yD4Aju18LQFwWPiuRX0Fg+CXMneG4uA+blBK2qFJniS3bV3oUk1/Je4rDwy/0HPbeJb5UvWcQYCBTBO68CCXuWqDglnkyHRi1dofC59NukDkzO3LGANtoqThDdgoUKvY66ii8rmDnyFMmjuIHh/0ir+xTp+DxjShSbQKuMqS+J0/MHoF87V3dkB92Ba0z75W6ZVaFjHQfE9vAJfQTdTXs/wiSz1E33POCtAFv2A28eu0G/J5C3JsPuc10tsHJM4v5sAY1fBYwPSzZ71uGlqMml9bhyUE6i7eyzfZcQaWMjUDsoiKchW25GOf49Ofb3xhzpiQbvX9HhwnsdwWISB2yqCjY5Llx9CsgtXk0mbm1GralexjjeuOqTocav4XMdJMOu8Q3uUzTHR0G+VqV0on7yzouOMWDwVId35raeK7NgYZJ6XaIVkl+fpQnnVBfxLMUzTKt892E/nOuYfwBfHguWDs6nHoWdhg0s0zpep+4RWKOrr6569e5WM2lYtkV3weRdugzRBWmVdifqZP2xHF/pCn508M9GpD1Zog3qZ7W9BsdLptgQAAA=="
+   },
+   "Metadata": {
+    "aws:cdk:path": "FusionPulseStack/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "ApiServiceLoadBalancerDNSBF9EB7FC": {
+   "Value": {
+    "Fn::GetAtt": [
+     "ApiServiceLB08B891CD",
+     "DNSName"
+    ]
+   }
+  },
+  "ApiServiceServiceURL2EB28DB2": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Fn::GetAtt": [
+        "ApiServiceLB08B891CD",
+        "DNSName"
+       ]
+      }
+     ]
+    ]
+   }
+  },
+  "ApiUrl": {
+   "Value": {
+    "Fn::GetAtt": [
+     "ApiServiceLB08B891CD",
+     "DNSName"
+    ]
+   }
+  },
+  "FrontendUrl": {
+   "Value": {
+    "Fn::GetAtt": [
+     "FrontendDistributionE6EAF405",
+     "DomainName"
+    ]
+   }
+  },
+  "UserPoolId": {
+   "Value": {
+    "Ref": "FusionPulseUserPoolBCFF42B7"
+   }
+  },
+  "UserPoolClientId": {
+   "Value": {
+    "Ref": "FusionPulseUserPoolWebClientD752676D"
+   }
+  },
+  "QueueUrl": {
+   "Value": {
+    "Ref": "TestRunnerQueueF68554D8"
+   }
+  },
+  "DatabaseEndpoint": {
+   "Value": {
+    "Fn::GetAtt": [
+     "FusionPulseDBB86B3B15",
+     "Endpoint.Address"
+    ]
+   }
+  },
+  "HostedZoneId": {
+   "Value": {
+    "Ref": "ColeFusionZone111D0E48"
+   }
+  },
+  "NameServers": {
+   "Value": {
+    "Fn::Join": [
+     ", ",
+     {
+      "Fn::GetAtt": [
+       "ColeFusionZone111D0E48",
+       "NameServers"
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

@@ -1,6 +1,8 @@
 node_modules/
 dist/
+.astro/
 .env
+.env.*
 .env.local
 *.tsbuildinfo
 .turbo/
@@ -9,3 +11,5 @@ reports/
 playwright-report/
 test-results/
 fusionpulse.config.json
+
+.env*

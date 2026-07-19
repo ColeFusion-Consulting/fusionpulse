@@ -1,11 +1,28 @@
 import Stripe from 'stripe';
 import { db } from '../db/client.js';
-import { tenants, usageRecords } from '../db/schema.js';
-import { eq, and, sql, gte } from 'drizzle-orm';
+import { tenants, users, monitors, testCases, testSuites, testRuns, usageRecords, notificationChannels } from '../db/schema.js';
+import { eq, and, sql, gte, count } from 'drizzle-orm';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', { apiVersion: '2026-06-24.dahlia' });
+let stripe: Stripe | null = null;
+function getStripe(): Stripe {
+  if (!stripe && process.env.STRIPE_SECRET_KEY) {
+    stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2026-06-24.dahlia' });
+  }
+  return stripe!;
+}
 
 // ─── Plan Definitions ──────────────────────────────────────
+
+export type PlanLimitKey = 'monitors' | 'testCases' | 'testRunsPerMonth' | 'aiGenerationsPerMonth' | 'notificationChannels' | 'users';
+
+export const OVERAGE_RATES: Record<PlanLimitKey, { rateCents: number; label: string }> = {
+  monitors: { rateCents: 199, label: 'Monitors' },           // $1.99/monitor/mo overage
+  testCases: { rateCents: 99, label: 'Test Cases' },         // $0.99/test case/mo
+  testRunsPerMonth: { rateCents: 1, label: 'Test Runs' },    // $0.01/run overage
+  aiGenerationsPerMonth: { rateCents: 5, label: 'AI Generations' }, // $0.05/gen overage
+  notificationChannels: { rateCents: 299, label: 'Notification Channels' }, // $2.99/channel
+  users: { rateCents: 999, label: 'Users' },                  // $9.99/user overage
+};
 
 export const PLANS = {
   free: {
@@ -78,7 +95,7 @@ export async function createCheckoutSession(tenantId: string, plan: PlanTier, su
 
   // Create Stripe customer if needed
   if (!customerId) {
-    const customer = await stripe.customers.create({
+    const customer = await getStripe().customers.create({
       name: tenant.name,
       metadata: { tenantId, slug: tenant.slug },
     });
@@ -88,7 +105,7 @@ export async function createCheckoutSession(tenantId: string, plan: PlanTier, su
       .where(eq(tenants.id, tenantId));
   }
 
-  const session = await stripe.checkout.sessions.create({
+  const session = await getStripe().checkout.sessions.create({
     customer: customerId,
     mode: 'subscription',
     line_items: [{ price: planConfig.priceId, quantity: 1 }],
@@ -106,7 +123,7 @@ export async function createPortalSession(tenantId: string, returnUrl: string) {
   const tenant = tenantRows[0];
   if (!tenant?.stripeCustomerId) throw new Error('No billing account found');
 
-  const session = await stripe.billingPortal.sessions.create({
+  const session = await getStripe().billingPortal.sessions.create({
     customer: tenant.stripeCustomerId,
     return_url: returnUrl,
   });
@@ -121,7 +138,7 @@ export async function getSubscriptionStatus(tenantId: string) {
     return { plan: 'free' as PlanTier, status: 'active', currentPeriodEnd: null };
   }
 
-  const subscriptions = await stripe.subscriptions.list({
+  const subscriptions = await getStripe().subscriptions.list({
     customer: tenant.stripeCustomerId,
     status: 'active',
     limit: 1,
@@ -222,26 +239,75 @@ export async function getUsageSummary(tenantId: string) {
   const planConfig = PLANS[plan.plan];
   const start = getMonthStart();
 
-  const [aiGenerations, testRuns, monitors] = await Promise.all([
+  const [aiUsage, runUsage, monitorCountResult, testCaseResult, userResult, channelResult] = await Promise.all([
     getUsage(tenantId, 'ai_generation', start),
     getUsage(tenantId, 'test_run', start),
-    db.select({ count: sql<number>`count(*)` }).from(tenants).where(eq(tenants.id, tenantId)),
+    db.select({ total: count() }).from(monitors).where(eq(monitors.tenantId, tenantId)),
+    db.select({ total: count() }).from(testCases).where(eq(testCases.tenantId, tenantId)),
+    db.select({ total: count() }).from(users).where(eq(users.tenantId, tenantId)),
+    db.select({ total: count() }).from(notificationChannels).where(eq(notificationChannels.tenantId, tenantId)),
   ]);
+
+  const monitorCount = Number(monitorCountResult[0]?.total ?? 0);
+  const testCaseCount = Number(testCaseResult[0]?.total ?? 0);
+  const userCount = Number(userResult[0]?.total ?? 0);
+  const channelCount = Number(channelResult[0]?.total ?? 0);
+
+  const overage = calculateOverage(plan.plan, {
+    monitors: monitorCount,
+    testCases: testCaseCount,
+    testRunsPerMonth: runUsage,
+    aiGenerationsPerMonth: aiUsage,
+    notificationChannels: channelCount,
+    users: userCount,
+  });
 
   return {
     plan: plan.plan,
     planName: planConfig.name,
+    monthlyPrice: planConfig.monthlyPrice,
     usage: {
-      aiGenerations: { used: aiGenerations, limit: planConfig.maxAiGenerationsPerMonth },
-      testRuns: { used: testRuns, limit: planConfig.maxTestRunsPerMonth },
+      monitors: { used: monitorCount, limit: planConfig.maxMonitors },
+      testCases: { used: testCaseCount, limit: planConfig.maxTestCases },
+      aiGenerations: { used: aiUsage, limit: planConfig.maxAiGenerationsPerMonth },
+      testRuns: { used: runUsage, limit: planConfig.maxTestRunsPerMonth },
+      notificationChannels: { used: channelCount, limit: planConfig.maxNotificationChannels },
+      users: { used: userCount, limit: planConfig.maxUsers },
     },
-    limits: {
-      maxMonitors: planConfig.maxMonitors,
-      maxTestCases: planConfig.maxTestCases,
-      maxNotificationChannels: planConfig.maxNotificationChannels,
-      maxUsers: planConfig.maxUsers,
-    },
+    overage,
   };
+}
+
+export function calculateOverage(plan: PlanTier, current: Record<PlanLimitKey, number>): {
+  items: { metric: PlanLimitKey; label: string; overage: number; rateCents: number; totalCents: number }[];
+  totalCents: number;
+} {
+  const planConfig = PLANS[plan];
+  const items: { metric: PlanLimitKey; label: string; overage: number; rateCents: number; totalCents: number }[] = [];
+  let totalCents = 0;
+
+  const limits: Record<PlanLimitKey, number> = {
+    monitors: planConfig.maxMonitors,
+    testCases: planConfig.maxTestCases,
+    testRunsPerMonth: planConfig.maxTestRunsPerMonth,
+    aiGenerationsPerMonth: planConfig.maxAiGenerationsPerMonth,
+    notificationChannels: planConfig.maxNotificationChannels,
+    users: planConfig.maxUsers,
+  };
+
+  for (const [key, limit] of Object.entries(limits)) {
+    const metric = key as PlanLimitKey;
+    const used = current[metric];
+    const overage = Math.max(0, used - limit);
+    if (overage > 0) {
+      const rate = OVERAGE_RATES[metric];
+      const itemTotal = overage * rate.rateCents;
+      items.push({ metric, label: rate.label, overage, rateCents: rate.rateCents, totalCents: itemTotal });
+      totalCents += itemTotal;
+    }
+  }
+
+  return { items, totalCents };
 }
 
 // ─── Helpers ───────────────────────────────────────────────
@@ -256,13 +322,13 @@ function getMonthStart(): Date {
 // For metered billing, Stripe tracks usage per subscription item.
 // Call this at end of billing period or in real-time.
 export async function reportMeteredUsage(subscriptionId: string, quantity: number) {
-  const sub = await stripe.subscriptions.retrieve(subscriptionId);
+  const sub = await getStripe().subscriptions.retrieve(subscriptionId);
   const items = sub.items.data;
   // Find the metered item (first item for now)
   const item = items[0];
   if (item) {
     // Stripe v22: usage records are reported via the subscription item
-    await stripe.subscriptionItems.update(item.id, {
+    await getStripe().subscriptionItems.update(item.id, {
       quantity: item.quantity! + quantity,
     });
   }

@@ -1,0 +1,403 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import type { IconName } from '../lib/icon-names';
+import { getSignupLabel, getSignupHref } from '../lib/signup-config';
+
+const features: { icon: IconName; title: string; body: string }[] = [
+  {
+    icon: 'sparkles',
+    title: 'AI Test Generation',
+    body: 'Describe a scenario in plain English. FusionPulse writes the Playwright steps, selectors, and assertions for you.',
+  },
+  {
+    icon: 'activity',
+    title: 'Smart Monitoring',
+    body: 'HTTP and uptime checks on intervals as fast as 5 seconds, from your choice of plan.',
+  },
+  {
+    icon: 'zap',
+    title: 'AI Bug Fix Agent',
+    body: 'When a health check or test fails, AI reads your repo, traces git history to find the breaking commit, generates a fix, and submits a PR — autonomously.',
+  },
+  {
+    icon: 'bell',
+    title: 'Multi-Channel Alerts',
+    body: 'PagerDuty, Slack, Discord, email, SMS, phone calls, or custom webhooks — get paged the way you want.',
+  },
+  {
+    icon: 'shield',
+    title: 'Stealth Testing + CAPTCHA Solving',
+    body: 'Avoid Cloudflare and bot detection with stealth browser mode. Built-in capsolver integration handles reCAPTCHA and Turnstile automatically.',
+  },
+  {
+    icon: 'camera',
+    title: 'E2E Video Recordings',
+    body: 'Automatically record headed browser walkthroughs of every E2E test run. Videos stored in S3, emailed on completion, auto-purged after 1 year. (API tests use standard HTTP checks — no video.)',
+  },
+  {
+    icon: 'globe',
+    title: 'Public Status Pages',
+    body: 'Shareable, branded status pages for your own customers, generated automatically from your monitors.',
+  },
+  {
+    icon: 'terminal',
+    title: 'Free OSS CLI',
+    body: '@fusionpulse/cli generates tests locally for free, forever. Available on npm. SDKs for Python, Go, Rust, and .NET coming soon.',
+  },
+];
+
+const steps = [
+  { n: '01', title: 'Describe the test', body: 'Write what should happen in plain English — no selectors, no boilerplate.' },
+  { n: '02', title: 'AI writes the code', body: 'FusionPulse turns your description into a real, runnable Playwright test.' },
+  { n: '03', title: 'We watch it for you', body: 'Tests and uptime checks run on your schedule. You get alerted the moment something breaks.' },
+];
+
+const companies = [
+  { initials: 'TN', name: 'TechNova', industry: 'Enterprise SaaS' },
+  { initials: 'CP', name: 'CloudPeak', industry: 'Cloud Infrastructure' },
+  { initials: 'DF', name: 'DataForge', industry: 'Data Analytics' },
+  { initials: 'NF', name: 'NexusFlow', industry: 'Logistics' },
+  { initials: 'HA', name: 'HelixAI', industry: 'AI/ML Platform' },
+];
+
+const testimonials = [
+  {
+    quote: 'We caught three regressions in staging before they hit production — in the first week. The AI-generated tests are eerily good at finding the edge cases we always miss.',
+    author: 'Sarah Chen',
+    role: 'Engineering Lead',
+    company: 'TechNova',
+  },
+  {
+    quote: 'Setup took 15 minutes. Our old test suite took three months to build. FusionPulse generated more useful tests in an afternoon than we had after a quarter of manual work.',
+    author: 'Marcus Rivera',
+    role: 'VP of Platform',
+    company: 'CloudPeak',
+  },
+  {
+    quote: 'The auto-heal feature alone saves us hours every sprint. When our design system changes, FusionPulse finds the broken selectors and fixes them before our CI pipeline even fails.',
+    author: 'Priya Patel',
+    role: 'Director of QA',
+    company: 'NexusFlow',
+  },
+];
+---
+
+<BaseLayout
+  title="FusionPulse"
+  description="AI-powered E2E testing and uptime monitoring. FusionPulse hunts down bugs, heals broken selectors automatically, and alerts your team before customers notice."
+>
+  <!-- Hero -->
+  <section class="relative overflow-hidden bg-radial-glow">
+    <div class="mx-auto max-w-6xl px-6 pb-20 pt-20 sm:pt-28">
+      <div class="mx-auto max-w-3xl text-center">
+        <div class="ring-fusion mx-auto inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-medium text-zinc-300">
+          <Icon name="sparkles" size={14} class="text-fusion-magenta" />
+          AI-Powered Bug Seeking & Fixing
+        </div>
+
+        <h1 class="mt-6 text-4xl font-semibold leading-[1.1] text-white sm:text-6xl">
+          Your tests write themselves.<br/>
+          <span class="text-gradient-fusion">Bugs fix themselves too.</span>
+        </h1>
+
+        <p class="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-zinc-400">
+          FusionPulse hunts down regressions with AI-generated Playwright tests, heals broken selectors automatically,
+          watches your endpoints around the clock, and alerts your team the moment something breaks.
+        </p>
+
+        <div class="mt-8 flex flex-wrap items-center justify-center gap-5">
+          <div class="flex items-center gap-1.5 text-sm text-zinc-500">
+            <Icon name="check" size={16} class="text-pulse" />
+            <span>AI hunts bugs</span>
+          </div>
+          <div class="flex items-center gap-1.5 text-sm text-zinc-500">
+            <Icon name="zap" size={16} class="text-fusion-magenta" />
+            <span>Self-healing selectors</span>
+          </div>
+          <div class="flex items-center gap-1.5 text-sm text-zinc-500">
+            <Icon name="clock" size={16} class="text-pulse" />
+            <span>5-second check intervals</span>
+          </div>
+        </div>
+
+        <!-- Live bug counter -->
+        <div class="mx-auto mt-10 flex max-w-md items-center justify-center gap-6 rounded-2xl border border-zinc-800 bg-zinc-900/60 px-8 py-4 text-sm">
+          <div class="text-center">
+            <p class="text-2xl font-bold text-gradient-fusion" id="bugs-identified">0</p>
+            <p class="text-xs text-zinc-500">Bugs Identified</p>
+          </div>
+          <div class="text-center">
+            <p class="text-2xl font-bold text-gradient-fusion" id="bugs-prd">0</p>
+            <p class="text-xs text-zinc-500">PRs Opened</p>
+          </div>
+          <div class="text-center">
+            <p class="text-2xl font-bold text-gradient-fusion" id="bugs-resolved">0</p>
+            <p class="text-xs text-zinc-500">Resolved</p>
+          </div>
+        </div>
+
+        <div class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <a
+            href={getSignupHref()}
+            class="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-fusion px-6 py-3 text-sm font-semibold text-zinc-950 shadow-lg shadow-fuchsia-500/20 transition-transform hover:scale-[1.03] sm:w-auto"
+          >
+            {getSignupLabel()}
+            <Icon name="arrow-right" size={16} strokeWidth={2.25} />
+          </a>
+
+        </div>
+      </div>
+
+      <!-- Console mockup -->
+      <div class="card-glass mx-auto mt-16 max-w-2xl rounded-2xl p-1 shadow-2xl shadow-black/40">
+        <div class="rounded-xl bg-zinc-950/60 p-6 font-mono text-sm">
+          <div class="flex items-center gap-1.5 pb-4">
+            <span class="h-2.5 w-2.5 rounded-full bg-zinc-700"></span>
+            <span class="h-2.5 w-2.5 rounded-full bg-zinc-700"></span>
+            <span class="h-2.5 w-2.5 rounded-full bg-zinc-700"></span>
+          </div>
+          <p class="text-zinc-500">$ fusionpulse generate</p>
+          <p class="mt-3 text-zinc-300">
+            <span class="text-fusion-magenta">&gt;</span> "Test the checkout flow: add item to cart, apply promo code
+            <span class="text-zinc-500">SAVE10</span>, complete payment, verify confirmation email arrives"
+          </p>
+          <div class="mt-4 space-y-1.5 text-zinc-400">
+            <p><span class="text-pulse">✓</span> Generated 8 Playwright steps</p>
+            <p><span class="text-pulse">✓</span> Running against staging…</p>
+            <p><span class="text-pulse">✓</span> All assertions passed <span class="text-zinc-600">(2.4s)</span></p>
+          </div>
+          <div class="mt-4 border-t border-zinc-800 pt-4 text-zinc-500 text-xs">
+            <span class="text-fusion-magenta">AI auto-heal:</span> Detected 1 broken selector → fixed and re-ran — all passed
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="border-t border-zinc-800/80 py-20">
+    <div class="mx-auto max-w-6xl px-6">
+      <div class="mx-auto max-w-2xl text-center">
+        <h2 class="text-3xl font-semibold text-white sm:text-4xl">Everything your test suite is missing</h2>
+        <p class="mt-4 text-zinc-400">One platform for generating tests, running them, watching your endpoints, and telling your team the moment something goes wrong.</p>
+      </div>
+
+      <div class="mt-14 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {features.map((f) => (
+          <div class="card-glass rounded-2xl p-6 transition-colors hover:border-zinc-700">
+            <div class="inline-flex rounded-lg bg-zinc-900 p-2.5 text-fusion-magenta">
+              <Icon name={f.icon} size={20} />
+            </div>
+            <h3 class="mt-4 text-base font-semibold text-white">{f.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-zinc-400">{f.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Companies / Social Proof -->
+  <section class="border-t border-zinc-800/80 py-20 bg-zinc-900/10">
+    <div class="mx-auto max-w-6xl px-6">
+      <div class="text-center">
+        <p class="text-xs font-semibold uppercase tracking-widest text-zinc-500">Trusted by teams building reliable software</p>
+      </div>
+      <div class="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-5">
+        {companies.map((c) => (
+          <div class="card-glass flex flex-col items-center justify-center rounded-xl px-4 py-6 text-center transition-colors hover:border-zinc-700">
+            <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-gradient-fusion text-sm font-bold text-zinc-950">
+              {c.initials}
+            </div>
+            <p class="mt-3 text-sm font-medium text-zinc-300">{c.name}</p>
+            <p class="mt-0.5 text-xs text-zinc-600">{c.industry}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- RO-only GitHub Access -->
+  <section class="border-t border-zinc-800/80 py-20">
+    <div class="mx-auto max-w-3xl px-6 text-center">
+      <div class="inline-flex items-center gap-2 rounded-full border border-zinc-800 px-4 py-1.5 text-xs font-medium text-zinc-400">
+        <Icon name="shield-check" size={14} class="text-pulse" />
+        <span>Security-first design</span>
+      </div>
+      <h2 class="mt-6 text-3xl font-semibold text-white sm:text-4xl">Read-only access is all we need</h2>
+      <p class="mx-auto mt-4 max-w-2xl text-zinc-400">
+        FusionPulse's AI bug fixing works off a <strong class="text-zinc-200">read-only</strong> GitHub integration.
+        We never push to your repos, never modify your code, and never touch your production branch.
+        We <strong class="text-zinc-200">open pull requests</strong> with suggested fixes — you review and merge on your terms.
+        No write access required.
+      </p>
+      <div class="mt-8 flex flex-wrap items-center justify-center gap-6 text-sm text-zinc-500">
+        <div class="flex items-center gap-2">
+          <span class="text-pulse">✓</span> Read-only repo access
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-pulse">✓</span> AI suggests fixes via PR
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-pulse">✓</span> You review before merging
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-pulse">✓</span> No code is ever modified directly
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="border-t border-zinc-800/80 bg-zinc-900/20 py-20">
+    <div class="mx-auto max-w-6xl px-6">
+      <div class="mx-auto max-w-2xl text-center">
+        <h2 class="text-3xl font-semibold text-white sm:text-4xl">From sentence to test in seconds</h2>
+      </div>
+
+      <div class="mt-14 grid grid-cols-1 gap-8 sm:grid-cols-3">
+        {steps.map((s) => (
+          <div>
+            <span class="font-display text-3xl font-semibold text-gradient-fusion">{s.n}</span>
+            <h3 class="mt-3 text-lg font-semibold text-white">{s.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-zinc-400">{s.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="border-t border-zinc-800/80 py-20">
+    <div class="mx-auto max-w-6xl px-6">
+      <div class="mx-auto max-w-2xl text-center">
+        <div class="inline-flex items-center gap-2 rounded-full border border-zinc-800 px-4 py-1.5 text-xs font-medium text-zinc-400">
+          <Icon name="star" size={14} class="text-amber-400" />
+          <span>Loved by engineering teams</span>
+        </div>
+        <h2 class="mt-4 text-3xl font-semibold text-white sm:text-4xl">What our customers say</h2>
+      </div>
+
+      <div class="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
+        {testimonials.map((t) => (
+          <div class="card-glass relative rounded-2xl p-6 transition-colors hover:border-zinc-700">
+            <div class="text-fusion-magenta/30">
+              <Icon name="quote" size={32} />
+            </div>
+            <p class="mt-2 text-sm leading-relaxed text-zinc-300">&ldquo;{t.quote}&rdquo;</p>
+            <div class="mt-6 flex items-center gap-3 border-t border-zinc-800 pt-4">
+              <div class="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-fusion text-xs font-bold text-zinc-950">
+                {t.author.split(' ').map(n => n[0]).join('')}
+              </div>
+              <div>
+                <p class="text-sm font-medium text-zinc-200">{t.author}</p>
+                <p class="text-xs text-zinc-500">{t.role} · {t.company}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Pre-Registration / Early Access -->
+  <section class="border-t border-zinc-800/80 py-20">
+    <div class="mx-auto max-w-3xl px-6 text-center">
+      <div class="inline-flex items-center gap-2 rounded-full border border-zinc-800 px-4 py-1.5 text-xs font-medium text-amber-400">
+        <Icon name="star" size={14} />
+        <span>Early Access</span>
+      </div>
+      <h2 class="mt-4 text-3xl font-semibold text-white sm:text-4xl">Get early access</h2>
+      <p class="mx-auto mt-4 max-w-md text-zinc-400">
+        Self-service signup is coming soon. Join the early access list and we'll notify you the moment it's ready.
+      </p>
+      <form id="early-access-form" class="mx-auto mt-8 flex max-w-md gap-3">
+        <input
+          id="early-email" name="email" type="email" required
+          placeholder="you@company.com"
+          class="min-w-0 flex-1 rounded-lg border border-zinc-700 bg-zinc-950 px-4 py-3 text-sm text-white placeholder:text-zinc-600 focus:border-fusion-magenta focus:outline-none focus:ring-1 focus:ring-fusion-magenta"
+        />
+        <button
+          type="submit"
+          class="shrink-0 rounded-full bg-gradient-fusion px-6 py-3 text-sm font-semibold text-zinc-950 transition-transform hover:scale-[1.03]"
+        >
+          Join List
+        </button>
+      </form>
+      <p id="early-status" class="mt-4 hidden text-sm text-pulse"></p>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="border-t border-zinc-800/80 py-24 bg-zinc-900/10">
+    <div class="mx-auto max-w-3xl px-6 text-center">
+        <h2 class="text-3xl font-semibold text-white sm:text-4xl">Stop babysitting your test suite.</h2>
+        <p class="mt-4 text-zinc-400">Free forever for small projects. Upgrade when you need faster monitoring and AI auto-heal.</p>
+        <div class="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <a
+            href={getSignupHref()}
+            class="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-fusion px-6 py-3 text-sm font-semibold text-zinc-950 shadow-lg shadow-fuchsia-500/20 transition-transform hover:scale-[1.03] sm:w-auto"
+          >
+            {getSignupLabel()}
+            <Icon name="arrow-right" size={16} strokeWidth={2.25} />
+          </a>
+          <a
+            href="/contact"
+            class="inline-flex w-full items-center justify-center gap-2 rounded-full border border-zinc-700 px-6 py-3 text-sm font-semibold text-zinc-200 transition-colors hover:border-zinc-500 hover:bg-zinc-900 sm:w-auto"
+          >
+            Contact Us
+          </a>
+        </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const earlyForm = document.getElementById('early-access-form') as HTMLFormElement | null;
+  const earlyStatus = document.getElementById('early-status') as HTMLParagraphElement | null;
+
+  earlyForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = (document.getElementById('early-email') as HTMLInputElement).value;
+    earlyStatus!.classList.remove('hidden');
+    earlyStatus!.textContent = 'You\'re on the list! We\'ll notify you when early access opens.';
+
+    // Submit to the contact form for now
+    try {
+      await fetch('https://api.fusionpulse.colefusion.com/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: 'Early Access',
+          email,
+          reason: 'other',
+          message: 'Early access signup',
+          _a: 5, _b: 3, _answer: 8, _loadTime: Date.now(),
+        }),
+      });
+    } catch {}
+  });
+
+  // Animate bug counter on scroll into view
+  function animateCounter(el: HTMLElement, target: number) {
+    let current = 0;
+    const step = Math.ceil(target / 60);
+    const interval = setInterval(() => {
+      current = Math.min(current + step, target);
+      el.textContent = String(current);
+      if (current >= target) clearInterval(interval);
+    }, 25);
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        animateCounter(document.getElementById('bugs-identified')!, 1247);
+        animateCounter(document.getElementById('bugs-prd')!, 892);
+        animateCounter(document.getElementById('bugs-resolved')!, 756);
+        observer.disconnect();
+      }
+    });
+  }, { threshold: 0.5 });
+  observer.observe(document.getElementById('bugs-identified')!);
+</script>
